@@ -106,14 +106,14 @@ Empfohlene Einstiege: „ich hab mir deine Bewertungen angeschaut ...", „mir i
 
 **MUSS:**
 
-- Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail. Austauschbare Bewertungsfloskeln („das spricht für sich", „das sieht man selten", „finde ich stark", „finde ich spannend") sind verboten (ListM8-Regel), und zwar auch als Beispielsatz: Modelle kopieren Beispiele
+- Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail. Austauschbare Bewertungsfloskeln („das spricht für sich", „das sieht man selten", „finde ich stark", „finde ich spannend", auch umgestellt wie „ich finde spannend, dass …") sind verboten (ListM8-Regel), und zwar auch als Beispielsatz: Modelle kopieren Beispiele
 - Bewertungsanker ist eine konkrete Paraphrase (was genau wird gelobt). Anzahl und Sternedurchschnitt nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt; Plural oder „immer wieder" nur, wenn mindestens 2 Bewertungen dieses Lob tragen
 - Stellenanzeige: die Erkenntnis über den Betrieb nutzen (Wachstum, Spezialisierung, Projekt), ohne anzukündigen, dass der Betrieb sucht oder einstellt
 - Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was der feste Text danach sagt. Beginnt der feste Text mit „Das hat mich neugierig gemacht.", darf kein Intro-Satz mit dieser Aussage davor stehen
 - Zuschreibung stimmt: Der angeschriebenen Person nie etwas zuschreiben, das einer anderen gehört (etwa den Podcast der Inhaberin in einer Mail an eine Mitarbeiterin). Die Person beim Namen nennen oder einen Anker wählen, der zur angeschriebenen Person gehört
 - Konkreter, verifizierbarer Bezug, den man nur kennt, wenn man wirklich auf Website/Shop/Bewertungen war
 - Maximal 2 Sätze
-- Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,"); nur der erste Buchstabe ist klein, jeder weitere Satz beginnt groß
+- Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,"); nur der erste Buchstabe ist klein, jeder weitere Satz beginnt groß. Substantive und Namen bleiben auch am Anfang groß („Kunden loben …“, nie „kunden loben …“)
 - Über den EMPFÄNGER schreiben, nie über den Absender
 - Locker und authentisch, Ton wie eine kurze Nachricht an einen Bekannten
 - Muss nahtlos in die feste Überleitung übergehen, ohne ein Problem zu benennen
@@ -181,7 +181,8 @@ REGELN:
 - Max. 2 Sätze
 - Locker und authentisch, NICHT werblich
 - Beginne mit Kleinbuchstabe (wird nach "Hallo ...," eingefügt); nur der
-  erste Buchstabe ist klein, jeder weitere Satz beginnt groß
+  erste Buchstabe ist klein, jeder weitere Satz beginnt groß; Substantive
+  und Namen bleiben auch am Anfang groß ("Kunden loben ...")
 - Beziehe dich auf etwas Konkretes, das man nur sehen kann wenn man
   wirklich auf der Website war
 - Ausschließlich positiv: kein Mangel, keine Kritik, kein Verbesserungsvorschlag

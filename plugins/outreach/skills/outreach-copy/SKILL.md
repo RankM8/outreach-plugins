@@ -194,7 +194,8 @@ MUSS:
   Namen nennen oder einen Anker wählen, der zur angeschriebenen Person gehört.
 - Maximal 2 Sätze.
 - Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,“). Nur der erste Buchstabe ist klein,
-  jeder weitere Satz beginnt groß.
+  jeder weitere Satz beginnt groß. Substantive und Namen bleiben auch am Anfang groß („Kunden
+  loben …“, nie „kunden loben …“).
 - Über den EMPFÄNGER schreiben, nie über den Absender.
 - Locker und authentisch, Ton wie eine kurze Nachricht an einen Bekannten.
 - Geht nahtlos in den festen Folgesatz über, ohne ein Problem zu benennen.
