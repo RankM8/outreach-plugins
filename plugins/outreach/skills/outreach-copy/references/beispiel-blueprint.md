@@ -7,8 +7,8 @@
 
 Schema v1, wie `create_campaign(blueprint=…)` es erwartet (geprüft gegen den
 Blueprint-Validator von ListM8: `schemaVersion` 1, `campaign.name` 3-255 Zeichen, Config-Blöcke
-als Objekte, `salutation` ∈ `du`/`sie`/`team`, Variablennamen `^[a-zA-Z][a-zA-Z0-9_]*$` und
-eindeutig, Prompt ≥ 10 Zeichen, je Step nicht leerer `subject`, `delayDays` ganze Zahl ≥ 0,
+als Objekte, `salutation` ∈ `du`/`sie` (der Server nimmt noch `team` an, der Skill setzt es nie), Variablennamen `^[a-zA-Z][a-zA-Z0-9_]*$` und
+eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und ab Step 2 leer erlaubt (Thread), `delayDays` ganze Zahl ≥ 0,
 `delayUnit` `days` oder `hours`, max. 25 Variablen und 25 Steps).
 
 ## Die Entscheidungen in diesem Beispiel
@@ -19,8 +19,9 @@ eindeutig, Prompt ≥ 10 Zeichen, je Step nicht leerer `subject`, `delayDays` ga
 | Marketing-Offer | fertiger Entwurf der neuen Startseite inklusive Online-Terminbuchungs-Flow | Deliverable, kein Gespräch; vom Nutzer lieferbar |
 | Feinheiten-Satz | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem daran, die Behandlungsseiten gleich für Google und KI-Suchmaschinen mitzudenken.“ | Pflicht bei Karte C, genau ein On-Top-Detail |
 | Ansprache | `salutation: "du"`: „Hallo Vorname,“ (Person der Versandadresse, bei info@ o. Ä. der Inhaber aus der Recherche), Fallback „Hallo,“, durchgehend du/dir/dein | Du-Form, eine Person (Inhaberin/Inhaber) |
-| Sequenz | 5 Steps, `delayDays` 0/3/5/7/7 | Standard; Step 3 trägt den Social Proof, Step 4 einen echten Kapazitätsgrund |
-| Wörter (fester Text ohne Signatur) | 49 / 23 / 63 / 38 / 43 | Step 1 mit Anrede und Bezug (bis 2 Sätze) etwa 75-85, unter 120 |
+| Betreffs | Step 1 „kurze Frage“, Step 3 „kurzes Update“, Step 2 und 4 leer | Entwurfs-Angebot (Karte C): Frage statt Ankündigung; Step 2 antwortet im Thread von Mail 1, Step 3 öffnet einen neuen Thread, Step 4 antwortet darin |
+| Sequenz | 4 Steps, `delayDays` 0/3/5/7 | Standard; Step 3 ist der neue Winkel mit Social Proof, Step 4 der Abschied mit Routing-Hinweis; ohne echten Zeit- oder Kapazitätsgrund des Nutzers keine Dringlichkeits-Mail |
+| Wörter (fester Text ohne Signatur) | 49 / 23 / 72 / 55 | Step 1 mit Anrede und Bezug (bis 2 Sätze) etwa 75-85, unter 120 |
 
 ## Blueprint
 
@@ -75,12 +76,12 @@ eindeutig, Prompt ≥ 10 Zeichen, je Step nicht leerer `subject`, `delayDays` ga
     "qualificationSettings": {
       "target_customer_profile": "Inhabergeführte ästhetische Praxis im DACH-Raum: Zahnarztpraxis mit Ästhetik-Fokus, Beauty- oder Ästhetik-Studio, dermatologische Privatpraxis. 5 bis 25 Mitarbeitende, ein oder zwei Standorte, Inhaber entscheidet selbst.",
       "offer_summary": "Praxis-Relaunch in sechs Wochen nach einem Conversion-Framework mit Online-Terminbuchung als einzigem Call-to-Action. Türöffner ist ein fertiger Entwurf der neuen Startseite inklusive Online-Terminbuchungs-Flow.",
-      "fit_criteria": "Passt, wenn die Website sichtbar älter als vier Jahre ist, keine Online-Terminbuchung eingebunden ist und Termine über Telefon oder ein einfaches Kontaktformular laufen. Nachfrage ist da, sichtbar an Google-Bewertungen ab etwa 20 Rezensionen oder einem aktiven Instagram-Profil. Selbstzahler- oder Ästhetikleistungen werden angeboten.",
-      "disqualifiers": "Klinikketten, Krankenhäuser, MVZ in Konzern- oder Investorenträgerschaft, Franchise-Gruppen und Praxisverbünde mit zentralem Marketing. Reine Kassenpraxen ohne Selbstzahlerleistungen. Praxen mit erkennbar neuer Website oder eingebundenem Buchungstool wie Doctolib mit sonst modernem Auftritt. Praxen, die eine Agentur als laufenden Betreuer im Impressum nennen. Einzelbehandler ohne Personal und Praxen mit über 25 Mitarbeitenden. Wettbewerber: Webdesign-Agenturen, Freelancer, Marketingagenturen, Praxis-Software-Anbieter. Firmen außerhalb Deutschland, Österreich, Schweiz.",
+      "fit_criteria": "Passt, wenn die Website sichtbar älter als vier Jahre ist, keine Online-Terminbuchung eingebunden ist und Termine über Telefon oder ein einfaches Kontaktformular laufen. Nachfrage ist da, sichtbar an Google-Bewertungen ab etwa 20 Rezensionen oder einem aktiven Instagram-Profil. Selbstzahler- oder Ästhetikleistungen sind erkennbar: dann höherer Fit, sonst mittlerer Fit.",
+      "disqualifiers": "Klinikketten, Krankenhäuser, MVZ in Konzern- oder Investorenträgerschaft, Franchise-Gruppen und Praxisverbünde mit zentralem Marketing. Hersteller und Händler von Praxisbedarf, Ausbildungsinstitute. Praxen mit erkennbar neuer Website oder eingebundenem Buchungstool wie Doctolib mit sonst modernem Auftritt. Praxen, die eine Agentur als laufenden Betreuer im Impressum nennen. Einzelbehandler ohne Personal und Praxen mit über 25 Mitarbeitenden. Wettbewerber: Webdesign-Agenturen, Freelancer, Marketingagenturen, Praxis-Software-Anbieter. Firmen außerhalb Deutschland, Österreich, Schweiz.",
       "additional_prompt": "Ziel ist ein Beleg, dass die Praxis inhabergeführt ist und die Website älter als vier Jahre wirkt."
     },
     "researchAgentConfig": {
-      "additionalPrompt": "Finde pro Praxis genau ein konkretes, positives und verifizierbares Detail, das ein Lob im Mail-Opener trägt. Prüfe in dieser Reihenfolge: 1) Google-Bewertungen (was genau Patienten loben und wie viele Rezensionen dieses Lob tragen, zum Beispiel Umgang mit Angstpatienten, Beratungsqualität, Freundlichkeit am Empfang; Anzahl und Schnitt nur als Beiwerk), 2) Website: beworbene Spezialisierung, Behandlungsschwerpunkt, besonders sauber erklärte Behandlung, Team- oder Praxisbesonderheit, 3) Stellenanzeigen oder Hinweise auf Wachstum, neuen Behandler, neuen Standort (was die Anzeige über die Praxis verrät, nicht dass gesucht wird), 4) Branche und Region als Fallback. Erfasse zusätzlich: Vorname der Inhaberin oder des Inhabers (bei einer generischen Praxisadresse wie info@ ist das die Person, an die die Mail gehen soll), ob eine Online-Terminbuchung eingebunden ist, wie alt die Website wirkt, Stadt. Notiere nur, was du wirklich auf der Website, bei Google Maps oder in Verzeichnissen siehst. Keine Vermutungen, keine erfundenen Zahlen.",
+      "additionalPrompt": "Finde pro Praxis genau ein konkretes, positives und verifizierbares Detail, das ein Lob im Mail-Opener trägt. Prüfe in dieser Reihenfolge: 1) Google-Bewertungen (was genau Patienten loben und wie viele Rezensionen dieses Lob tragen, zum Beispiel Umgang mit Angstpatienten, Beratungsqualität, Freundlichkeit am Empfang; Anzahl und Schnitt nur als Beiwerk), 2) Website: EIN auffälliges Detail (Spezialisierung, Behandlungsschwerpunkt, Team- oder Praxisbesonderheit) und wem es nützt, keine bloße Feststellung wie \"bietet X an\", 3) Stellenanzeigen oder Hinweise auf Wachstum, neuen Behandler, neuen Standort (was die Anzeige über die Praxis verrät, nicht dass gesucht wird), 4) Branche und Region als Fallback. Erfasse zusätzlich: Vorname der Inhaberin oder des Inhabers (bei einer generischen Praxisadresse wie info@ ist das die Person, an die die Mail gehen soll), ob eine Online-Terminbuchung eingebunden ist, wie alt die Website wirkt, Stadt. Notiere nur, was du wirklich auf der Website, bei Google Maps oder in Verzeichnissen siehst. Keine Vermutungen, keine erfundenen Zahlen.",
       "researchDepth": "quick",
       "researchPriorities": "Bewertungen > Website-Feature/Spezialisierung > Stellenanzeige/Wachstum > Branche/Region"
     },
@@ -98,7 +99,7 @@ eindeutig, Prompt ≥ 10 Zeichen, je Step nicht leerer `subject`, `delayDays` ga
     },
     {
       "name": "intro",
-      "prompt": "Du schreibst den Opener einer Cold-Mail. Absender ist Jonas Weber, selbstständiger Webdesigner, der Websites für inhabergeführte ästhetische Praxen baut (Zahnärzte mit Ästhetik-Fokus, Beauty-Studios, dermatologische Privatpraxen im DACH-Raum). Angeboten wird im weiteren Verlauf der Mail ein fertig vorbereiteter Entwurf einer neuen Startseite inklusive Online-Terminbuchung. Dein Text steht direkt unter der Anrede \"Hallo ...,\" und wird danach mit einem festen Satz fortgesetzt, der mit \"Deswegen war ich so frei ...\" beginnt.\n\nZiel: ein echtes, konkretes Lob oder eine anerkennende Beobachtung über diese Praxis, das nur jemand schreiben kann, der wirklich auf Website, Google-Profil oder Bewertungen war. Der Empfänger soll merken: hier hat sich jemand Mühe gemacht.\n\nAufgabe: Schreibe maximal 2 kurze Sätze. Beginne mit einem Kleinbuchstaben, weil dein Text direkt auf die Anrede mit Komma folgt; nur der erste Buchstabe ist klein, ein zweiter Satz beginnt groß. Schreibe ausschließlich über den Empfänger, nie über den Absender. Ton: locker, authentisch, Du-Form im Singular (du, dein, dir, nie ihr, euch, Sie), wie eine kurze Nachricht an einen Bekannten. Der letzte Satz muss so enden, dass ein Satz mit \"Deswegen war ich so frei ...\" nahtlos anschließt, ohne dass du ein Problem, eine Lücke oder einen Bedarf benannt hast.\n\nAngle-Reihenfolge, nimm den ersten Punkt, für den es einen belastbaren Fund gibt:\n1. Google-Bewertungen: eine konkrete Paraphrase dessen, was Patienten loben (zum Beispiel Umgang mit Angstpatienten, ruhige Beratung, Freundlichkeit am Empfang). Anzahl und Sternedurchschnitt nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt. Plural oder \"immer wieder\" nur, wenn mindestens 2 Bewertungen dieses Lob tragen.\n2. Website-Feature oder Spezialisierung: ein Behandlungsschwerpunkt, eine besonders klar erklärte Leistung, eine Praxis-Besonderheit.\n3. Stellenanzeige oder Wachstum: die Erkenntnis, die sie über die Praxis verrät (Wachstum, Spezialisierung, neues Projekt), ohne zu sagen, dass die Praxis sucht oder einstellt.\n4. Branche und Region als letzter Angle.\n\nStreng verboten:\n- Jede Form von Kritik, Defizit oder Verbesserungsvorschlag. Keine Wörter wie Problem, Lücke, Hürde, fehlt, veraltet, ausbaufähig, begrenzt, noch nicht, leider, schade, verschenkt Potenzial.\n- Konjunktiv-Wünsche wie \"wäre schön, wenn ...\" oder \"wäre sinnvoll, wenn ...\".\n- Auditartige Formulierungen, Ratschläge, Bevormundung.\n- Selbstvorstellung oder Pitch: kein \"Wir sind\", \"Mein Name ist\", \"Wir helfen\", \"Ich bin auf deine Webseite gestoßen\".\n- Floskeln und Lobadjektive ohne Inhalt wie \"tolle Webseite\", \"ich war beeindruckt von deinem Auftritt\", \"finde ich spannend\", \"finde ich stark\".\n- Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was der feste Text danach sagt.\n- Der angesprochenen Person nichts zuschreiben, was einer anderen Person gehört (zum Beispiel den Podcast des Inhabers in einer Mail an eine Mitarbeiterin); nenne die Person dann beim Namen.\n- Erfundene Fakten, Namen, Rollen oder Zahlen. Nenne Bewertungszahlen nur, wenn sie im Research belegt sind.\n- Sichtbare Platzhalter in Klammern, M-Striche, Gedankenstriche als Trenner, Emojis, Bold, Aufzählungen.\n- Mehr als 2 Sätze.\n\nFallback: Wenn kein belastbares Detail gefunden wurde, schreibe genau diesen Satz: \"eine inhabergeführte Praxis zu leiten, bedeutet viel Verantwortung, und das sehe ich mit Respekt.\" Der Fallback behauptet nichts Unbelegtes über die Praxis. Nutze diesen Fallback lieber, als eine Beobachtung zu erfinden oder eine generische Floskel zu schreiben.\n\nDeutsche Rechtschreibung mit echten Umlauten und ß.",
+      "prompt": "Du schreibst den Opener einer Cold-Mail. Absender ist Jonas Weber, selbstständiger Webdesigner, der Websites für inhabergeführte ästhetische Praxen baut (Zahnärzte mit Ästhetik-Fokus, Beauty-Studios, dermatologische Privatpraxen im DACH-Raum). Angeboten wird im weiteren Verlauf der Mail ein fertig vorbereiteter Entwurf einer neuen Startseite inklusive Online-Terminbuchung. Dein Text steht direkt unter der Anrede \"Hallo ...,\" und wird danach mit einem festen Satz fortgesetzt, der mit \"Deswegen war ich so frei ...\" beginnt.\n\nZiel: ein echtes, konkretes Lob oder eine anerkennende Beobachtung über diese Praxis, das nur jemand schreiben kann, der wirklich auf Website, Google-Profil oder Bewertungen war. Der Empfänger soll merken: hier hat sich jemand Mühe gemacht.\n\nAufgabe: Schreibe maximal 2 kurze Sätze. Beginne mit einem Kleinbuchstaben, weil dein Text direkt auf die Anrede mit Komma folgt; nur der erste Buchstabe ist klein, ein zweiter Satz beginnt groß. Schreibe inhaltlich über den Empfänger, nie über den Absender; Einstiegsrahmen wie \"ich hab mir ... angeschaut\" oder \"mir ist aufgefallen\" sind erlaubt und keine Selbstvorstellung. Ton: locker, authentisch, Du-Form im Singular (du, dein, dir, nie ihr, euch, Sie), wie eine kurze Nachricht an einen Bekannten. Der letzte Satz muss so enden, dass ein Satz mit \"Deswegen war ich so frei ...\" nahtlos anschließt, ohne dass du ein Problem, eine Lücke oder einen Bedarf benannt hast.\n\nAngle-Reihenfolge, nimm den ersten Punkt, für den es einen belastbaren Fund gibt:\n1. Google-Bewertungen: eine konkrete Paraphrase dessen, was Patienten loben (zum Beispiel Umgang mit Angstpatienten, ruhige Beratung, Freundlichkeit am Empfang). Anzahl und Sternedurchschnitt nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt. Plural oder \"immer wieder\" nur, wenn mindestens 2 Bewertungen dieses Lob tragen.\n2. Website-Feature oder Spezialisierung: EIN auffälliges Detail (ein Behandlungsschwerpunkt, eine Praxis-Besonderheit) und wem es nützt. Eine bloße Feststellung (\"du bietest X an\", \"du führst X auf\", \"seit 2002 für Y da\") ist kein Aufhänger; dann gilt der Fallback.\n3. Stellenanzeige oder Wachstum: die Erkenntnis, die sie über die Praxis verrät (Wachstum, Spezialisierung, neues Projekt), ohne zu sagen, dass die Praxis sucht oder einstellt.\n4. Branche und Region als letzter Angle.\n\nStreng verboten:\n- Jede Form von Kritik, Defizit oder Verbesserungsvorschlag. Keine Wörter wie Problem, Lücke, Hürde, fehlt, veraltet, ausbaufähig, begrenzt, noch nicht, leider, schade, verschenkt Potenzial.\n- Konjunktiv-Wünsche wie \"wäre schön, wenn ...\" oder \"wäre sinnvoll, wenn ...\".\n- Auditartige Formulierungen, Ratschläge, Bevormundung.\n- Selbstvorstellung oder Pitch: kein \"Wir sind\", \"Mein Name ist\", \"Wir helfen\", \"Ich bin auf deine Webseite gestoßen\".\n- Floskeln und Lobadjektive ohne Inhalt wie \"tolle Webseite\", \"ich war beeindruckt von deinem Auftritt\", \"finde ich spannend\", \"finde ich stark\".\n- Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was der feste Text danach sagt.\n- Der angesprochenen Person nichts zuschreiben, was einer anderen Person gehört (zum Beispiel den Podcast des Inhabers in einer Mail an eine Mitarbeiterin); nenne die Person dann beim Namen.\n- Erfundene Fakten, Namen, Rollen oder Zahlen. Nenne Bewertungszahlen nur, wenn sie im Research belegt sind.\n- Sichtbare Platzhalter in Klammern, M-Striche, Gedankenstriche als Trenner, Emojis, Bold, Aufzählungen.\n- Mehr als 2 Sätze.\n\nFallback: Wenn kein belastbares Detail gefunden wurde, schreibe genau diesen Satz: \"eine inhabergeführte Praxis zu leiten, bedeutet viel Verantwortung, und das sehe ich mit Respekt.\" Der Fallback behauptet nichts Unbelegtes über die Praxis. Nutze diesen Fallback lieber, als eine Beobachtung zu erfinden oder eine generische Floskel zu schreiben.\n\nDeutsche Rechtschreibung mit echten Umlauten und ß.",
       "sortOrder": 2
     }
   ],
@@ -106,14 +107,14 @@ eindeutig, Prompt ≥ 10 Zeichen, je Step nicht leerer `subject`, `delayDays` ga
     "steps": [
       {
         "stepNumber": 1,
-        "subject": "Anfrage für {{lead.company}}",
+        "subject": "kurze Frage",
         "body": "{{ai.hallo}}\n\n{{ai.intro}}\n\nDeswegen war ich so frei und habe dir einen kompletten Entwurf für eine neue Startseite erstellt, inklusive eingebautem Online-Terminbuchungs-Flow.\n\nIch bin gerade noch an den letzten Feinheiten dran, vor allem daran, die Behandlungsseiten gleich für Google und KI-Suchmaschinen mitzudenken.\n\nWäre es in Ordnung, wenn ich dir das morgen zusende?\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
         "delayDays": 0,
         "delayUnit": "days"
       },
       {
         "stepNumber": 2,
-        "subject": "Mail untergegangen?",
+        "subject": "",
         "body": "{{ai.hallo}}\n\ndu hast sicher viel um die Ohren, ich wollte nur sichergehen, dass meine Mail bei dir angekommen ist.\n\nEin kurzes Ja reicht mir.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
         "delayDays": 3,
         "delayUnit": "days"
@@ -121,21 +122,14 @@ eindeutig, Prompt ≥ 10 Zeichen, je Step nicht leerer `subject`, `delayDays` ga
       {
         "stepNumber": 3,
         "subject": "kurzes Update",
-        "body": "{{ai.hallo}}\n\nvielleicht macht es das greifbarer. Bei der Praxis Dr. Sommer in Stuttgart haben sich die Online-Terminanfragen nach dem Relaunch in vier Monaten verdreifacht. Der größte Hebel war, dass Terminwünsche nicht mehr nur mitten in der Sprechstunde am Telefon landen. Beim Beauty-Studio Glow in München stieg die Buchungsquote der Behandlungsseiten um 60 Prozent.\n\nWenn du magst, schicke ich dir die Case Study als PDF.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
+        "body": "{{ai.hallo}}\n\nzu dem Entwurf für deine neue Startseite ein Beispiel, was so etwas bringen kann. Bei der Praxis Dr. Sommer in Stuttgart haben sich die Online-Terminanfragen nach dem Relaunch in vier Monaten verdreifacht. Der größte Hebel war, dass Terminwünsche nicht mehr nur mitten in der Sprechstunde am Telefon landen. Beim Beauty-Studio Glow in München stieg die Buchungsquote der Behandlungsseiten um 60 Prozent.\n\nWenn du magst, schicke ich dir die Case Study als PDF.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
         "delayDays": 5,
         "delayUnit": "days"
       },
       {
         "stepNumber": 4,
-        "subject": "kurze Frage",
-        "body": "{{ai.hallo}}\n\nich nehme pro Monat zwei Praxis-Projekte an, mehr geht als Einzelkämpfer nicht. Für den nächsten Startplatz sortiere ich gerade und will dich nicht ins Leere anschreiben.\n\nPasst das Thema Website bei dir dieses Jahr noch, ja oder nein?\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
-        "delayDays": 7,
-        "delayUnit": "days"
-      },
-      {
-        "stepNumber": 5,
-        "subject": "alles Gute",
-        "body": "{{ai.hallo}}\n\nich höre hier auf, dir zu schreiben, damit ich nicht nerve. Der Entwurf bleibt bei mir liegen, falls das Thema bei dir irgendwann wieder oben auf der Liste steht.\n\nMelde dich einfach, dann greife ich es wieder auf. Alles Gute für die Praxis.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
+        "subject": "",
+        "body": "{{ai.hallo}}\n\nda ich bisher nichts gehört habe, gehe ich davon aus, dass es gerade nicht passt. Das ist absolut in Ordnung. Sag mir gern kurz Bescheid, falls ich mich damit besser bei jemand anderem im Team melden sollte. Der Entwurf bleibt bei mir liegen, falls das Thema irgendwann wieder aktuell wird.\n\nAlles Gute für die Praxis.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
         "delayDays": 7,
         "delayUnit": "days"
       }
@@ -144,15 +138,17 @@ eindeutig, Prompt ≥ 10 Zeichen, je Step nicht leerer `subject`, `delayDays` ga
 }
 ```
 
-## Varianten der Ansprache
+## Variante der Ansprache: Sie
 
-Wer statt der Person den Betrieb anspricht oder siezt, ändert drei Stellen gemeinsam:
-`emailAgentConfig.salutation`, die Format-Regeln im `hallo`-Prompt und die Pronomen im festen
-Sequenztext (inklusive `offer_contract.cta` und der Pronomen-Vorgabe im `intro`-Prompt).
+Standard ist `du` im Singular. Ohne benennbaren Ansprechpartner lautet der Gruß „Hallo,“ und der
+Text bleibt im Singular („dein Team“, „deine Praxis“); eine Ihr- oder Team-Form gibt es nicht. Nur
+wenn der Nutzer die Kampagne siezen will (Kampagnen an sehr große Unternehmen), ändert man drei
+Stellen gemeinsam: `emailAgentConfig.salutation`, die Format-Regeln im `hallo`-Prompt und die
+Pronomen im festen Sequenztext (inklusive `offer_contract.cta` und der Pronomen-Vorgabe im
+`intro`-Prompt).
 
 | `salutation` | `hallo`-Regel im Prompt | fester Text, Beispiel Step 1 |
 |---|---|---|
-| `team` (Ihr-Form) | „Hallo <Firmenname> Team,“ mit dem echten Praxisnamen; Fallback „Hallo zusammen,“ | „Deswegen war ich so frei und habe euch einen kompletten Entwurf … erstellt …“ / „Wäre es in Ordnung, wenn ich euch das morgen zusende?“ |
 | `sie` | „Hallo Frau <Nachname>,“ / „Hallo Herr <Nachname>,“, Titel nur wenn belegt; Fallback „Guten Tag,“ | „Deswegen war ich so frei und habe Ihnen einen kompletten Entwurf … erstellt …“ / „Wäre es in Ordnung, wenn ich Ihnen das morgen zusende?“ |
 
 Nie „Hallo Herr/Frau …“ zusammen mit Du-Text.
@@ -160,6 +156,7 @@ Nie „Hallo Herr/Frau …“ zusammen mit Du-Text.
 ## Optional: Kurzname `firma`
 
 Führt die Kampagne nach `outreach-campaign` den Kurznamen als AI-Variable `firma`, kommt sie
-als dritte Variable dazu (Reihenfolge `hallo`, `firma`, `intro`, `sortOrder` 1-3), und der
-Betreff von Step 1 lautet „Anfrage für {{ai.firma}}“ statt „Anfrage für {{lead.company}}“. Am
-Copy-Regelwerk ändert das nichts.
+als dritte Variable dazu (Reihenfolge `hallo`, `firma`, `intro`, `sortOrder` 1-3). Der Betreff
+von Step 1 bleibt „kurze Frage“; nur Karte A, B und E tragen den Namen im Betreff, und dann
+ausschließlich als `{{ai.firma}}`, nie als rohes `{{lead.company}}`. Am Copy-Regelwerk ändert
+das nichts.

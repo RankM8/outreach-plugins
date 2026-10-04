@@ -51,7 +51,10 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
   hergibt.
 - Ermitteln: konkrete, belegte Aufhänger; Entscheider (Name, Rolle); die Versandadresse, über die die
   Entscheidungsperson am wahrscheinlichsten erreicht wird (belegte persönliche Adresse vor
-  Funktionsadresse vor info@/kontakt@; nur mit Fundstelle, nie geraten, nie als Bounce bekannt).
+  Funktionsadresse vor info@/kontakt@, auch Freemail; nur mit Fundstelle, nie geraten, nie als Bounce bekannt).
+  Gehört die Importadresse laut Recherche belegt einem Dritten (Kammer, Portal, Agentur, andere
+  Firma) und gibt es keine eigene belegte Adresse: `bestEmail` weglassen, im Report vermerken, keine
+  Mail schreiben (Antwort `mail=übersprungen`). Keine DNS- oder MX-Prüfung.
 - Speichern: `write_lead_details(campaign_id, lead_id, fields={research: "<Markdown: ## Unternehmen,
   ## Aufhänger (mit URLs), ## Kontakt, ## Besonderheiten>", bestEmail, decisionMaker,
   contactRecommendation, status: "researched"})`. Felder ohne Beleg weglassen, keine Platzhalter.

@@ -30,14 +30,14 @@ Mindestens klären (fehlendes nachfragen, AskUserQuestion):
 3. **CTA/Offer**: Was ist der konkrete nächste Schritt (z.B. "Website-Vorschau schicken")?
 4. **Qualifizierung**: Wer ist ideal, was disqualifiziert?
 5. **Research-Fokus**: Wonach soll die Recherche suchen (Aufhänger-Prioritäten — steuert die Recherche-Agenten der Kampagne)?
-6. **Sequenz**: Standard sind 5 Steps mit `delayDays` 0/3/5/7/7 (Rollen und Wortlimits: Skill `outreach-copy`). Nur auf ausdrücklichen Wunsch entfällt Step 5.
-7. **Absender und Belege**: Name, Rolle und Firma für die Signatur; ein echter Beleg für Step 3 (Case, Zahl, Ergebnis) und ein echter Kapazitäts- oder Zeitgrund für Step 4. Nichts davon erfinden.
+6. **Sequenz**: Standard sind 4 Steps mit `delayDays` 0/3/5/7 (Entry, Erinnerung, neuer Winkel in neuem Thread, Abschied mit Routing-Hinweis; Rollen und Wortlimits: Skill `outreach-copy`). Eine Dringlichkeits-Mail gibt es nur als zusätzlichen Step, wenn der Nutzer einen echten Grund nennt.
+7. **Absender und Belege**: Name, Rolle und Firma für die Signatur; ein echter Beleg für Step 3 (Case, Zahl, Ergebnis); nur wenn der Nutzer eine Dringlichkeits-Mail will, zusätzlich ein echter Kapazitäts- oder Zeitgrund. Nichts davon erfinden.
 
 ## Phase 1b: Qualität nach SOP (Pflicht, bevor eine Zeile Blueprint entsteht)
 
 **Den Skill `outreach-copy` VERBINDLICH laden, bevor eine Zeile Sequenz oder Variablen-Prompt
 entsteht.** Er ist die einzige Copy-Doktrin: Offer-Karte A-E, Anatomie der Entry-Mail mit
-Feinheiten-Satz, 5er-Sequenz, Wortlimits, Betreffzeilen, Anrede je `salutation`, Pflichtinhalt
+Feinheiten-Satz, 4er-Sequenz, Wortlimits, Betreffzeilen, Anrede je `salutation`, Pflichtinhalt
 der Prompts von `hallo` und `intro`, Verbote, Selbstprüfung und Prüfliste. Ist er nicht
 installiert, nicht aus dem Gedächtnis schreiben, sondern den Nutzer bitten, die Skills zu
 aktualisieren (Skill `outreach-update`).
@@ -97,15 +97,21 @@ Struktur (Schema v1 — die vollständige Referenz liefert der MCP-Prompt `campa
 ```
 
 **Pflicht-Regeln (Cold-Mailing-SOP):**
-- AI-Variablen `hallo` (Anrede) und `intro` (personalisierter Opener) IMMER anlegen (der Server verlangt sie im Blueprint-Guide). `firma` (Kurzname) ist optional: nur anlegen, wenn die Firmennamen der Liste lang sind oder Rechtsformen tragen; sonst `{{lead.company}}` wie in `outreach-copy`. Reihenfolge `hallo`, (`firma`), `intro`; Namen-Regex `^[a-zA-Z][a-zA-Z0-9_]*$`, Prompt min. 10 Zeichen, Namen eindeutig.
-  - `firma` (optional): Firmenname, wie ein Kollege ihn sagt, ohne Rechtsform, „Meisterbetrieb", „Inh. …" oder Leistungsaufzählung; mit zwei, drei Vorher-nachher-Beispielen im Prompt. Wenn angelegt, nutzen Betreff und Text `{{ai.firma}}` statt `{{lead.company}}`.
+- AI-Variablen `hallo` (Anrede) und `intro` (personalisierter Opener) IMMER anlegen (der Server verlangt sie im Blueprint-Guide). `firma` (Kurzname) ist optional: anlegen, sobald ein Betreff oder Text den Firmennamen tragen soll (Importnamen sind oft Google-Titel, Domains oder tragen Rechtsformen). Ohne `firma` steht im Betreff kein Firmenname (`kurze Frage`), im Body notfalls `{{lead.company}}`. Reihenfolge `hallo`, (`firma`), `intro`; Namen-Regex `^[a-zA-Z][a-zA-Z0-9_]*$`, Prompt min. 10 Zeichen, Namen eindeutig.
+  - `firma` (optional): Firmenname, wie ein Kollege ihn sagt, ohne Rechtsform, „Meisterbetrieb", „Inh. …" oder Leistungsaufzählung; mit zwei, drei Vorher-nachher-Beispielen im Prompt. Wenn angelegt, nutzt der Betreff NUR `{{ai.firma}}`, nie `{{lead.company}}`; der Text nutzt `{{ai.firma}}` statt `{{lead.company}}`. Der Prompt enthält diese Regeln:
+    - Rechtsform ohne Wortrest kürzen: „Kiefer Immobilien- und Beteiligungs GmbH“ → „Kiefer Immobilien“ (nie „Kiefer Immobilien- und Beteiligungs“).
+    - Steht nur eine Domain oder ein Domainname, daraus die Marke machen: „zollikerdent.ch“ → „Zollikerdent“.
+    - Nennen Impressum oder Recherche einen neueren Namen, gilt dieser.
+    - Bei langen Namen gilt der Markenkern, den ein Kollege sagt: „ALN Architekturbüro Leinhäupl + Neuber“ → „ALN“.
+    - Wörter in Versalien normal schreiben („DREI ARCHITEKTEN“ → „Drei Architekten“); Abkürzungen bis 4 Buchstaben bleiben („ALN“, „HOFF“).
   - `intro`: Der Prompt sagt ausdrücklich, dass nur der ERSTE Buchstabe klein ist und jeder weitere Satz groß beginnt. Ohne den Satz schrieb das Modell „… selten sieht. das finde ich stark."
-- Ansprache (Du, Sie, Team) in `emailAgentConfig.salutation` festlegen: `"du"`, `"sie"` oder `"team"`. Sie gilt für alle generierten Variablen einer Mail. Fehlt der Wert, leitet der Server sie aus Ton und Sprache ab; `salutation` setzen ist sicherer. Zusätzlich `emailLanguage` (z. B. „Deutsch (DACH)") und `emailTone` angeben.
+- Ansprache in `emailAgentConfig.salutation` festlegen: Standard `"du"` (Singular), `"sie"` nur, wenn der Nutzer die Kampagne siezen will (sehr große Unternehmen), nie `"team"` (keine Ihr- und Team-Form, ohne Ansprechpartner „Hallo,“ und „dein Team“). Sie gilt für alle generierten Variablen einer Mail. Fehlt der Wert, leitet der Server sie aus Ton und Sprache ab; `salutation` setzen ist sicherer. Zusätzlich `emailLanguage` (z. B. „Deutsch (DACH)") und `emailTone` angeben.
 - Platzhalter in Betreff und Body: nur `{{ai.<variable>}}`, `{{lead.<feld>}}` (`email`, `company`, `website`, `phoneNumber`, `city`) und `{{custom.<schlüssel>}}`. Alles andere (`{{firstName}}`, `{{companyName}}`, If-Blöcke, Default-Syntax) wird nicht aufgelöst und bleibt als Text in der Mail stehen. Sequenz-Bodies nutzen `{{ai.hallo}}`, `{{ai.intro}}` und `{{ai.firma}}`; Step 1 hat `delayDays: 0`.
-- Jeder Schritt braucht einen nicht leeren `subject` (String); `delayUnit` ist `days` oder `hours`, `delayDays` eine ganze Zahl >= 0.
+- `subject` ist ein String: Step 1 und Step 3 mit eigenem kurzen Betreff (jeweils ein neuer Thread, Step 3 z. B. „kurzes Update“), Step 2 und Step 4 leer (sie antworten im Thread der vorigen Betreff-Mail, siehe `outreach-copy`). Der Betreff nennt einen Firmennamen nur über `{{ai.firma}}`. `delayUnit` ist `days` oder `hours`, `delayDays` eine ganze Zahl >= 0.
 - `agentKey` in den Configs WEGLASSEN, außer der Nutzer nennt ausdrücklich einen bestehenden Agenten. Unbekannte oder deaktivierte Keys werden mit `validation_failed` abgelehnt; ohne Key greifen die Standard-Agenten.
 - Max. 25 Variablen und 25 Steps je Kampagne.
-- **Routing-Follow-up** (optional, bei Zielgruppen mit Teams dem Nutzer anbieten): AI-Variable `routing` nach `hallo`/`intro`, Step 4 mit Body `{{ai.hallo}}\n\n{{ai.routing}}` und im `researchAgentConfig.additionalPrompt` das Ziel „höchstens zwei andere zuständige Personen mit Name, Rolle, Quelle“. Alle drei Teile gehören zusammen; Vorlage in `outreach-copy` → `references/routing-baustein.md`.
+- **Abgeleitete oder geklonte Kampagne:** jeden Variablen-Prompt und den `additional_prompt` gegen das neue Offer und den festen Mailtext prüfen. Kein Prompt nennt ein Offer oder einen Folgesatz, den die Sequenz nicht trägt (etwa „Recruiting-Entwürfe“ in der Kampagne für Websites, „E-Mail-Texte“ als Abschluss des Intros bei einem Testzugang). Dasselbe gilt für Qualifizierungs-Kriterien: Ausschlüsse der Vorlage nur übernehmen, wenn sie zur neuen Zielgruppe passen.
+- **Routing mit belegten Namen** (optional, bei Zielgruppen mit Teams dem Nutzer anbieten; der Standard-Step 4 trägt den Routing-Hinweis schon als festen Satz): AI-Variable `routing` nach `hallo`/`intro`, Step 4 mit Body `{{ai.hallo}}\n\n{{ai.routing}}` und im `researchAgentConfig.additionalPrompt` das Ziel „höchstens zwei andere zuständige Personen mit Name, Rolle, Quelle“. Alle drei Teile gehören zusammen; Vorlage in `outreach-copy` → `references/routing-baustein.md`.
 - `qualificationSettings` IMMER mit den kanonischen snake_case-Schlüsseln füllen: `target_customer_profile`, `offer_summary`, `fit_criteria`, `disqualifiers`, `additional_prompt` (optional `taxonomy_instructions`). Die camelCase-Aliasse (`idealCustomer`, `offerSummary`, `fitCriteria`, `additionalInstructions`, `taxonomyInstructions`) wertet die Laufzeit zwar aus, die Oberfläche zeigt die Felder dann aber als „Noch nicht ausgefüllt". Auch wenn der `campaign_blueprint_guide` die Aliasse nennt: kanonisch schreiben.
 - Recherche-Auftrag als `researchAgentConfig.additionalPrompt` setzen, nicht nur als `researchGoals`/`researchPriorities`: sonst zeigt die Oberfläche „Standard-Prompt aktiv". E-Mail-Ton, Sprache und Ansprache gehören in `emailAgentConfig` (`emailTone`, `emailLanguage`, `salutation`, ggf. `additionalPrompt`).
 
