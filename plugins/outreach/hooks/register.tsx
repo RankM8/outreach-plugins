@@ -543,10 +543,14 @@ const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'obj
  * Registered here because only at runtime are the tool names known: they follow whatever the
  * customer named the server. The plugin's agent files (qualifier, researcher, writer) remain as
  * the fallback where no mod runs.
+ *
+ * Read is part of every lean agent: get_lead_data carries the campaign's full system prompt and
+ * often exceeds the tool-result limit, so it arrives as a file the agent has to read.
  */
 const LEAN_ONE_LEAD =
   'Arbeite nur mit dem Lead, dessen campaign_id und lead_id dir der Auftrag nennt; nie mit einem anderen. ' +
-  'Folge den Schritten und Regeln des Auftrags genau. Deutsch mit echten Umlauten. Nichts erfinden.'
+  'Folge den Schritten und Regeln des Auftrags genau. Deutsch mit echten Umlauten. Nichts erfinden. ' +
+  'Liefert get_lead_data nur einen Dateipfad statt der Daten, lies die Datei mit Read vollständig, bevor du bewertest oder schreibst.'
 
 const LEAN_AGENTS = [
   {
@@ -554,21 +558,21 @@ const LEAN_AGENTS = [
     what: 'Qualifiziert genau einen Lead gegen die Kriterien seiner Kampagne (schlank: nur Outreach-Werkzeuge, Sonnet)',
     prompt: 'Du qualifizierst genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
     tools: ['get_lead_data', 'write_lead_details'],
-    web: ['WebFetch'],
+    web: ['Read', 'WebFetch'],
   },
   {
     name: 'researcher-schlank',
     what: 'Recherchiert genau einen Lead nach den Vorgaben seiner Kampagne (schlank: nur Outreach-Werkzeuge, Sonnet)',
     prompt: 'Du recherchierst genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
     tools: ['get_lead_data', 'write_lead_details'],
-    web: ['WebFetch', 'WebSearch'],
+    web: ['Read', 'WebFetch', 'WebSearch'],
   },
   {
     name: 'writer-schlank',
     what: 'Schreibt die Mail-Variablen für genau einen Lead (schlank: nur Outreach-Werkzeuge, Sonnet)',
     prompt: 'Du schreibst die KI-Variablen der Cold-Mail für genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
     tools: ['get_lead_data', 'save_lead_variables', 'get_lead_variables'],
-    web: ['WebFetch'],
+    web: ['Read', 'WebFetch'],
   },
 ] as const
 
