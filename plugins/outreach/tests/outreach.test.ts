@@ -408,12 +408,127 @@ describe('local workflow phases', () => {
   })
 })
 
-describe('import card', () => {
-  test('a queued import shows its size and the way into the app', async $ => {
+describe('imports', () => {
+  const jobStatus = (status: string, result: unknown = null) => ({
+    job_id: 'job-1',
+    appUrl: 'https://outreach.akquise.de/jobs',
+    type: 'lead_bulk_import',
+    status,
+    result,
+    error: status === 'failed' ? 'CSV-Zeile 3 ist kaputt' : null,
+    execution: { status, progress_percent: 0, progress_message: null },
+  })
+  const mcpAnswers = (on: On, answers: unknown[]) => {
+    const asked: unknown[] = []
+    on('mcp.call', (_$, e) => {
+      asked.push(e)
+      const answer = answers[Math.min(asked.length - 1, answers.length - 1)]
+      return { value: { content: [{ type: 'text', text: JSON.stringify(answer) }], isError: false } }
+    })
+    return asked
+  }
+
+  test('a queued import is one line in the chat, without a bar, with the way into the app', async $ => {
     const ui = await $.ui.mount({ ...toolRow('mcp__akquise__import_leads', IMPORT_QUEUED), surface: 'terminal' })
-    expect(await ui.find({ text: '500 Leads' })).toBeDefined()
+    expect(await ui.find({ text: 'Import gestartet · 500 Leads' })).toBeDefined()
+    expect(await ui.find({ text: /░/ })).toBeUndefined()
+    expect(await ui.find({ text: /%/ })).toBeUndefined()
     const hrefs = (await ui.findAll({ type: 'Link' })).map(l => l.props.href)
     expect(hrefs).toContain('https://outreach.akquise.de/campaigns/12/leads')
+    await ui.unmount()
+  })
+
+  test('a started import shows in the band and the band follows it to its result', async ($, on) => {
+    engineDraws(on)
+    const clock = mock.clock(on)
+    const toasts: string[] = []
+    on('ui.toast', (_$, e) => {
+      toasts.push(e.text)
+      return { value: undefined }
+    })
+    const asked = mcpAnswers(on, [
+      jobStatus('processing'),
+      jobStatus('completed', { status: 'success', imported: 480, total: 500, duplicates: 20 }),
+    ])
+    on('tool.call', () => ({ result: IMPORT_QUEUED }))
+    await toolCall($, 'mcp__akquise__import_leads', { campaign_id: 12, leads: [] })
+
+    const queued = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await queued.find({ text: 'Outreach · Import' })).toBeDefined()
+    expect(await queued.find({ text: '500 Leads' })).toBeDefined()
+    expect(await queued.find({ text: 'wartet' })).toBeDefined()
+    await queued.unmount()
+
+    await clock.advance(10_000)
+    const working = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await working.find({ text: 'läuft' })).toBeDefined()
+    await working.unmount()
+
+    await clock.advance(10_000)
+    expect(asked.length).toBe(2)
+    const done = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await done.find({ text: '480 importiert · 20 Duplikate' })).toBeDefined()
+    expect(await done.find({ text: 'alle beendet' })).toBeDefined()
+    const hrefs = (await done.findAll({ type: 'Link' })).map(l => l.props.href)
+    expect(hrefs).toContain('https://outreach.akquise.de/campaigns/12/leads')
+    await done.unmount()
+    expect(toasts.some(t => /Import 480 importiert/.test(t))).toBe(true)
+
+    await clock.advance(30_000)
+    expect(asked.length).toBe(2)
+  })
+
+  test('a failed import says why, in the band and when Claude checks it', async ($, on) => {
+    engineDraws(on)
+    const clock = mock.clock(on)
+    mcpAnswers(on, [jobStatus('failed')])
+    on('tool.call', () => ({ result: IMPORT_QUEUED }))
+    await toolCall($, 'mcp__akquise__import_leads', { campaign_id: 12, leads: [] })
+    await clock.advance(10_000)
+
+    const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: 'fehlgeschlagen · CSV-Zeile 3 ist kaputt' })).toBeDefined()
+    await band.unmount()
+
+    const row = await $.ui.mount({ ...toolRow('mcp__akquise__get_job_status', jobStatus('failed')), surface: 'terminal' })
+    expect(await row.find({ text: 'Import · fehlgeschlagen · CSV-Zeile 3 ist kaputt' })).toBeDefined()
+    await row.unmount()
+  })
+
+  test('get_job_status for a job of another kind is no import', async ($, on) => {
+    engineDraws(on)
+    const research = { ...jobStatus('processing'), type: 'lead_research' }
+    on('tool.call', () => ({ result: research }))
+    await toolCall($, 'mcp__akquise__get_job_status', { job_id: 'job-1' })
+    const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: 'engine' })).toBeDefined()
+    await band.unmount()
+    const row = await $.ui.mount({ ...toolRow('mcp__akquise__get_job_status', research), surface: 'terminal' })
+    expect(await row.find({ text: 'engine' })).toBeDefined()
+    await row.unmount()
+  })
+
+  test('imports started in one go are one line between them', async ($, on) => {
+    engineDraws(on)
+    const calls: ToolGroupCall[] = [10, 20, 30].map((received, i) => ({
+      tool_use_id: `toolu_import_${i}`,
+      tool: 'mcp__akquise__import_leads',
+      input: {},
+      isRunning: false,
+      isErrored: false,
+      isInterrupted: false,
+      output: [{ type: 'text', text: JSON.stringify({ ...IMPORT_QUEUED, job_id: `job-${i}`, received }) }],
+    }))
+    const ui = await $.ui.mount({
+      plugin: 'outreach',
+      component: 'ToolGroup' as const,
+      requestId: 'group-imports',
+      props: { calls, isActive: false, isExpanded: false },
+      surface: 'terminal',
+    })
+    expect(await ui.find({ text: 'engine' })).toBeDefined()
+    expect(await ui.find({ text: '3 Importe gestartet · 60 Leads' })).toBeDefined()
+    expect((await ui.findAll({ type: 'Link' })).length).toBe(1)
     await ui.unmount()
   })
 })

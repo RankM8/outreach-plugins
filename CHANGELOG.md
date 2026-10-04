@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.1.4
+
+**outreach** (Live-Ansicht in Claude Code)
+- Import im Chat als eine Zeile ohne Fortschrittsbalken („Import gestartet · 500 Leads · Fortschritt über dem Prompt“); mehrere auf einmal gestartete Importe werden zu einer Zeile zusammengefasst. Der alte Balken blieb bei 0 %, weil der Import keinen Prozentwert meldet.
+- Der Fortschritt steht jetzt im Band über dem Prompt: Status „wartet“/„läuft“ (Prozent nur, wenn der Server einen meldet), danach Ergebnis mit importierten Leads und Duplikaten oder der Fehlergrund; bei Abschluss ein Hinweis. Das Band fragt `get_job_status` alle 10 s, nur solange ein Import läuft.
+- `get_job_status` zu anderen Job-Arten (z. B. Recherche) wird nicht als Import gezeigt.
+
 ## 2026-10-04 – outreach 0.1.3
 
 **outreach**

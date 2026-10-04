@@ -122,20 +122,34 @@ export function runFrom(p: Obj, previous?: RunView): RunView | null {
   }
 }
 
-/** An import from import_leads (queued) or get_job_status (progress, result). */
+export const IMPORT_STATUS_LABEL: Record<string, string> = {
+  pending: 'wartet',
+  processing: 'läuft',
+  completed: 'fertig',
+  failed: 'fehlgeschlagen',
+  cancelled: 'abgebrochen',
+}
+
+/**
+ * An import from import_leads (queued) or get_job_status (status, result).
+ * get_job_status answers for every kind of job: one of another type is no
+ * import, unless it is one already known.
+ */
 export function importFrom(p: Obj, previous?: ImportView): ImportView | null {
   const id = str(p.job_id)
   if (id === '') return null
+  if (previous === undefined && typeof p.type === 'string' && p.type !== 'lead_bulk_import') return null
   const execution = isObj(p.execution) ? p.execution : null
   const result = isObj(p.result) ? p.result : null
   const status = p.status === 'success' && p.queued === true ? 'pending' : str(p.status, previous?.status ?? 'pending')
   const isTerminal = ['completed', 'failed', 'cancelled'].includes(status)
+  const failure = status === 'failed' ? str(p.error) || str(result?.message) || str(execution?.failure_reason) : ''
 
   return {
     id,
     status,
     percent: status === 'completed' ? 100 : num(execution?.progress_percent, previous?.percent ?? 0),
-    message: str(execution?.progress_message, previous?.message ?? ''),
+    message: failure || str(execution?.progress_message, previous?.message ?? ''),
     received: num(p.received, previous?.received ?? num(result?.total)),
     campaignId: typeof p.campaign_id === 'number' ? p.campaign_id : (previous?.campaignId ?? null),
     imported: typeof result?.imported === 'number' ? result.imported : (previous?.imported ?? null),
@@ -143,8 +157,23 @@ export function importFrom(p: Obj, previous?: ImportView): ImportView | null {
     isTerminal,
     isDemo: previous?.isDemo ?? false,
     finishedAt: previous?.finishedAt ?? null,
-    appUrl: urlOf(p.appUrl) ?? previous?.appUrl ?? null,
+    // import_leads links the campaign; get_job_status only the job list, so the first link stays.
+    appUrl: previous !== undefined ? previous.appUrl : urlOf(p.appUrl),
+    server: previous?.server ?? '',
   }
+}
+
+/** What an import came to, in a few words: imported and duplicates, or why it failed. */
+export function importOutcome(job: ImportView): string {
+  if (job.status === 'completed') {
+    const dupes = job.duplicates ? ` · ${job.duplicates} Duplikate` : ''
+    return `${job.imported ?? job.received} importiert${dupes}`
+  }
+  const label = IMPORT_STATUS_LABEL[job.status] ?? job.status
+  if (job.isTerminal) return job.message ? `${label} · ${job.message}` : label
+  // The server reports a share only where the job measures one; a bulk import does not.
+  if (job.percent > 0) return `${label} · ${job.percent} %${job.message ? ` · ${job.message}` : ''}`
+  return job.message ? `${label} · ${job.message}` : label
 }
 
 export type LeadRow = {

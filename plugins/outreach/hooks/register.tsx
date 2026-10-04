@@ -10,6 +10,7 @@ import {
   appLink,
   bar,
   importFrom,
+  importOutcome,
   leadsThrough,
   leadsFrom,
   payloadOf,
@@ -20,8 +21,8 @@ import {
 
 /**
  * The outreach MCP tools' results drawn readable and clickable in the chat,
- * and the lead runs of this chat as one band above the prompt. The band asks
- * the server itself only for those runs, every POLL_MS, until each has ended.
+ * and the lead runs and imports of this chat as one band above the prompt. The
+ * band asks the server itself only for those, every POLL_MS, until each has ended.
  */
 
 const PREVIEW_ROWS = 6
@@ -30,6 +31,7 @@ const POLL_MS = 10_000
 const LINGER_MS = 120_000
 
 const runs = atom({ plugin: 'outreach', key: 'runs' } as const, {})
+const imports = atom({ plugin: 'outreach', key: 'imports' } as const, {})
 const locals = atom({ plugin: 'outreach', key: 'locals' } as const, {})
 const frame = atom({ plugin: 'outreach', key: 'frame' } as const, 0)
 let configuredServer = 'akquise'
@@ -297,14 +299,41 @@ const localRow = (el: El, local: LocalRun) => {
   )
 }
 
-/** Server runs and local phases in one frame. A single run shows as a funnel; several as a row each. */
-const band = (el: El, shown: RunView[], phases: LocalRun[], step: number) => {
+/**
+ * One import as one row, lined up with the run rows. No bar: a bulk import
+ * reports no share while it works, only its state and in the end its result.
+ */
+const importRow = (el: El, job: ImportView, step: number) => {
+  const { Box, Text, Link } = el
+  const color = !job.isTerminal ? BRAND.accent : job.status === 'completed' ? BRAND.done : BRAND.error
+
+  return (
+    <Box key={`import-${job.id}`}>
+      <Box flexGrow={1} flexShrink={1} gap={1}>
+        <Text bold color={color}>{job.isTerminal ? '■' : SPIN[step % SPIN.length]}</Text>
+        <Box width={9} flexShrink={0}><Text>{`${job.received} Leads`}</Text></Box>
+        <Box width={10} flexShrink={0}><Text>Import</Text></Box>
+        <Text bold={job.isTerminal} color={job.isTerminal ? color : undefined} wrap="truncate-end">{importOutcome(job)}</Text>
+      </Box>
+      <Box flexShrink={0} marginLeft={1}>
+        <Link href={importHref(job)} label="Öffnen ↗" />
+      </Box>
+    </Box>
+  )
+}
+
+/** Server runs, imports and local phases in one frame. A single run alone shows as a funnel; else a row each. */
+const band = (el: El, shown: RunView[], jobs: ImportView[], phases: LocalRun[], step: number) => {
   const { Box, Text } = el
-  const count = shown.length + phases.length
-  const active = shown.filter(r => !r.isTerminal).length + phases.filter(l => !l.isTerminal).length
-  const allGood = shown.every(r => r.status === 'completed') && phases.every(l => l.doneLeadIds.length >= l.total)
+  const count = shown.length + jobs.length + phases.length
+  const active =
+    shown.filter(r => !r.isTerminal).length + jobs.filter(j => !j.isTerminal).length + phases.filter(l => !l.isTerminal).length
+  const allGood =
+    shown.every(r => r.status === 'completed') &&
+    jobs.every(j => j.status === 'completed') &&
+    phases.every(l => l.doneLeadIds.length >= l.total)
   const color = active > 0 ? BRAND.accent : allGood ? BRAND.done : BRAND.warn
-  const single = shown.length === 1 && phases.length === 0 ? shown[0] : undefined
+  const single = shown.length === 1 && jobs.length === 0 && phases.length === 0 ? shown[0] : undefined
 
   if (single !== undefined) {
     return (
@@ -315,14 +344,16 @@ const band = (el: El, shown: RunView[], phases: LocalRun[], step: number) => {
   }
 
   const summary = active === 0 ? 'alle beendet' : active === 1 ? '1 läuft' : `${active} laufen`
+  const title = jobs.length === count ? (count === 1 ? 'Import' : `${count} Importe`) : `${count} Läufe`
 
   return (
     <Box flexDirection="column" borderStyle="round" borderColor={color} paddingX={1}>
       <Box justifyContent="space-between">
-        <Text bold>{`Outreach · ${count} Läufe`}</Text>
+        <Text bold>{`Outreach · ${title}`}</Text>
         <Text color={color}>{summary}</Text>
       </Box>
       {shown.map(run => bandRow(el, run, step))}
+      {jobs.map(job => importRow(el, job, step))}
       {phases.map(local => localRow(el, local))}
     </Box>
   )
@@ -340,6 +371,14 @@ const bandRuns = (all: RunView[]): RunView[] => [
   ...all.filter(r => !r.isTerminal).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)),
   ...all
     .filter(r => r.isTerminal)
+    .sort((a, b) => (b.finishedAt ?? 0) - (a.finishedAt ?? 0))
+    .slice(0, ENDED_SHOWN),
+]
+
+const bandImports = (all: ImportView[]): ImportView[] => [
+  ...all.filter(j => !j.isTerminal),
+  ...all
+    .filter(j => j.isTerminal)
     .sort((a, b) => (b.finishedAt ?? 0) - (a.finishedAt ?? 0))
     .slice(0, ENDED_SHOWN),
 ]
@@ -378,8 +417,42 @@ const putRun = async ($: EngineInterface, payload: Record<string, unknown>, serv
   }
 }
 
-/** Asks for each run still going; stops asking once none is. Ended runs leave the band after LINGER_MS. */
+/** Keeps an import's newest state; says what it came to in a toast when it has just ended. */
+const putImport = async ($: EngineInterface, payload: Record<string, unknown>, server: string): Promise<boolean> => {
+  let ended: ImportView | null = null
+  let kept = false
+  await update($, imports, all => {
+    const before = all[String(payload.job_id ?? '')]
+    const next = importFrom(payload, before)
+    if (next === null) return all
+    kept = true
+    next.server = server
+    if (next.isTerminal && next.finishedAt === null) next.finishedAt = Date.now()
+    if (next.isTerminal && before !== undefined && !before.isTerminal) ended = next
+    return { ...all, [next.id]: next }
+  })
+  if (ended !== null) {
+    const job: ImportView = ended
+    $.ui.toast(`Outreach: Import ${importOutcome(job)}`)
+  }
+  return kept
+}
+
+const isGoing = async ($: EngineInterface) =>
+  Object.values(await read($, runs)).some(r => !r.isTerminal) || Object.values(await read($, imports)).some(j => !j.isTerminal)
+
+/** Asks for each run and import still going; stops asking once none is. Ended ones leave the band after LINGER_MS. */
 const tick = async ($: EngineInterface) => {
+  for (const job of Object.values(await read($, imports))) {
+    if (job.isTerminal) continue
+    try {
+      const server = job.server || configuredServer
+      const status = await call($, server, 'get_job_status', { job_id: job.id })
+      if (status) await putImport($, status, server)
+    } catch {
+      // Not connected right now: the next tick tries again.
+    }
+  }
   for (const run of Object.values(await read($, runs))) {
     if (run.isTerminal) continue
     try {
@@ -391,10 +464,10 @@ const tick = async ($: EngineInterface) => {
     }
   }
   const now = Date.now()
-  await update($, runs, all =>
-    Object.fromEntries(Object.entries(all).filter(([, r]) => r.finishedAt === null || now - r.finishedAt < LINGER_MS)),
-  )
-  const left = Object.values(await read($, runs))
+  const stays = (finishedAt: number | null) => finishedAt === null || now - finishedAt < LINGER_MS
+  await update($, runs, all => Object.fromEntries(Object.entries(all).filter(([, r]) => stays(r.finishedAt))))
+  await update($, imports, all => Object.fromEntries(Object.entries(all).filter(([, j]) => stays(j.finishedAt))))
+  const left = [...Object.values(await read($, runs)), ...Object.values(await read($, imports))]
   if (!left.some(r => !r.isTerminal)) {
     poller?.cancel()
     poller = null
@@ -498,9 +571,7 @@ const spin = ($: EngineInterface) => {
   if (spinner !== null) return
   spinner = $.clock.every(SPIN_MS, () =>
     void (async () => {
-      const going =
-        Object.values(await read($, runs)).some(r => !r.isTerminal) ||
-        Object.values(await read($, locals)).some(l => !l.isTerminal)
+      const going = (await isGoing($)) || Object.values(await read($, locals)).some(l => !l.isTerminal)
       if (!going) {
         spinner?.cancel()
         spinner = null
@@ -516,30 +587,40 @@ const watch = ($: EngineInterface) => {
   spin($)
 }
 
-const importCard = (el: El, job: ImportView) => {
+const importHref = (job: ImportView) =>
+  job.appUrl ?? appLink(base, job.campaignId ? `/campaigns/${job.campaignId}/leads` : '/jobs')
+
+/**
+ * In the chat an import is one line, several started together one line between
+ * them; how it goes lives in the band. A status check that finds it ended
+ * says what it came to.
+ */
+const importLine = (el: El, jobs: ImportView[]) => {
   const { Box, Text, Link } = el
-  const color = job.isTerminal ? (job.status === 'completed' ? BRAND.done : BRAND.error) : BRAND.accent
-  const summary =
-    job.status === 'completed'
-      ? `${job.imported ?? job.received} importiert${job.duplicates ? `, ${job.duplicates} Duplikate` : ''}`
-      : job.isTerminal
-        ? 'fehlgeschlagen'
-        : job.message || 'in der Warteschlange'
+  const first = jobs[0]
+  if (first === undefined) return null
+  const leads = jobs.reduce((sum, j) => sum + j.received, 0)
+  const sameCampaign = jobs.every(j => j.campaignId === first.campaignId)
+  const href = sameCampaign ? importHref(first) : appLink(base, '/jobs')
+  if (jobs.length === 1 && first.isTerminal) {
+    const color = first.status === 'completed' ? BRAND.done : BRAND.error
+    return (
+      <Box gap={1}>
+        <Text color={color}>■</Text>
+        <Text>{`Import · ${importOutcome(first)}`}</Text>
+        <Link href={href} label="In der App öffnen ↗" />
+      </Box>
+    )
+  }
+  const what = jobs.length === 1 ? 'Import' : `${jobs.length} Importe`
+  const state = jobs.length === 1 && first.status === 'processing' ? 'läuft' : 'gestartet'
 
   return (
-    <Box flexDirection="column" borderStyle="round" borderColor={BRAND.accent} paddingX={1}>
-      <Box gap={1}>
-        <Text bold color={color}>Import</Text>
-        {job.received > 0 && <Text>{`${job.received} Leads`}</Text>}
-        <Text dimColor>{summary}</Text>
-      </Box>
-      {!job.isTerminal && (
-        <Box gap={1}>
-          <Text color={color}>{bar(job.percent, 100)}</Text>
-          <Text>{`${job.percent} %`}</Text>
-        </Box>
-      )}
-      <Link href={job.appUrl ?? appLink(base, job.campaignId ? `/campaigns/${job.campaignId}/leads` : '/jobs')} label="In der App öffnen ↗" />
+    <Box gap={1}>
+      <Text color={BRAND.accent}>▶</Text>
+      <Text>{`${what} ${state} · ${leads} Leads`}</Text>
+      <Text dimColor>· Fortschritt über dem Prompt</Text>
+      <Link href={href} label="In der App öffnen ↗" />
     </Box>
   )
 }
@@ -559,7 +640,7 @@ const cardFor = (el: El, name: string | null, output: unknown, key: string) => {
     card = run ? startLine(el, run) : null
   } else if (name === 'import_leads' || name === 'get_job_status') {
     const job = importFrom(payload)
-    card = job ? importCard(el, job) : null
+    card = job ? importLine(el, [job]) : null
   }
   return card === null ? null : <Box key={`outreach-${key}`}>{card}</Box>
 }
@@ -605,14 +686,25 @@ export const register: Register = (on, options) => {
   // the engine's line stays, our cards follow beneath it.
   on('ui.render', { component: 'ToolGroup' }, async ($, e, next) => {
     const el = $.ui.resolve(e)
+    const { Box } = el
     const cards = []
+    // Imports started in one go become one line, after the other cards.
+    const started: ImportView[] = []
     for (const [i, c] of e.props.calls.entries()) {
       if (c.isRunning || c.isErrored || c.isInterrupted) continue
-      const card = cardFor(el, (await recognize($, c.tool))?.name ?? null, c.output, c.tool_use_id ?? `call-${i}`)
+      const name = (await recognize($, c.tool))?.name ?? null
+      const payload = name === 'import_leads' ? payloadOf(c.output) : null
+      const job = payload === null ? null : importFrom(payload)
+      if (job !== null) {
+        started.push(job)
+        continue
+      }
+      const card = cardFor(el, name, c.output, c.tool_use_id ?? `call-${i}`)
       if (card !== null) cards.push(card)
     }
+    const startedLine = started.length > 0 ? importLine(el, started) : null
+    if (startedLine !== null) cards.push(<Box key="outreach-imports">{startedLine}</Box>)
     if (cards.length === 0) return next(e)
-    const { Box } = el
     const line = await next(e)
 
     return (
@@ -641,7 +733,7 @@ export const register: Register = (on, options) => {
       // Without the command, runs still join the band when Claude checks them.
     }
     try {
-      if (Object.values(await read($, runs)).some(r => !r.isTerminal)) watch($)
+      if (await isGoing($)) watch($)
     } catch {
       // Nothing to resume.
     }
@@ -682,6 +774,11 @@ export const register: Register = (on, options) => {
       await countWrite($, written, e as unknown as Record<string, unknown>)
       return ran
     }
+    if (name === 'import_leads' || name === 'get_job_status') {
+      const payload = payloadOf(ran.result)
+      if (payload !== null && (await putImport($, payload, server))) watch($)
+      return ran
+    }
     if (name === 'list_lead_runs') {
       const listed = payloadOf(ran.result)
       if (listed !== null) await putActiveRuns($, listed, server)
@@ -699,8 +796,9 @@ export const register: Register = (on, options) => {
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     const shown = bandRuns(Object.values(await read($, runs)))
+    const jobs = bandImports(Object.values(await read($, imports)))
     const phases = bandPhases(Object.values(await read($, locals)))
-    if (e.props.hasSurvey || shown.length + phases.length === 0) return next(e)
-    return band($.ui.resolve(e), shown, phases, await read($, frame))
+    if (e.props.hasSurvey || shown.length + jobs.length + phases.length === 0) return next(e)
+    return band($.ui.resolve(e), shown, jobs, phases, await read($, frame))
   })
 }

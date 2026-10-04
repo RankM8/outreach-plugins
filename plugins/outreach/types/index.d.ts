@@ -43,6 +43,8 @@ export type ImportView = {
   isDemo: boolean
   finishedAt: number | null
   appUrl: string | null
+  /** The MCP server the import came from, as its tool names spell it; the band asks that one. */
+  server: string
 }
 
 /** A phase of an outreach workflow that Claude runs itself, with its own agents, instead of on the server. */
@@ -62,6 +64,8 @@ declare module 'claude-code' {
     'outreach': {
       /** Runs started or checked in this chat, by id: what the band above the prompt shows. */
       runs: Record<string, RunView>
+      /** Lead imports started or checked in this chat, by job id: they share the band with the runs. */
+      imports: Record<string, ImportView>
       /** Workflow phases Claude runs locally in this chat, by campaign and phase. */
       locals: Record<string, LocalRun>
       /** Spinner frame of the band, advanced only while a run is going. */
