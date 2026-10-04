@@ -26,7 +26,9 @@ import {
  */
 
 const PREVIEW_ROWS = 6
-const POLL_MS = 10_000
+const POLL_MS = 20_000
+/** Rounds without a usable answer after which the band stops asking for a run. */
+const MAX_MISSES = 3
 /** How long a run that ended stays in the band. */
 const LINGER_MS = 120_000
 
@@ -35,8 +37,10 @@ const imports = atom({ plugin: 'outreach', key: 'imports' } as const, {})
 const locals = atom({ plugin: 'outreach', key: 'locals' } as const, {})
 const origins = atom({ plugin: 'outreach', key: 'origins' } as const, {})
 const frame = atom({ plugin: 'outreach', key: 'frame' } as const, 0)
+const folded = atom({ plugin: 'outreach', key: 'folded' } as const, false)
 let configuredServer = 'akquise'
 let poller: { cancel: () => void } | null = null
+const missedRounds = new Map<string, number>()
 let spinner: { cancel: () => void } | null = null
 
 let base = 'https://outreach.akquise.de'
@@ -277,14 +281,38 @@ const funnelRun = (el: El, run: RunView, step: number) => {
   )
 }
 
-/** Share of the weekly subscription window used now, or null off a subscription. */
-const weekPercent = async ($: EngineInterface): Promise<number | null> => {
+/** The subscription windows now, in percent used; null where off a subscription. */
+type Usage = { session: number | null; week: number | null }
+
+const usageNow = async ($: EngineInterface): Promise<Usage> => {
   try {
     const { rateLimits } = await $.session.usage()
-    return rateLimits.find(r => r.kind === 'seven_day')?.percentUsed ?? null
+    const of = (kind: string) => rateLimits.find(r => r.kind === kind)?.percentUsed ?? null
+    return { session: of('five_hour'), week: of('seven_day') }
   } catch {
-    return null
+    return { session: null, week: null }
   }
+}
+
+const pct = (v: number) => `${v.toFixed(1).replace('.', ',').replace(/,0$/, '')} %`
+
+/**
+ * The subscription windows as the run sees them: where each stands now, and – once it is
+ * measurable (a tenth of a point) – how much it rose since the run began. The windows count the
+ * whole account, so other sessions running at the same time show here too.
+ */
+const usageText = (group: LocalRun[], now: Usage): string | null => {
+  const part = (label: string, current: number | null, starts: (number | null)[]) => {
+    if (current === null) return null
+    const known = starts.filter((v): v is number => v !== null)
+    const rose = known.length === 0 ? 0 : current - Math.min(...known)
+    return rose >= 0.1 ? `${label} ${pct(current)} (+${pct(rose).replace(' %', '')})` : `${label} ${pct(current)}`
+  }
+  const parts = [
+    part('5 h', now.session, group.map(l => l.sessionStartPercent)),
+    part('Woche', now.week, group.map(l => l.weekStartPercent)),
+  ].filter((v): v is string => v !== null)
+  return parts.length === 0 ? null : parts.join(' · ')
 }
 
 /** A local phase's campaign page: on the origin its server links to; null while that is unknown. */
@@ -308,7 +336,7 @@ const groupPhases = (phases: LocalRun[]): LocalRun[][] => {
  * polling. Leads judged not qualified leave the later phases and count as handled, so a run that
  * did all it could ends green, not as if work were missing.
  */
-const localRow = (el: El, group: LocalRun[], href: string | null, weekUsed: number | null) => {
+const localRow = (el: El, group: LocalRun[], href: string | null, usage: Usage) => {
   const { Box, Text, Link } = el
   const last = group[group.length - 1]
   if (last === undefined) return null
@@ -323,8 +351,7 @@ const localRow = (el: El, group: LocalRun[], href: string | null, weekUsed: numb
   const stages = group
     .map(l => `${PHASE_SHORT[l.phase] ?? l.phase} ${l.doneLeadIds.length}/${l.total - l.skippedLeadIds.length}`)
     .join(' · ')
-  const starts = group.map(l => l.weekStartPercent).filter((v): v is number => v !== null)
-  const week = weekUsed === null || starts.length === 0 ? null : Math.max(0, weekUsed - Math.min(...starts))
+  const used = usageText(group, usage)
 
   return (
     <Box key={`local-${last.campaignId}`}>
@@ -340,7 +367,7 @@ const localRow = (el: El, group: LocalRun[], href: string | null, weekUsed: numb
         <Text dimColor wrap="truncate-end">{`· ${stages} · im Abo`}</Text>
       </Box>
       <Box flexShrink={0} gap={2} marginLeft={1}>
-        {week !== null && <Text dimColor>{`+${week.toFixed(1).replace('.', ',')} % Woche`}</Text>}
+        {used !== null && <Text dimColor>{used}</Text>}
         {href !== null && <Link href={href} label="Öffnen ↗" />}
       </Box>
     </Box>
@@ -370,6 +397,25 @@ const importRow = (el: El, job: ImportView, step: number) => {
   )
 }
 
+/** The band folded to one line: how many runs, how many still going; `/outreach-runs auf` opens it. */
+const foldedBand = (el: El, shown: RunView[], jobs: ImportView[], phases: LocalRun[]) => {
+  const { Box, Text } = el
+  const groups = groupPhases(phases)
+  const count = shown.length + jobs.length + groups.length
+  const active =
+    shown.filter(r => !r.isTerminal).length +
+    jobs.filter(j => !j.isTerminal).length +
+    groups.filter(g => g.some(l => !l.isTerminal)).length
+  const color = active > 0 ? BRAND.accent : BRAND.done
+
+  return (
+    <Box borderStyle="round" borderColor={color} paddingX={1} justifyContent="space-between">
+      <Text bold>{`Outreach · ${count} ${count === 1 ? 'Lauf' : 'Läufe'} · ${active === 0 ? 'alle beendet' : `${active} ${active === 1 ? 'läuft' : 'laufen'}`}`}</Text>
+      <Text dimColor>eingeklappt · /outreach-runs auf</Text>
+    </Box>
+  )
+}
+
 /** Server runs, imports and local phases in one frame. A single run alone shows as a funnel; else a row each. */
 const band = (
   el: El,
@@ -378,7 +424,7 @@ const band = (
   phases: LocalRun[],
   step: number,
   known: Record<string, string>,
-  weekUsed: number | null,
+  usage: Usage,
 ) => {
   const { Box, Text } = el
   const groups = groupPhases(phases)
@@ -413,7 +459,7 @@ const band = (
       </Box>
       {shown.map(run => bandRow(el, run, step))}
       {jobs.map(job => importRow(el, job, step))}
-      {groups.map(g => localRow(el, g, g.map(l => localHref(l, known)).find(h => h !== null) ?? null, weekUsed))}
+      {groups.map(g => localRow(el, g, g.map(l => localHref(l, known)).find(h => h !== null) ?? null, usage))}
     </Box>
   )
 }
@@ -515,14 +561,61 @@ const tick = async ($: EngineInterface) => {
       // Not connected right now: the next tick tries again.
     }
   }
-  for (const run of Object.values(await read($, runs))) {
-    if (run.isTerminal) continue
+  // One list_lead_runs per server answers for all its runs at once; only a run that list leaves
+  // out (older than its newest 20) is asked for on its own. Fewer calls keep a busy server quiet.
+  const going = Object.values(await read($, runs)).filter(r => !r.isTerminal)
+  const byServer = new Map<string, RunView[]>()
+  for (const run of going) {
+    const server = run.server || configuredServer
+    byServer.set(server, [...(byServer.get(server) ?? []), run])
+  }
+  for (const [server, serverRuns] of byServer) {
+    const listed = new Set<string>()
+    const answered = new Set<string>()
     try {
-      const server = run.server || configuredServer
-      const status = await call($, server, 'get_lead_run_status', { lead_run_id: run.id })
-      if (status) await putRun($, status, server)
+      const answer = await call($, server, 'list_lead_runs', {})
+      for (const one of Array.isArray(answer?.runs) ? answer.runs : []) {
+        if (typeof one !== 'object' || one === null) continue
+        const row = one as Record<string, unknown>
+        const id = String(row.id ?? '')
+        if (!serverRuns.some(r => r.id === id)) continue
+        listed.add(id)
+        answered.add(id)
+        await putRun($, row, server)
+      }
     } catch {
       // Not connected right now: the next tick tries again.
+    }
+    for (const run of serverRuns) {
+      if (listed.has(run.id)) continue
+      try {
+        const status = await call($, server, 'get_lead_run_status', { lead_run_id: run.id })
+        if (status && String(status.id ?? status.lead_run_id ?? '') === run.id) {
+          answered.add(run.id)
+          await putRun($, status, server)
+        }
+      } catch {
+        // Not connected right now: the next tick tries again.
+      }
+    }
+    // A slow server answers through a background task the band never sees: without a check the band
+    // would ask forever and never learn the run ended. After MAX_MISSES rounds it stops asking.
+    for (const run of serverRuns) {
+      const misses = answered.has(run.id) ? 0 : (missedRounds.get(run.id) ?? 0) + 1
+      missedRounds.set(run.id, misses)
+      if (misses < MAX_MISSES) continue
+      await update($, runs, all => {
+        const current = all[run.id]
+        if (current === undefined || current.isTerminal) return all
+        const stale: RunView = {
+          ...current,
+          status: 'stand_unbekannt',
+          isTerminal: true,
+          finishedAt: Date.now(),
+          reason: 'Server antwortet nicht rechtzeitig – /outreach-runs lädt den Stand neu.',
+        }
+        return { ...all, [run.id]: stale }
+      })
     }
   }
   const now = Date.now()
@@ -656,7 +749,7 @@ const reportProgress = async ($: EngineInterface, input: ProgressInput): Promise
     isTerminal: false,
     finishedAt: null,
     server: '',
-    weekStartPercent: await weekPercent($),
+    ...(await usageNow($).then(u => ({ weekStartPercent: u.week, sessionStartPercent: u.session }))),
   }
   await update($, locals, all => ({ ...all, [key]: local }))
   spin($)
@@ -788,6 +881,7 @@ export const register: Register = (on, options) => {
   knownServers = new Map()
   poller = null
   spinner = null
+  missedRounds.clear()
   base = String(options.appUrl ?? 'https://outreach.akquise.de')
 
   // A standalone tool row: our card in place of the engine's result block.
@@ -842,7 +936,7 @@ export const register: Register = (on, options) => {
     try {
       await $.command.register({
         name: 'outreach-runs',
-        description: 'Laufende Outreach-Lead-Runs über dem Prompt anzeigen',
+        description: 'Laufende Outreach-Läufe über dem Prompt anzeigen; „zu“ klappt das Band auf eine Zeile ein, „auf“ wieder auf',
       })
     } catch {
       // Without the command, runs still join the band when Claude checks them.
@@ -857,7 +951,14 @@ export const register: Register = (on, options) => {
 
 
   // One command, no wording needed: every run still going appears in the band.
-  on('command.run', { command: 'outreach-runs' }, async $ => {
+  // „zu“ shrinks the band to one line, „auf“ (or the bare command) opens it again.
+  on('command.run', { command: 'outreach-runs' }, async ($, e) => {
+    const arg = (e.args ?? '').trim().toLowerCase()
+    if (arg === 'zu' || arg === 'ein' || arg === 'einklappen') {
+      await update($, folded, () => true)
+      return { text: 'Outreach-Band eingeklappt – `/outreach-runs auf` klappt es wieder auf.' }
+    }
+    await update($, folded, () => false)
     let active = 0
     let reached = 0
     for (const server of await akquiseServers($)) {
@@ -915,7 +1016,8 @@ export const register: Register = (on, options) => {
     const jobs = bandImports(Object.values(await read($, imports)))
     const phases = bandPhases(Object.values(await read($, locals)))
     if (e.props.hasSurvey || shown.length + jobs.length + phases.length === 0) return next(e)
-    const weekUsed = phases.some(l => l.weekStartPercent !== null) ? await weekPercent($) : null
-    return band($.ui.resolve(e), shown, jobs, phases, await read($, frame), await read($, origins), weekUsed)
+    if (await read($, folded)) return foldedBand($.ui.resolve(e), shown, jobs, phases)
+    const usage = phases.length > 0 ? await usageNow($) : { session: null, week: null }
+    return band($.ui.resolve(e), shown, jobs, phases, await read($, frame), await read($, origins), usage)
   })
 }

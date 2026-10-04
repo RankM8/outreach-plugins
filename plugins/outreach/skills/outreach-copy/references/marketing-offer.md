@@ -113,7 +113,7 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 
 **Wann:** Neues Produkt, wenig Referenzen, oder wenn man Exklusivität als Narrativ nutzen will.
 
-**Mechanik:** Der Empfänger wird als Auserwählter positioniert. Begrenzte Plätze schaffen natürliche Dringlichkeit.
+**Mechanik:** Der Empfänger wird als Auserwählter positioniert. Begrenzte Plätze schaffen natürliche Dringlichkeit, aber nur, wenn die Plätze wirklich begrenzt sind; künstliche Knappheit („noch ein Platz frei“) ist tabu.
 
 | Baustein | Vorlage |
 |:---------|:--------|

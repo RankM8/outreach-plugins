@@ -1,22 +1,23 @@
 # Changelog
 
-## 2026-10-04 – outreach 0.3.3
+## 2026-10-04 – outreach 0.3.6
 
 **outreach** (Kontrolllauf über 12 Testkampagnen)
+- `marketing-offer.md` → Karte B: Begrenzte Plätze erzeugen Dringlichkeit nur, wenn die Plätze wirklich begrenzt sind; keine künstliche Knappheit.
 - `outreach-copy` → Anrede: Der feste Text nennt den Empfänger nur mit einer Bezeichnung, die auf jeden Lead der Liste passt. Mischt die Zielgruppe Firmen und Einzelpersonen (Agenturen und Freelancer), heißt es „dein Business“ oder „für dich“ statt „deine Agentur“.
 - `outreach-research`, `lead-agent`: Eine öffentlich belegte persönliche Adresse der empfohlenen Entscheidungsperson, auch Freemail, ersetzt eine allgemeine Importadresse (info@, kontakt@); die Importadresse bleibt Zweitadresse. Eine persönliche Importadresse bleibt Versandadresse.
 
-## 2026-10-04 – outreach 0.3.2
+## 2026-10-04 – outreach 0.3.5
 
 **outreach** (Sequenz, Anrede und Adressregel nach den Entscheidungen des Inhabers)
-- `outreach-copy` → Sequenz: Standard sind 4 Steps statt 5: Step 1 Entry (eigener Betreff, neuer Thread), Step 2 Erinnerung (Betreff leer, Thread von Mail 1), Step 3 neuer Winkel mit Social Proof (NEUER Thread mit eigenem kurzem Betreff, z. B. „kurzes Update“), Step 4 Abschied mit Routing-Hinweis (Betreff leer, Thread von Mail 3). `delayDays` 0/3/5/7, Wortlimits 120/50/80/60. „Dringlichkeit“ ist kein Standard-Step mehr, sondern nur ein zusätzlicher Step, wenn der Nutzer einen echten Zeit- oder Kapazitätsgrund nennt. Das ersetzt die Regel „alle Follow-up-Betreffs leer“ aus 0.3.1 und die 5-Step-Struktur. Begründung aus der Praxis: Eric Nowoslawski arbeitet mit 2 bis 3 Mails und nie alle im selben Thread, Jay mit 4 Steps und Routing, ohne künstliche Knappheit. Der Routing-Hinweis steht jetzt als fester Satz im Abschied; die Variable `routing` mit belegten Namen bleibt die Ausbaustufe (`routing-baustein.md`).
+- `outreach-copy` → Sequenz: Standard sind 4 Steps statt 5: Step 1 Entry (eigener Betreff, neuer Thread), Step 2 Erinnerung (Betreff leer, Thread von Mail 1), Step 3 neuer Winkel mit Social Proof (NEUER Thread mit eigenem kurzem Betreff, z. B. „kurzes Update“), Step 4 Abschied mit Routing-Hinweis (Betreff leer, Thread von Mail 3). `delayDays` 0/3/5/7, Wortlimits 120/50/80/60. „Dringlichkeit“ ist kein Standard-Step mehr, sondern nur ein zusätzlicher Step, wenn der Nutzer einen echten Zeit- oder Kapazitätsgrund nennt. Das ersetzt die Regel „alle Follow-up-Betreffs leer“ aus 0.3.4 und die 5-Step-Struktur. Begründung aus der Praxis: Eric Nowoslawski arbeitet mit 2 bis 3 Mails und nie alle im selben Thread, Jay mit 4 Steps und Routing, ohne künstliche Knappheit. Der Routing-Hinweis steht jetzt als fester Satz im Abschied; die Variable `routing` mit belegten Namen bleibt die Ausbaustufe (`routing-baustein.md`).
 - `outreach-copy` → Anrede: Standard ist du im Singular. Ohne benennbaren Ansprechpartner lautet der Gruß „Hallo,“ und der Text bleibt im Singular („dein Team“, „dein Betrieb“). Der Team-Modus (ihr/euch, „Hallo <Firma> Team,“, „Hallo zusammen,“) entfällt in `outreach-copy`, `outreach-campaign`, `outreach-generate`, `outreach-verify`, `lead-agent` und den Beispielen. Die Sie-Form gilt nur als Wahl je Kampagne für sehr große Unternehmen, nie automatisch je Lead. Alle Beispiele in `copy-lehre.md` von „ihr/euch“ auf du umgestellt.
 - `outreach-copy` → Betreff: „kurze Frage“ bleibt Standard für Step 1. Als Testmöglichkeit beim echten Versand in Instantly von Hand eine Variante B „Frage zu {{firma}}“ (braucht die Variable `firma`), nur als Hinweis, keine Pflicht.
 - `outreach-research`, `lead-agent`: Gehört die Importadresse laut Recherche belegt einem Dritten (Kammer, Verband, Portal, Agentur, andere Firma) und gibt es keine eigene belegte Adresse, entsteht keine Mail; `bestEmail` bleibt leer, die Recherche vermerkt es. Eine eigene DNS- oder MX-Prüfung gibt es nicht. Der ListM8-Server setzt die Regel in der E-Mail-Stufe um.
 - Gleichstand: `outreach-campaign`, `outreach-generate`, `outreach-verify`, `outreach-launch`, `marketing-offer.md`, `routing-baustein.md` und `beispiel-blueprint.md` (jetzt 4 Steps, Step 3 „kurzes Update“, Abschied mit Routing) auf Sequenz und Anrede angeglichen.
 - Hinweis: Betreff in Step 3 und leere Betreffs in Step 2 und 4 setzen voraus, dass der ListM8-Server sie beim Blueprint-Import annimmt (Betreff ab Step 2 darf leer sein, Step 3 darf einen eigenen tragen).
 
-## 2026-10-04 – outreach 0.3.1
+## 2026-10-04 – outreach 0.3.4
 
 **outreach** (Copy-SOPs nach dem Testfeld korrigiert)
 - `outreach-copy`: Betreff nur in Step 1, keine Ankündigung oder Ergebnisansage („Website für …“), Standard „kurze Frage“ (Buchungssystem als Kern: „Frage zur Terminbuchung“). Firmenname im Betreff nur über `{{ai.firma}}`, nie über das rohe `{{lead.company}}`; ohne `firma` „kurze Frage“. Follow-ups (Step 2-5) haben keinen Betreff und laufen im Thread. Betreff-Beispiele in `SKILL.md`, `copy-lehre.md`, `marketing-offer.md` und `beispiel-blueprint.md` angeglichen (Karte C hatte zwei verschiedene Betreffs).
@@ -24,6 +25,22 @@
 - `outreach-campaign`: Variable `firma` kürzt die Rechtsform ohne Wortrest, macht aus einer Domain die Marke, übernimmt einen neueren Namen aus Impressum oder Recherche, nimmt bei langen Namen den Markenkern und schreibt Versalien normal (Abkürzungen bis 4 Buchstaben bleiben). Neu: abgeleitete oder geklonte Kampagnen gegen das neue Offer prüfen (kein Offer-Rest im Prompt).
 - `outreach-campaign` → Qualifizierung: Ausschlussgründe nur, was ein Agent öffentlich prüfen kann (nie Kontaktsperre oder Bestandskunde); Konzern (fremde Muttergesellschaft, Franchise, Börse) und Größenschwelle als getrennte Punkte; Nachbarbetriebe der Branche ausdrücklich ausschließen; kein Ausschlussgrund schließt den Bedarf aus, den das Angebot löst; „Selbstzahlerleistung erkennbar“ ist ein Fit-Kriterium; keine Adress- oder Pipeline-Anweisungen im `additional_prompt`.
 - Hinweis: Leere Betreffs in Step 2-5 setzen voraus, dass der ListM8-Server sie beim Blueprint-Import annimmt.
+
+## 2026-10-04 – outreach 0.3.3
+
+**outreach** (Live-Ansicht in Claude Code)
+- Abo-Lauf im Band zeigt den Stand beider Abo-Fenster („5 h 12 % · Woche 43 %“) und die Zunahme seit Laufbeginn, sobald sie messbar ist (ab 0,1 Punkten). Vorher stand dort nur die Zunahme der Woche, die bei kleinen Läufen immer „+0,0 %“ zeigte. Die Fenster zählen das ganze Konto, parallel laufende Sitzungen erscheinen mit.
+
+## 2026-10-04 – outreach 0.3.2
+
+**outreach** (Live-Ansicht in Claude Code)
+- Band fragt laufende Server-Läufe mit EINEM `list_lead_runs` je Server und Runde ab statt einem `get_lead_run_status` je Lauf; einzeln nur, wer in der Liste fehlt. Abfrage alle 20 statt 10 Sekunden.
+- Antwortet ein ausgelasteter Server nur noch über eine Hintergrundaufgabe (der Mod sieht dann keinen Status), hört das Band nach drei Runden ohne verwertbare Antwort auf, den Lauf abzufragen, und zeigt „Stand unbekannt“; `/outreach-runs` lädt neu. Vorher fragte es fertige Läufe endlos weiter ab, und jede Antwort landete als Meldung im Chat.
+
+## 2026-10-04 – outreach 0.3.1
+
+**outreach** (Live-Ansicht in Claude Code)
+- `/outreach-runs zu` klappt das Band auf eine Zeile ein („Outreach · 13 Läufe · 4 laufen · eingeklappt“), `/outreach-runs auf` bzw. `/outreach-runs` klappt es wieder auf und lädt die laufenden Läufe neu. Das Abfragen läuft im eingeklappten Zustand weiter. Daneben bleibt das Einklappen von Claude Code selbst (`[−]`, Strg+X Strg+A).
 
 ## 2026-10-04 – outreach 0.3.0
 

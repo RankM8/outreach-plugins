@@ -63,6 +63,8 @@ export type LocalRun = {
   server: string
   /** Share of the weekly subscription window used when the phase began; null off a subscription. */
   weekStartPercent: number | null
+  /** Share of the five-hour subscription window used when the phase began; null off a subscription. */
+  sessionStartPercent: number | null
 }
 
 declare module 'claude-code' {
@@ -78,6 +80,8 @@ declare module 'claude-code' {
       origins: Record<string, string>
       /** Spinner frame of the band, advanced only while a run is going. */
       frame: number
+      /** The band shrunk to one summary line (`/outreach-runs zu`); `/outreach-runs auf` opens it again. */
+      folded: boolean
     }
   }
 }

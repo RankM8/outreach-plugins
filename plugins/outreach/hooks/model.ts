@@ -68,6 +68,7 @@ export const RUN_STATUS_LABEL: Record<string, string> = {
   limit_exhausted: 'Planlimit erreicht',
   provider_exhausted: 'KI-Anbieter nicht verfügbar',
   failed: 'fehlgeschlagen',
+  stand_unbekannt: 'Stand unbekannt',
 }
 
 export const STAGE_LABEL: Record<string, string> = {
