@@ -74,7 +74,8 @@ Dem Nutzer die Stichprobe zeigen (Firma, Website, passt/passt-nicht mit einem Ha
 
 - MIT MCP: `check_leads_exist` (Autoritäts-Check) → `create_list` (mit Herkunft + realen Kosten) →
   `import_leads(leads, list_id, attribute_mappings)` → `get_job_status` bis `completed` → Report-Zahlen
-  (`imported`, `duplicates`, `linked_to_list`, `do_not_contact_hits`) 1:1 berichten.
+  berichten: `imported`, `linked_to_list` sowie die Anzahl der Einträge in den Listen `duplicates`
+  und `do_not_contact_hits`.
   Signaturen: `listm8-mcp.md`. In eine Kampagne (`add_leads_to_campaign`) nur auf ausdrücklichen Wunsch.
 - OHNE MCP: finale CSV liefern + Import-Anleitung, mit dem ehrlichen Hinweis, welche Prüfungen
   (Bestand, do_not_contact) erst der App-Import übernimmt.

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.1.6, datenbeschaffung 0.1.2
+
+**outreach**
+- `outreach-import`: Job-Ergebnis richtig beschrieben – `duplicates`, `internalDuplicates`, `do_not_contact_hits` und `errors` sind Listen, berichtet wird ihre Anzahl; `consolidated` erklärt. Import meldet keinen Prozentwert, nur den Status.
+- `outreach-import`: realistische Paketgröße im Chat (etwa 100–300 Leads je Aufruf, jeder Lead kostet Kontext); bei mehreren Tausend Zeilen den CSV-Import der App empfehlen und hier nur vorbereiten.
+
+**datenbeschaffung**
+- Übergabe an Outreach (`outreach-uebergabe.md`, `listm8-mcp.md`, `listen-qualitaet`): dieselbe Korrektur der Job-Ergebnis-Felder.
+
 ## 2026-10-04 – outreach 0.1.5
 
 **outreach** (Live-Ansicht in Claude Code)

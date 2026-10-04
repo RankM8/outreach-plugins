@@ -76,9 +76,10 @@ import_leads(leads=[...], list_id=<id>, attribute_mappings={
 Existiert ein Attribut aus einem früheren Lauf bereits, statt `create_new` auf das
 vorhandene Attribut mappen: `{"action":"map_existing","fieldKey":"<bestehender_key>"}`.
 
-Der Job-Report (`result` aus `get_job_status`) liefert `imported`, `consolidated`, `duplicates`
-(nur verlinkt, nie doppelt), `internalDuplicates`, `linked_to_list` und `do_not_contact_hits` —
-die Zahlen 1:1 an den Nutzer berichten. Importieren startet keine KI-Verarbeitung.
+Der Job-Report (`result` aus `get_job_status`) liefert die Zahlen `imported`, `consolidated` und
+`total`, dazu `linked_to_list` und die **Listen** `duplicates` (nur verlinkt, nie doppelt),
+`internalDuplicates`, `do_not_contact_hits` und `errors` – davon die Anzahl der Einträge berichten.
+Importieren startet keine KI-Verarbeitung.
 
 ### 4. Optional: direkt in eine Kampagne
 

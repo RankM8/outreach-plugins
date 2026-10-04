@@ -21,6 +21,8 @@ Dieser Skill lädt Lead-Listen über das MCP-Tool `import_leads` (Scope `leads:w
 
 Keine Dateipfade oder URLs an den Server übergeben: `import_leads` erhält ein JSON-Array von Lead-Objekten (max. 10.000 pro Call).
 
+**Menge realistisch einschätzen:** Jeder Lead steht als Text im Tool-Aufruf und kostet Kontext (grob 50–100 Tokens je Lead). Bis etwa 300 Leads pro Aufruf ist das unproblematisch. Bei mehreren Tausend Zeilen ist der Weg über den Chat unpraktisch – dann dem Nutzer den CSV-Import in der App empfehlen (Leads → Importieren; gleicher Import samt Dedup im Hintergrund) und nur die Vorbereitung (Spalten-Mapping, Bereinigung, Vorab-Dedup) hier erledigen.
+
 1. CSV/XLSX mit Read/Bash lesen; Trennzeichen und Encoding prüfen (UTF-8 sicherstellen, Umlaute!). XLSX lokal in JSON umwandeln.
 2. Spalten auf Kernfelder mappen: `email` (Pflicht), `company`, `website`, `phoneNumber`, `city`.
    Outscraper-Referenz-Mapping: `name`→company, `site`→website, `phone`→phoneNumber, `city`→city. Bei Apify-Exporten die Spaltennamen des jeweiligen Actors prüfen.
@@ -40,7 +42,7 @@ import_leads(leads=[…], campaign_id=…, list_id=…, attribute_mappings={…}
 ```
 
 - `list_id` für beschaffte Listen immer setzen (Herkunft + späteres Aufräumen via `delete_list`); die Liste vorher mit `create_list` anlegen und die Herkunft in `source` festhalten. Listen-Verwaltung: `/outreach-lists`.
-- Größere Datenmengen in Chunks (z. B. 1.000–5.000) sequentiell importieren und jeweils den Job abwarten; so bleibt ein Fehler eingrenzbar.
+- Mehrere Pakete sequentiell importieren (Größe siehe Phase 1, im Chat etwa 100–300 je Aufruf) und jeweils den Job abwarten; so bleibt ein Fehler eingrenzbar.
 - Response: `job_id` (der Import läuft asynchron) und `received`; bei den Links der Antwort (`appUrl`) kann der Nutzer den Stand in der Oberfläche sehen.
 - Dedup macht das Backend: listenintern und gegen bestehende Leads; bestehende Leads werden nur zur Kampagne bzw. Liste verlinkt (kein Duplikat, keine Feld-Überschreibung). `do_not_contact`-Leads werden nicht in Kampagnen aufgenommen und im Ergebnis gemeldet.
 
@@ -48,8 +50,12 @@ import_leads(leads=[…], campaign_id=…, list_id=…, attribute_mappings={…}
 
 Der Import ist ERST fertig, wenn der Job es sagt — nie nach festem Warten zählen:
 
-1. `get_job_status(job_id)` pollen (anfangs alle ~5 s, bei großen Imports alle 15–30 s), bis `status` = `completed` oder `failed`. Ein 10.000er-Import kann mehrere Minuten laufen.
-2. Das Job-Result enthält die Wahrheit: `imported`, `consolidated`, `total`, `duplicates` und `internalDuplicates` (nur verlinkt bzw. listenintern), `linked_to_list` (bei `list_id`: `list_id`, `name`, `newly_linked`), `do_not_contact_hits` (Bestands-Leads mit Kontaktsperre) und `errors`. Diese Zahlen 1:1 an den Nutzer berichten — NICHT stattdessen `list_leads` zählen (während der Job läuft, fehlen Leads, und der Report würde Doppel-Importe provozieren).
+1. `get_job_status(job_id)` pollen (anfangs alle ~5 s, bei großen Imports alle 15–30 s), bis `status` = `completed` oder `failed`. Kleine Imports sind oft nach Sekunden fertig, ein 10.000er kann mehrere Minuten laufen. Einen Prozentwert meldet der Import nicht – nicht auf einen Fortschritt warten, nur auf den Status. In Claude Code mit Plugin `outreach` zeigt das Band den Stand selbst an; dort reicht eine Abfrage am Ende für den Report.
+2. Das Job-Result enthält die Wahrheit:
+   - Zahlen: `imported`, `consolidated` (bereits bekannte Leads, die mit dem Bestand zusammengeführt wurden), `total`.
+   - **Listen, keine Zahlen:** `duplicates` (Zeilen, die als Bestands-Lead nur verlinkt wurden), `internalDuplicates` (doppelt in der Datei), `do_not_contact_hits` (Bestands-Leads mit Kontaktsperre), `errors` (Zeilenfehler als Text). Im Report die **Anzahl** der Einträge nennen, bei wenigen Treffern auch die Adressen.
+   - `linked_to_list` (bei `list_id`: `list_id`, `name`, `newly_linked`).
+   Diese Werte an den Nutzer berichten — NICHT stattdessen `list_leads` zählen (während der Job läuft, fehlen Leads, und der Report würde Doppel-Importe provozieren).
 3. Optional zur Sichtkontrolle danach: `list_leads(campaign_id, fit_level="", research_status="", campaign_status="processing")`.
 4. Report: übergeben / importiert / Duplikate / do_not_contact-Treffer / vorab entfernte ungültige Zeilen / `job_id`.
 

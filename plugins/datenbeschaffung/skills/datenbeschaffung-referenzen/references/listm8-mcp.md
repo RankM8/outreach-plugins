@@ -159,11 +159,11 @@ Antwort: `job_id`, `appUrl`, `type`, `status` (`pending`, `processing`, `complet
 | `imported` | Neu importierte Leads |
 | `consolidated` | Mit bestehenden Leads zusammengeführte Zeilen |
 | `total` | Zeilen im Aufruf |
-| `duplicates` | Bereits vorhandene Leads (werden nie doppelt angelegt) |
-| `internalDuplicates` | Dubletten innerhalb der Eingabe |
-| `do_not_contact_hits` | Treffer mit `do_not_contact` (`leadId`, `email`) |
+| `duplicates` | Liste der Zeilen, die als Bestands-Lead nur verlinkt wurden (nie doppelt angelegt) – Anzahl = Länge |
+| `internalDuplicates` | Liste der Dubletten innerhalb der Eingabe |
+| `do_not_contact_hits` | Liste der Treffer mit `do_not_contact` (`leadId`, `email`) |
 | `linked_to_list` | Bei `list_id`: `list_id`, `name`, `newly_linked`; sonst null |
-| `errors` | Zeilenfehler |
+| `errors` | Liste der Zeilenfehler (Text) |
 
 ## Nachbearbeiten
 
