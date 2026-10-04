@@ -43,7 +43,7 @@ bei dir richtig bin oder eher bei <Name 1> oder <Name 2>. Gib mir gern kurz Besc
 Bei nur einer Person die zweite Alternative weglassen.
 Fall B, keine belegten Alternativen und Zuständigkeit unklar: exakt 'sag mir gern kurz Bescheid,
 falls ich mich damit besser bei jemand anderem im Team melden sollte.'
-Fall C, Solo-Betrieb oder eindeutig zuständiger Empfänger: keine künstliche Unsicherheit; stattdessen
+Fall C, Solo-Betrieb, eindeutig zuständiger Empfänger oder Recherche-Vermerk „Routing nicht sinnvoll“: keine künstliche Unsicherheit; stattdessen
 eine weiche Nachfrage zum Angebot, '<möchtest du dir … ansehen? Ich schicke dir gern …>'.
 Namen nur aus belegter aktueller Firmenzugehörigkeit mit passender Rolle; nie den Empfänger selbst.
 Kein leerer Wert, keine Platzhalter, kein erneuter Pitch, keine Frist, keine Gedankenstriche.
