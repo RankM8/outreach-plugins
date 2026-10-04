@@ -44,7 +44,7 @@ aktualisieren (Skill `outreach-update`).
 
 | Quelle | Steuert |
 |---|---|
-| Skill `outreach-copy` (dazu `references/copy-lehre.md`, `references/marketing-offer.md`, `references/beispiel-blueprint.md` dort) | Sequenz, Betreffzeilen, Signatur, `emailAgentConfig.salutation`, Prompts der AI-Variablen |
+| Skill `outreach-copy` (dazu `references/copy-lehre.md`, `references/marketing-offer.md`, `references/beispiel-blueprint.md`, `references/routing-baustein.md` dort) | Sequenz, Betreffzeilen, Signatur, `emailAgentConfig.salutation`, Prompts der AI-Variablen |
 | `references/copywriting.md` (hier) | nur Verweis auf `outreach-copy` |
 | `references/qualifizierung.md` | `qualificationSettings`: inklusiv formulieren, Disqualifier nur harte No-Gos — die Qualifizierung ist ein OFFENER Vorfilter |
 | `references/research.md` | `researchAgentConfig`: Anker-Hierarchie (Bewertungen zuerst), Anker positiv, Schmerzpunkte getrennt |
@@ -105,6 +105,7 @@ Struktur (Schema v1 — die vollständige Referenz liefert der MCP-Prompt `campa
 - Jeder Schritt braucht einen nicht leeren `subject` (String); `delayUnit` ist `days` oder `hours`, `delayDays` eine ganze Zahl >= 0.
 - `agentKey` in den Configs WEGLASSEN, außer der Nutzer nennt ausdrücklich einen bestehenden Agenten. Unbekannte oder deaktivierte Keys werden mit `validation_failed` abgelehnt; ohne Key greifen die Standard-Agenten.
 - Max. 25 Variablen und 25 Steps je Kampagne.
+- **Routing-Follow-up** (optional, bei Zielgruppen mit Teams dem Nutzer anbieten): AI-Variable `routing` nach `hallo`/`intro`, Step 4 mit Body `{{ai.hallo}}\n\n{{ai.routing}}` und im `researchAgentConfig.additionalPrompt` das Ziel „höchstens zwei andere zuständige Personen mit Name, Rolle, Quelle“. Alle drei Teile gehören zusammen; Vorlage in `outreach-copy` → `references/routing-baustein.md`.
 - `qualificationSettings` IMMER mit den kanonischen snake_case-Schlüsseln füllen: `target_customer_profile`, `offer_summary`, `fit_criteria`, `disqualifiers`, `additional_prompt` (optional `taxonomy_instructions`). Die camelCase-Aliasse (`idealCustomer`, `offerSummary`, `fitCriteria`, `additionalInstructions`, `taxonomyInstructions`) wertet die Laufzeit zwar aus, die Oberfläche zeigt die Felder dann aber als „Noch nicht ausgefüllt". Auch wenn der `campaign_blueprint_guide` die Aliasse nennt: kanonisch schreiben.
 - Recherche-Auftrag als `researchAgentConfig.additionalPrompt` setzen, nicht nur als `researchGoals`/`researchPriorities`: sonst zeigt die Oberfläche „Standard-Prompt aktiv". E-Mail-Ton, Sprache und Ansprache gehören in `emailAgentConfig` (`emailTone`, `emailLanguage`, `salutation`, ggf. `additionalPrompt`).
 

@@ -305,6 +305,10 @@ Genau 5 Steps mit festen Rollen. `delayDays` ist die Wartezeit VOR dem Step (kum
   Steps 1 bis 4.
 - Fehlt dem Nutzer ein echter Beleg für Step 3 oder ein echter Grund für Step 4: nachfragen,
   nicht erfinden.
+- **Routing-Follow-up** („bin ich bei dir richtig oder eher bei Anna oder Tom?“): bei Zielgruppen
+  mit Teams als Step 4 an Stelle von „Dringlichkeit“ anbieten, besonders wenn kein echter
+  Dringlichkeitsgrund da ist. Braucht ein Recherche-Ziel und die AI-Variable `routing`; Vorlage und
+  Regeln in `references/routing-baustein.md`.
 
 ## Betreffzeilen
 

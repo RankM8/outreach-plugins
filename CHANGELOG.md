@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.1.7
+
+**outreach**
+- Neuer Baustein Routing-Follow-up („bin ich bei dir richtig oder eher bei Anna oder Tom?“): `outreach-copy/references/routing-baustein.md` mit Einsatzfällen, Platz in der Sequenz (Step 4 statt „Dringlichkeit“), Recherche-Ziel, Prompt-Vorlage der Variable `routing` (Fälle mit Namen, Team, Solo) und Erfahrungswerten. `outreach-copy` und `outreach-campaign` verweisen darauf und bieten ihn bei Zielgruppen mit Teams an.
+
 ## 2026-10-04 – outreach 0.1.6, datenbeschaffung 0.1.2
 
 **outreach**
