@@ -499,6 +499,23 @@ describe('local workflow phases', () => {
     expect(await band.find({ text: 'alle beendet' })).toBeDefined()
     await band.unmount()
   })
+
+  test('a verify phase counts each verdict once and shows the outcomes, though nothing is written', async ($, on) => {
+    engineDraws(on)
+    mock.clock(on)
+    await progress($, { action: 'start', campaign_id: 7, phase: 'verify', total: 3 })
+    await progress($, { action: 'verdict', campaign_id: 7, lead_id: 1, outcome: 'freigeben' })
+    await progress($, { action: 'verdict', campaign_id: 7, lead_id: 2, outcome: 'hinweis' })
+    await progress($, { action: 'verdict', campaign_id: 7, lead_id: 2, outcome: 'hinweis' })
+    let band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: /2 geprüft · 1 frei · 1 Hinweis/ })).toBeDefined()
+    expect(await band.find({ text: /Prüf 2\/3/ })).toBeDefined()
+    await band.unmount()
+    await progress($, { action: 'verdict', campaign_id: 7, lead_id: 3, outcome: 'ablehnen' })
+    band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: /3 geprüft · 1 frei · 1 abgelehnt · 1 Hinweis/ })).toBeDefined()
+    await band.unmount()
+  })
 })
 
 describe('imports', () => {

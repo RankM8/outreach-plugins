@@ -20,7 +20,10 @@ Er schreibt nie Texte, liest `get_lead_variables` und `export_campaign_blueprint
 die Recherche, Person, Kampagnenregeln, Copy und Versandhinweise und antwortet mit einer Zeile
 `URTEIL lead=… ergebnis=<freigeben|ablehnen|hinweis> geschrieben=… grund=…`.
 
-1. Kampagnenprüfung (Copy-Prüfung unten) einmal vorab, nicht je Lead.
+1. Kampagnenprüfung (Copy-Prüfung unten) einmal vorab, nicht je Lead. Gibt es `outreach_progress`, die
+   Phase mit `outreach_progress(action="start", campaign_id, phase="verify", total=<Leads>)` anmelden; jeder
+   Agent meldet sein Urteil selbst (`action="verdict"`), das Band zeigt geprüft / frei / abgelehnt / Hinweis.
+   Nach dem Bericht die Phase mit `action="end"` schließen.
 2. Leads wie in Phase 2 laden, dann je Lead ein Agent mit dem Auftrag
    „Kampagne <id>, Lead <id> (<Firma>). Server: <name>. Modus: nur Urteil“ bzw. „Modus: entscheiden“.
    Höchstens 10 gleichzeitig (`run_in_background: true`), bei vielen Leads als Workflow mit

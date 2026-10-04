@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.14
+
+**outreach**
+- Band → neue Phase „Prüfung“ (`verify`): `outreach_progress(action="start", phase="verify")` meldet einen Verify-Lauf an; jeder `verify-agent` meldet sein Urteil mit `action="verdict"` (auch im Modus „nur Urteil“, der nichts schreibt), approve/reject zählen ebenfalls. Die Zeile zeigt „N geprüft · x frei · y abgelehnt · z Hinweis“.
+- `verify-agent` → Versandadresse: maßgeblich ist `lead.sendingEmail` aus `get_lead_variables` (persönliche Adresse aus der Recherche), nicht die Importadresse `lead.email`. Braucht den ListM8-Server mit `sendingEmail` in `get_lead_variables`; ohne das Feld gilt weiter `lead.email`.
+- `outreach-verify`: meldet die Phase „Prüfung“ an und schließt sie nach dem Bericht.
+
 ## 2026-10-04 – outreach 0.3.13
 
 **outreach**

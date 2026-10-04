@@ -1,7 +1,7 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
-import type { ImportView, LocalRun, RunView, StageView } from '../types'
+import type { ImportView, LocalRun, RunView, StageView, Verdict } from '../types'
 import {
   BRAND,
   FIT_LABEL,
@@ -56,6 +56,7 @@ const SIGNATURE = ['list_leads', 'start_lead_run', 'get_lead_run_status'] as con
 const OUR_TOOLS = new Set([
   'list_leads', 'search_leads', 'get_lead_data', 'start_lead_run', 'get_lead_run_status', 'cancel_lead_run',
   'list_lead_runs', 'import_leads', 'get_job_status', 'write_lead_details', 'save_lead_variables',
+  'approve_lead_variables', 'reject_lead_variables',
 ])
 let knownServers = new Map<string, boolean>()
 
@@ -319,7 +320,7 @@ const localHref = (local: LocalRun, known: Record<string, string>) => {
   return origin === undefined ? null : appLink(origin, `/campaigns/${local.campaignId}/leads`)
 }
 
-const PHASE_SHORT: Record<string, string> = { qualification: 'Qual', research: 'Rech', email: 'Mail' }
+const PHASE_SHORT: Record<string, string> = { qualification: 'Qual', research: 'Rech', email: 'Mail', verify: 'Prüf' }
 
 /** The phases of one campaign's run in the subscription, in the order they happen. */
 const groupPhases = (phases: LocalRun[]): LocalRun[][] => {
@@ -345,7 +346,16 @@ const localRow = (el: El, group: LocalRun[], href: string | null, usage: Usage) 
   const complete = group.every(l => l.doneLeadIds.length + l.skippedLeadIds.length >= l.total)
   const color = isTerminal ? (complete ? BRAND.done : BRAND.warn) : BRAND.local
   const [doneCells, asideCells, restCells] = barCells(total, done, skipped, 14)
-  const state = `${done} fertig${skipped > 0 ? ` · ${skipped} aussortiert` : ''}`
+  const verdicts = Object.values(last.verdicts ?? {})
+  const tally = (v: Verdict) => verdicts.filter(x => x === v).length
+  const state =
+    last.phase === 'verify'
+      ? `${done} geprüft` +
+        [['frei', tally('freigeben')], ['abgelehnt', tally('ablehnen')], ['Hinweis', tally('hinweis')]]
+          .filter(([, n]) => Number(n) > 0)
+          .map(([label, n]) => ` · ${n} ${label}`)
+          .join('')
+      : `${done} fertig${skipped > 0 ? ` · ${skipped} aussortiert` : ''}`
   const stages = group
     .map(l => `${PHASE_SHORT[l.phase] ?? l.phase} ${l.doneLeadIds.length}/${l.total - l.skippedLeadIds.length}`)
     .join(' · ')
@@ -646,7 +656,7 @@ const learnOrigin = async ($: EngineInterface, server: string, payload: Record<s
 const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v)
 
 
-const PHASES = ['qualification', 'research', 'email'] as const
+const PHASES = ['qualification', 'research', 'email', 'verify'] as const
 type Phase = (typeof PHASES)[number]
 
 const localKey = (campaignId: number, phase: Phase) => `${campaignId}:${phase}`
@@ -654,6 +664,7 @@ const localKey = (campaignId: number, phase: Phase) => `${campaignId}:${phase}`
 /** Which phase a successful write belongs to: email variables, a verdict, or research. */
 const phaseOfWrite = (name: string | null, input: Record<string, unknown>): Phase | null => {
   if (name === 'save_lead_variables') return 'email'
+  if (name === 'approve_lead_variables' || name === 'reject_lead_variables') return 'verify'
   if (name !== 'write_lead_details' || input.dry_run === true) return null
   const fields = typeof input.fields === 'object' && input.fields !== null ? Object.keys(input.fields) : []
   return fields.some(f => f.startsWith('qualification')) ? 'qualification' : 'research'
@@ -714,13 +725,45 @@ const endLocal = async ($: EngineInterface, local: LocalRun) => {
   )
 }
 
-type ProgressInput = { campaign_id?: unknown; phase?: unknown; total?: unknown; action?: unknown }
+type ProgressInput = {
+  campaign_id?: unknown
+  phase?: unknown
+  total?: unknown
+  action?: unknown
+  lead_id?: unknown
+  outcome?: unknown
+}
+
+const VERDICTS: readonly Verdict[] = ['freigeben', 'ablehnen', 'hinweis']
+
+/** A verify agent's verdict for one lead: counts the lead as checked and keeps the outcome for the row. */
+const recordVerdict = async ($: EngineInterface, input: ProgressInput): Promise<string> => {
+  const campaignId = Number(input.campaign_id)
+  const leadId = Number(input.lead_id)
+  const outcome = VERDICTS.find(v => v === input.outcome)
+  if (!Number.isFinite(campaignId) || !Number.isFinite(leadId) || outcome === undefined) {
+    return 'campaign_id, lead_id und outcome (freigeben|ablehnen|hinweis) angeben.'
+  }
+  const key = localKey(campaignId, 'verify')
+  let ended: LocalRun | null = null
+  await update($, locals, all => {
+    const local = all[key]
+    if (local === undefined || local.isTerminal) return all
+    const verdicts = { ...(local.verdicts ?? {}), [String(leadId)]: outcome }
+    const counted = local.doneLeadIds.includes(leadId) ? { ...local, verdicts } : withLead({ ...local, verdicts }, leadId, 'done')
+    if (counted.isTerminal) ended = counted
+    return { ...all, [key]: counted }
+  })
+  if (ended !== null) await endLocal($, ended)
+  return `Urteil gezählt: Lead ${leadId} ${outcome}.`
+}
 
 /** What the workflow skills call: a phase begins with its lead count, or ends. */
 const reportProgress = async ($: EngineInterface, input: ProgressInput): Promise<string> => {
+  if (input.action === 'verdict') return recordVerdict($, input)
   const campaignId = Number(input.campaign_id)
   const phase = PHASES.find(p => p === input.phase)
-  if (!Number.isFinite(campaignId) || phase === undefined) return 'campaign_id und phase (qualification|research|email) angeben.'
+  if (!Number.isFinite(campaignId) || phase === undefined) return 'campaign_id und phase (qualification|research|email|verify) angeben.'
   const key = localKey(campaignId, phase)
   if (input.action === 'end') {
     const local = (await read($, locals))[key]
@@ -858,18 +901,22 @@ const registerProgressTool = async ($: EngineInterface) => {
     description:
       'Zeigt den Fortschritt eines Abo-Laufs (Leads, die du selbst mit Subagents bearbeitest: outreach-pipeline --abo, ' +
       'outreach-qualify, outreach-research, outreach-generate) als eine Zeile im Outreach-Band über dem Prompt. Zu Beginn jeder Phase ' +
-      'einmal mit action=start, campaign_id, phase (qualification|research|email) und total (Anzahl Leads der Phase) aufrufen. ' +
+      'einmal mit action=start, campaign_id, phase (qualification|research|email|verify) und total (Anzahl Leads der Phase) aufrufen. ' +
       'Gezählt wird danach automatisch: jeder erfolgreiche write_lead_details- bzw. save_lead_variables-Aufruf für einen ' +
-      'Lead dieser Kampagne zählt als erledigt. action=end schließt die Phase vorzeitig ab. Nicht für Server-Läufe (start_lead_run).',
+      'Lead dieser Kampagne zählt als erledigt, in der Phase verify jedes approve/reject. Ein Prüf-Agent meldet sein Urteil ' +
+      'mit action=verdict, campaign_id, lead_id und outcome (freigeben|ablehnen|hinweis), auch wenn er nichts schreibt. ' +
+      'action=end schließt die Phase vorzeitig ab. Nicht für Server-Läufe (start_lead_run).',
     inputSchema: {
       type: 'object',
       properties: {
-        action: { type: 'string', enum: ['start', 'end'] },
+        action: { type: 'string', enum: ['start', 'end', 'verdict'] },
         campaign_id: { type: 'integer' },
-        phase: { type: 'string', enum: ['qualification', 'research', 'email'] },
+        phase: { type: 'string', enum: ['qualification', 'research', 'email', 'verify'] },
         total: { type: 'integer', minimum: 1 },
+        lead_id: { type: 'integer' },
+        outcome: { type: 'string', enum: ['freigeben', 'ablehnen', 'hinweis'] },
       },
-      required: ['campaign_id', 'phase'],
+      required: ['campaign_id'],
     },
   })
 }

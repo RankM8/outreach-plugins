@@ -51,7 +51,7 @@ export type ImportView = {
 export type LocalRun = {
   id: string
   campaignId: number
-  phase: 'qualification' | 'research' | 'email'
+  phase: 'qualification' | 'research' | 'email' | 'verify'
   total: number
   /** Leads whose result for this phase has been written, by id. */
   doneLeadIds: number[]
@@ -65,7 +65,11 @@ export type LocalRun = {
   weekStartPercent: number | null
   /** Share of the five-hour subscription window used when the phase began; null off a subscription. */
   sessionStartPercent: number | null
+  /** Verify phase only: each lead's verdict by id (freigeben, ablehnen, hinweis). */
+  verdicts?: Record<string, Verdict>
 }
+
+export type Verdict = 'freigeben' | 'ablehnen' | 'hinweis'
 
 declare module 'claude-code' {
   interface PluginState {

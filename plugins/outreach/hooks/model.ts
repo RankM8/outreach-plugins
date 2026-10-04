@@ -75,6 +75,7 @@ export const STAGE_LABEL: Record<string, string> = {
   qualification: 'Qualifizierung',
   research: 'Recherche',
   email: 'E-Mail',
+  verify: 'Prüfung',
 }
 
 export const FIT_LABEL: Record<string, { text: string; color: string }> = {
