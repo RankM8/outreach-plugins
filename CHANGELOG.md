@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.1
+
+**outreach** (Copy-SOPs nach dem Testfeld korrigiert)
+- `outreach-copy`: Betreff nur in Step 1, keine Ankündigung oder Ergebnisansage („Website für …“), Standard „kurze Frage“ (Buchungssystem als Kern: „Frage zur Terminbuchung“). Firmenname im Betreff nur über `{{ai.firma}}`, nie über das rohe `{{lead.company}}`; ohne `firma` „kurze Frage“. Follow-ups (Step 2-5) haben keinen Betreff und laufen im Thread. Betreff-Beispiele in `SKILL.md`, `copy-lehre.md`, `marketing-offer.md` und `beispiel-blueprint.md` angeglichen (Karte C hatte zwei verschiedene Betreffs).
+- `outreach-copy`: Opener. Einstiegsrahmen wie „ich hab mir … angeschaut“ sind erlaubt (Widerspruch zu „nie über den Absender“ aufgelöst); eine bloße Feststellung („du bietest X an“) ist kein Aufhänger, dann gilt der Fallback; Gründungsjahr mit Ereignis und Teamgröße sind keine verbotenen Selbstangaben-Zahlen.
+- `outreach-campaign`: Variable `firma` kürzt die Rechtsform ohne Wortrest, macht aus einer Domain die Marke, übernimmt einen neueren Namen aus Impressum oder Recherche, nimmt bei langen Namen den Markenkern und schreibt Versalien normal (Abkürzungen bis 4 Buchstaben bleiben). Neu: abgeleitete oder geklonte Kampagnen gegen das neue Offer prüfen (kein Offer-Rest im Prompt).
+- `outreach-campaign` → Qualifizierung: Ausschlussgründe nur, was ein Agent öffentlich prüfen kann (nie Kontaktsperre oder Bestandskunde); Konzern (fremde Muttergesellschaft, Franchise, Börse) und Größenschwelle als getrennte Punkte; Nachbarbetriebe der Branche ausdrücklich ausschließen; kein Ausschlussgrund schließt den Bedarf aus, den das Angebot löst; „Selbstzahlerleistung erkennbar“ ist ein Fit-Kriterium; keine Adress- oder Pipeline-Anweisungen im `additional_prompt`.
+- Hinweis: Leere Betreffs in Step 2-5 setzen voraus, dass der ListM8-Server sie beim Blueprint-Import annimmt.
+
 ## 2026-10-04 – outreach 0.3.0
 
 **outreach** (Abo-Lauf vereinfacht: ein Agent je Lead für alle Stufen)

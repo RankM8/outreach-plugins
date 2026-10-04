@@ -114,7 +114,7 @@ Empfohlene Einstiege: „ich hab mir deine Bewertungen angeschaut ...", „mir i
 - Konkreter, verifizierbarer Bezug, den man nur kennt, wenn man wirklich auf Website/Shop/Bewertungen war
 - Maximal 2 Sätze
 - Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,"); nur der erste Buchstabe ist klein, jeder weitere Satz beginnt groß. Substantive und Namen bleiben auch am Anfang groß („Kunden loben …“, nie „kunden loben …“)
-- Über den EMPFÄNGER schreiben, nie über den Absender
+- Inhaltlich über den EMPFÄNGER schreiben, nie über den Absender; Einstiegsrahmen wie „ich hab mir … angeschaut“ oder „mir ist aufgefallen“ sind erlaubt und keine Selbstvorstellung
 - Locker und authentisch, Ton wie eine kurze Nachricht an einen Bekannten
 - Muss nahtlos in die feste Überleitung übergehen, ohne ein Problem zu benennen
 
@@ -159,10 +159,11 @@ Beispiel: "ich hab mir eure Bewertungen angeschaut und einer eurer Kunden
 schreibt [PARAPHRASE]."
 
 Angle 2 - Website-Beobachtung:
-Wenn keine Reviews, nutze eine konkrete Beobachtung (Feature, Spezialisierung).
-Beispiel: "ich war gerade auf eurer Website: [konkrete Beobachtung zu
-Spezialisierung oder Feature, z. B. was genau ihr anbietet und wie ihr es
-erklärt]."
+Wenn keine Reviews, nutze EIN auffälliges Detail (Feature, Spezialisierung)
+und wem es nützt. Eine bloße Feststellung ("du bietest X an", "du führst
+X auf", "seit 2002 für Y da") ist kein Aufhänger.
+Beispiel: "ich war gerade auf eurer Website: [ein konkretes Detail zu
+Spezialisierung oder Feature und wem es nützt]."
 
 Angle 3 - Stellenanzeige/Wachstum:
 Wenn eine Stellenanzeige oder Wachstum belegt ist, nutze die Erkenntnis,
@@ -191,7 +192,9 @@ REGELN:
   Konjunktiv-Wünsche ("wäre schön, wenn ..."), Ratschläge, Selbstvorstellung
   ("Wir sind", "Mein Name ist", "Wir helfen"), Floskeln ("Ich bin auf eure
   Webseite gestoßen", "Tolle Webseite"), sichtbare Platzhalter in Klammern
-- Keine Frage, kein Link, keine erfundene Zahl, kein erfundener Name
+- Keine Frage, kein Link, keine erfundene Zahl, kein erfundener Name; keine Kunden-, Projekt-,
+  Ergebnis- oder Bewertungszahlen aus Selbstangaben der Website (Gründungsjahr mit
+  seinem Ereignis und Teamgröße sind Tatsachen und erlaubt)
 - Verboten sind auch "finde ich spannend", "finde ich stark" und andere
   Lobadjektive ohne Inhalt: das Detail trägt das Lob
 - Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was
@@ -202,8 +205,8 @@ REGELN:
 - Ohne konkretes Kundenlob sind auch erlaubt: ein Projekt, eine Referenz
   oder Spezialisierung mit EINEM konkreten Detail, Firmengeschichte oder
   Gründungsjahr (mit seinem Ereignis), Auszeichnungen und Siegel (ohne
-  Altersgrenze), Lage und Ausstattung. Eine Aufzählung von Leistungen ist
-  kein Aufhänger.
+  Altersgrenze), Lage und Ausstattung. Eine Aufzählung von Leistungen oder
+  eine bloße Feststellung ist kein Aufhänger.
 - Wenn du KEIN belastbares Detail findest: gib den Fallback-Satz zurück,
   erfinde nichts, schreibe keine Floskel und keine Leistungsliste
 
@@ -347,25 +350,28 @@ Kein „Lass uns mal sprechen" ohne vorbereiteten Mehrwert. Kein Terminvorschlag
 
 ## Betreffzeilen
 
-Die Betreffzeile entscheidet, ob die Mail geöffnet wird. 2-5 Wörter, keine Werbung. Personalisiert wird über `{{lead.company}}`, nie über `{{firstName}}` (gibt es nicht) oder ein Custom-Attribut, das leer sein kann.
+Die Betreffzeile entscheidet, ob die Mail geöffnet wird. Nur Step 1 trägt einen Betreff: 2-5 Wörter, keine Werbung. Er klingt wie eine harmlose Frage eines Menschen, keine Ankündigung und keine Ergebnisansage („Website für …“, „Entwurf für …“, „Idee für …“, „Website ist fertig“). Einen Firmennamen trägt er nur über `{{ai.firma}}` (bereinigter Kurzname), nie über das rohe `{{lead.company}}`: Importnamen sind oft Google-Titel oder Domains. Ohne Variable `firma` steht kein Name im Betreff, dann „kurze Frage“. Nie `{{firstName}}` (gibt es nicht) oder ein Custom-Attribut, das leer sein kann.
 
 ### Was funktioniert
 
 | Stil | Beispiele | Warum |
 |:-----|:---------|:------|
-| **Persönlich** | „Meeting {{lead.company}} & Julia" | Klingt nach echtem Termin |
-| **Persönlich** | „Gespräch {{lead.company}} & Arne" | Impliziert bestehende Beziehung |
-| **Neugier** | „Zugang freigeschaltet" | Was für ein Zugang? Muss ich aufmachen |
-| **Neugier** | „kurze Frage" | Niedrige Hürde, macht neugierig |
-| **Direkt** | „Anfrage für {{lead.company}}" | Business-like, ernst |
+| **Neugier** | „kurze Frage" | Niedrige Hürde, macht neugierig; Standard für Karte C und jedes Entwurfs-Angebot |
+| **Neugier** | „Frage zur Terminbuchung" | Wenn das Buchungssystem den Kern des Offers bildet |
+| **Neugier** | „Zugang freigeschaltet" | Was für ein Zugang? Muss ich aufmachen (nur mit echtem Zugang, siehe unten) |
+| **Persönlich** | „Meeting {{ai.firma}} & Julia" | Klingt nach echtem Termin (Karte A, nur mit `firma`) |
+| **Persönlich** | „Gespräch {{ai.firma}} & Arne" | Impliziert bestehende Beziehung (nur mit `firma`) |
+| **Direkt** | „Anfrage für {{ai.firma}}" | Business-like, ernst (Karte A/B, nur mit `firma`) |
 | **Förderung** | „Deine Förderung" | Geld = Aufmerksamkeit (nur Karte D) |
-| **Partner** | „Partnerschaft {{lead.company}}?" | Augenhöhe (nur Karte E) |
+| **Partner** | „Partnerschaft {{ai.firma}}?" | Augenhöhe (nur Karte E, nur mit `firma`) |
 
 ### Was nicht funktioniert
 
 | Beispiel | Problem |
 |:---------|:--------|
-| „Kostenlose Beratung für {{lead.company}}" | Zu lang, klingt nach Spam |
+| „Website für {{ai.firma}}", „Anzeigen-Ideen für …" | Kündigt das Ergebnis an, klingt nach Werbung |
+| „Anfrage für {{lead.company}}" | Roher Importname (Titel, Domain) im Betreff |
+| „Kostenlose Beratung für {{ai.firma}}" | Zu lang, klingt nach Spam |
 | „Exklusives Angebot - jetzt zugreifen!" | Spam-Trigger |
 | „Re: Ihre Anfrage" | Fake-Reply, zerstört Vertrauen |
 
@@ -373,12 +379,7 @@ Zusätzlich: keine Großschreibung ganzer Wörter, keine Ausrufezeichen, keine Z
 
 ### Betreffzeilen für Follow-Ups
 
-| FUP | Beispiele |
-|:----|:---------|
-| FUP1 | „Mail untergegangen?" |
-| FUP2 | „kurzes Update" |
-| FUP3 | „letzte Möglichkeit" |
-| FUP4 | „alles Gute" |
+Step 2-5 haben keinen Betreff: das Feld bleibt leer, die Mails laufen im Thread von Step 1. Kein neuer Betreff-Text, keine Wiederholung des Betreffs von Step 1, kein „Re:“.
 
 ## Signatur-Regeln
 
@@ -420,7 +421,7 @@ Folge uns auf LinkedIn | Twitter | Instagram
 **Karte A, kostenlose Teildienstleistung (65 Wörter):**
 
 ```
-Betreff: Meeting {{lead.company}} & Julia
+Betreff: Meeting {{ai.firma}} & Julia
 
 Hallo Max,
 
@@ -461,7 +462,7 @@ Geschäftsführerin - njoy online marketing GmbH
 **Karte E, Partner gesucht (57 Wörter):**
 
 ```
-Betreff: Partnerschaft {{lead.company}}?
+Betreff: Partnerschaft {{ai.firma}}?
 
 Hallo Max,
 
@@ -573,7 +574,7 @@ Weitere Regeln:
 
 - Kein personalisierter Opener in den Follow-Ups. Der individuelle Bezug ist in Mail 1 passiert und wirkt in Mail 3 wie ein Skript.
 - Jeder FUP hat max. EINEN neuen Aspekt. Nicht zwei, nicht drei.
-- Follow-Ups laufen im selben Thread wie die Entry Mail, damit der Kontext sichtbar bleibt.
+- Follow-Ups laufen im selben Thread wie die Entry Mail, damit der Kontext sichtbar bleibt; ihr Betreff bleibt leer.
 
 ## Wenn Antworten kommen, aber keine Termine
 
@@ -599,7 +600,7 @@ Und: Prüfen ist kein Geschmacksurteil. Fast alles, was eine Mail killt, ist mes
 8. **Keine Emojis**
 9. **Keine Gedankenstriche als Trenner** - kein M-Strich (—) und auch kein Bindestrich mit Leerzeichen ( - ). Bindestriche nur innerhalb von Wörtern (E-Mail, Smart-Home); Ausnahme ist die Signaturzeile „Rolle - Firma"
 10. **Wortlimits sind hart.** Wenn drüber: kürzen
-11. **Betreffzeile ultra kurz** (2-5 Wörter, ohne Spam-Wort, persönlich über `{{lead.company}}` oder Neugier)
+11. **Betreffzeile ultra kurz** (2-5 Wörter, ohne Spam-Wort, persönlich über `{{ai.firma}}` oder Neugier)
 12. **Jeder FUP hat max. EINEN neuen Aspekt.** Nicht zwei, nicht drei
 
 ## Anti-Patterns: Was sofort killt
@@ -773,7 +774,7 @@ Vor dem Anlegen bzw. vor dem Export jede Mail mit dieser Liste prüfen.
 **Formatierung:**
 
 - [ ] Keine M-Striche und keine Gedankenstriche als Trenner?
-- [ ] Betreffzeile 2-5 Wörter, ohne Spam-Wort, ohne `{{firstName}}`/`{{companyName}}`?
+- [ ] Betreff von Step 1: 2-5 Wörter, ohne Spam-Wort, ohne Ankündigung, ohne `{{firstName}}`/`{{companyName}}`, Firmenname nur als `{{ai.firma}}`? Steps 2-5 ohne Betreff?
 - [ ] Anrede über `{{ai.hallo}}`, Pronomen passend zur `salutation`?
 - [ ] Klingt die Mail wie von einem Menschen, nicht wie ChatGPT?
 

@@ -2,7 +2,9 @@
 
 > Offer-Lehre zu `outreach-copy`. Bei einem Widerspruch gilt die `SKILL.md` des Skills.
 > Betreffzeilen und CTAs sind auf die Platzhalter von ListM8 umgestellt; die Pronomen
-> (du/euch/Sie) an `emailAgentConfig.salutation` der Kampagne anpassen.
+> (du/euch/Sie) an `emailAgentConfig.salutation` der Kampagne anpassen. Einen Firmennamen im
+> Betreff gibt es nur über `{{ai.firma}}`; ohne die Variable steht „kurze Frage“. Follow-ups
+> haben keinen Betreff.
 
 ## Grundhaltung
 
@@ -100,7 +102,7 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 
 | Baustein | Vorlage |
 |:---------|:--------|
-| **Betreffzeile** | „Meeting {{lead.company}} & [Absender-Vorname]" |
+| **Betreffzeile** | „Meeting {{ai.firma}} & [Absender-Vorname]" (ohne `firma`: „kurze Frage") |
 | **Überleitung + Offer** | „Genau deshalb bieten wir aktuell für [Anzahl] Unternehmen in [Region] ein kostenloses [konkretes Deliverable] an." |
 | **Feinheiten-Satz (Pflicht)** | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]." |
 | **CTA** | „Wenn das für dich spannend klingt, antworte mir einfach kurz." |
@@ -115,7 +117,7 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 
 | Baustein | Vorlage |
 |:---------|:--------|
-| **Betreffzeile** | „Anfrage für {{lead.company}}" / „kurze Frage" |
+| **Betreffzeile** | „Anfrage für {{ai.firma}}" / „kurze Frage" |
 | **Überleitung + Offer** | „Genau solche Unternehmen suchen wir gerade. Wir starten [Projekt] mit [Anzahl] Betrieben in [Region]." |
 | **Feinheiten-Satz** | optional |
 | **CTA** | „Falls du dazugehören willst, antworte mir einfach kurz." |
@@ -128,7 +130,7 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 
 | Baustein | Vorlage |
 |:---------|:--------|
-| **Betreffzeile** | „kurze Frage" |
+| **Betreffzeile** | „kurze Frage" (nie eine Ankündigung wie „Website für …"; ist das Buchungssystem der Kern: „Frage zur Terminbuchung") |
 | **Überleitung + Offer** | „Deswegen war ich so frei und habe [Deliverable] für dich erstellt." |
 | **Feinheiten-Satz (Pflicht)** | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]." |
 | **CTA** | „Wäre es in Ordnung, wenn ich es dir morgen zusende?" |
@@ -161,7 +163,7 @@ Quoten immer als Spanne nennen („bis zu 100 %"), nie als Zusage - die Förderh
 
 | Baustein | Vorlage |
 |:---------|:--------|
-| **Betreffzeile** | „Partnerschaft {{lead.company}}?" |
+| **Betreffzeile** | „Partnerschaft {{ai.firma}}?" (ohne `firma`: „kurze Frage") |
 | **Überleitung + Offer** | „Genau solche [Branche] suchen wir als Partner. Wir haben regelmäßig [Anfragen], die zu dir passen würden." |
 | **Feinheiten-Satz** | entfällt |
 | **CTA** | „Wäre das grundsätzlich interessant? Antworte mir einfach kurz." |
@@ -170,7 +172,7 @@ Quoten immer als Spanne nennen („bis zu 100 %"), nie als Zusage - die Förderh
 
 Ohne Follow-up verpufft auch ein gutes Offer — viele Leads sehen erst den Nachfass. Der Kampagnen-Standard ist die Entry Mail plus 4 Follow-Ups (5 Steps, `delayDays` 0/3/5/7/7). Das Offer steht nur in Mail 1; die Follow-Ups wiederholen es nicht.
 
-Nur wenn der Nutzer ausdrücklich eine kürzere Sequenz will, entfällt Step 5 (Break-Up). Steps 1 bis 4 bleiben immer. Wichtig: im selben Thread antworten, damit der Lead den ursprünglichen Pitch im Verlauf sieht.
+Nur wenn der Nutzer ausdrücklich eine kürzere Sequenz will, entfällt Step 5 (Break-Up). Steps 1 bis 4 bleiben immer. Wichtig: im selben Thread antworten, damit der Lead den ursprünglichen Pitch im Verlauf sieht. Deshalb bleibt der Betreff der Steps 2-5 leer.
 
 ## Das Offer schnell liefern
 

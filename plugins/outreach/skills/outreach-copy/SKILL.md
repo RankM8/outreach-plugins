@@ -191,8 +191,9 @@ MUSS:
 - Ohne konkretes Kundenlob sind auch diese Aufhänger erlaubt, jeweils mit EINEM konkreten Detail:
   ein Projekt, eine Referenz oder Spezialisierung, die Firmengeschichte oder das Gründungsjahr
   (mit seinem Ereignis), Auszeichnungen und Siegel (ohne Altersgrenze), Lage und Ausstattung.
-  Eine Aufzählung von Leistungen („A, B und C“) ist kein Aufhänger. Gibt die Recherche nichts
-  Konkretes her, steht der Fallback-Satz der Kampagne, nicht eine Leistungsliste.
+  Eine Aufzählung von Leistungen („A, B und C“) ist kein Aufhänger, ebenso keine bloße
+  Feststellung („du bietest X an“, „du führst X auf“, „seit 2002 für Y da“). Gibt die Recherche
+  nichts Konkretes her, steht der Fallback-Satz der Kampagne, nicht eine Leistungsliste.
 - Bewertungsanker ist eine konkrete Paraphrase: was genau wird gelobt. Anzahl und Sternedurchschnitt
   nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt. Plural
   oder „immer wieder“ nur, wenn mindestens 2 Bewertungen dieses Lob tragen.
@@ -209,7 +210,8 @@ MUSS:
 - Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,“). Nur der erste Buchstabe ist klein,
   jeder weitere Satz beginnt groß. Substantive und Namen bleiben auch am Anfang groß („Kunden
   loben …“, nie „kunden loben …“).
-- Über den EMPFÄNGER schreiben, nie über den Absender.
+- Inhaltlich über den EMPFÄNGER schreiben, nie über den Absender. Einstiegsrahmen wie „ich hab
+  mir … angeschaut“ oder „mir ist aufgefallen“ sind erlaubt und keine Selbstvorstellung.
 - Locker und authentisch, Ton wie eine kurze Nachricht an einen Bekannten.
 - Geht nahtlos in den festen Folgesatz über, ohne ein Problem zu benennen.
 
@@ -229,8 +231,10 @@ Lieber Fallback als Floskel: Ein generischer Opener („deine Website macht eine
 Eindruck“) ist schlechter als der ehrliche Fallback-Satz.
 
 Hinweis: Der ListM8-Server legt beim Generieren zusätzlich eigene Intro-Regeln in den Prompt
-(u. a. Empfänger direkt ansprechen statt „Die Praxis hat …“, keine Zahlen aus Selbstangaben der
-Website, den Befund selbst als Lob tragen statt mit einer Bewertungsfloskel abzuschließen). Sie
+(u. a. Empfänger direkt ansprechen statt „Die Praxis hat …“, keine Kunden-, Projekt-, Ergebnis-
+oder Bewertungszahlen aus Selbstangaben der Website, den Befund selbst als Lob tragen statt mit
+einer Bewertungsfloskel abzuschließen). Gründungsjahr mit seinem Ereignis und Teamgröße sind
+Tatsachen und erlaubt. Sie
 verschärfen die Regeln oben und gelten mit.
 
 ## Prompts der AI-Variablen `hallo` und `intro`
@@ -284,13 +288,15 @@ Aufgelöst werden nur diese Platzhalter (abschließende Liste für Betreff und B
 
 Alles andere (`{{firstName}}`, `{{companyName}}`, `{{sender.*}}`, If-Blöcke, Default-Syntax)
 landet als Rohtext beim Empfänger. Ein nicht erzeugter AI-Wert erscheint als „[NOT GENERATED]“.
-Firmenname des Empfängers: `{{lead.company}}` (bzw. `{{ai.firma}}`, wenn die Kampagne den
-Kurznamen führt), nie `{{companyName}}`.
+Firmenname des Empfängers im Body: `{{lead.company}}` (bzw. `{{ai.firma}}`, wenn die Kampagne den
+Kurznamen führt), nie `{{companyName}}`. Im Betreff nie das rohe `{{lead.company}}`, siehe
+Betreffzeilen.
 
 ## Sequenz
 
 Genau 5 Steps mit festen Rollen. `delayDays` ist die Wartezeit VOR dem Step (kumuliert Tag 0, 3,
-8, 15, 22), eine ganze Zahl; `delayUnit` immer `"days"`. `subject` ist Pflicht, nicht leer.
+8, 15, 22), eine ganze Zahl; `delayUnit` immer `"days"`. `subject` ist in Step 1 Pflicht und nicht leer, in den Steps 2-5
+leer (die Mails laufen im Thread).
 
 | Step | Rolle | `delayDays` | Wörter max. | Inhalt |
 |---|---|---|---|---|
@@ -307,7 +313,7 @@ Genau 5 Steps mit festen Rollen. `delayDays` ist die Wartezeit VOR dem Step (kum
   kurz abklären → Tür offen lassen.
 - Jedes Follow-up hat max. EINEN neuen Aspekt und beginnt mit einem ganzen, weichen Satz in der
   gewählten Ansprache. Das erste Wort nach `{{ai.hallo}}` (in jedem Step) schreibt man klein, weil
-  es auf „Hallo …,“ folgt: „du hast sicher …“, nicht „Du hast sicher …“; Substantive bleiben groß. Follow-ups laufen im selben Thread.
+  es auf „Hallo …,“ folgt: „du hast sicher …“, nicht „Du hast sicher …“; Substantive bleiben groß. Follow-ups laufen im selben Thread, deshalb ohne eigenen Betreff.
 - Nur wenn der Nutzer ausdrücklich eine kürzere Sequenz will, entfällt Step 5. Nie einen der
   Steps 1 bis 4.
 - Fehlt dem Nutzer ein echter Beleg für Step 3 oder ein echter Grund für Step 4: nachfragen,
@@ -319,18 +325,27 @@ Genau 5 Steps mit festen Rollen. `delayDays` ist die Wartezeit VOR dem Step (kum
 
 ## Betreffzeilen
 
-2-5 Wörter, keine Werbung, kein Spam-Wort, keine Großschreibung ganzer Wörter, kein
-Ausrufezeichen, kein Prozentzeichen.
+Nur Step 1 trägt einen Betreff: 2-5 Wörter, keine Werbung, kein Spam-Wort, keine Großschreibung
+ganzer Wörter, kein Ausrufezeichen, kein Prozentzeichen. Er klingt wie eine harmlose Frage eines
+Menschen. Keine Ankündigung und keine Ergebnisansage („Website für …“, „Entwurf für …“, „Idee
+für …“, „Website ist fertig“).
+
+Firmenname im Betreff nur über `{{ai.firma}}` (bereinigter Kurzname, siehe `outreach-campaign`),
+nie über das rohe `{{lead.company}}`: Importnamen sind oft Google-Titel oder Domains. Führt die
+Kampagne keine Variable `firma`, steht im Betreff kein Firmenname, dann „kurze Frage“.
 
 Bewährte Muster (an den Offer-Typ anpassen):
 
-- „Meeting {{lead.company}} & <Absender-Vorname>“ (persönlich, wirkt wie ein Termin)
-- „kurze Frage“ (Neugier, niedrige Hürde)
-- „Anfrage für {{lead.company}}“ (direkt, business-like)
+- „kurze Frage“ (Standard: Neugier, niedrige Hürde; Karte C und jedes Entwurfs-Angebot wie
+  Website, Anzeigen, Stellenanzeigen, Testzugang)
+- „Frage zur Terminbuchung“ (wenn das Buchungssystem den Kern des Offers bildet)
+- „Meeting {{ai.firma}} & <Absender-Vorname>“ (Karte A; persönlich, wirkt wie ein Termin; nur mit `firma`)
+- „Anfrage für {{ai.firma}}“ (Karte A/B; direkt, business-like; nur mit `firma`)
 - „Deine Förderung“ (nur bei Karte D)
-- „Partnerschaft {{lead.company}}?“ (nur bei Karte E)
+- „Partnerschaft {{ai.firma}}?“ (nur bei Karte E, nur mit `firma`)
 
-Follow-up-Betreffs: „Mail untergegangen?“, „kurzes Update“, „letzte Möglichkeit“, „alles Gute“.
+Follow-ups (Step 2-5): Betreff LEER, die Mails laufen im Thread von Step 1. Kein neuer
+Betreff-Text, keine Wiederholung des Betreffs von Step 1, kein „Re:“.
 
 NICHT: „Kostenlose Beratung für …“ (zu lang, Spam), „Exklusives Angebot - jetzt zugreifen!“
 (Spam-Trigger), „Re: Ihre Anfrage“ (Fake-Reply).
@@ -382,7 +397,8 @@ oder Werte speicherst. Nach jeder Korrektur von vorne beginnen: Kürzungen erzeu
 8. Spam-Scan: Betreff und Body gegen die Wortliste. „kostenlos“ höchstens einmal im Body?
 9. Platzhalter-Scan: kein [Klammer-Feld]? Jede `{{…}}`-Variable gegen die abschließende Liste
    prüfen. Signatur als Klartext, keine `{{sender.*}}`-Variablen?
-10. Betreffzeilen: 2-5 Wörter, kein Spam-Wort, keine Großschreibung?
+10. Betreff von Step 1: 2-5 Wörter, kein Spam-Wort, keine Großschreibung, keine Ankündigung,
+    Firmenname nur über `{{ai.firma}}`? Steps 2-5 ohne Betreff?
 11. Enthält der `intro`-Prompt die Angle-Reihenfolge, die Verbote UND einen Fallback-Satz, der
     keine unbelegte Tatsache behauptet?
 12. Passen `salutation`, `hallo`-Prompt und die Pronomen des festen Texts zusammen (kein
@@ -411,7 +427,9 @@ Hinweis, der begründet werden muss.
 | Keine Formatierung | kein `**fett**`, keine Zeile, die mit „-“, „*“ oder „•“ beginnt | weich |
 | „kostenlos“ | höchstens einmal pro Mail | weich |
 | Betreff ohne Spam | kein Spam-Wort, kein „kostenlos“, „kostenlose“, „kostenloses“, „kostenfrei“ | hart |
-| Betreff-Länge | max. 5 Wörter | weich |
+| Betreff-Länge | max. 5 Wörter (Step 1) | weich |
+| Betreff-Platzhalter | kein `{{lead.company}}` im Betreff; Firmenname nur als `{{ai.firma}}` | hart |
+| Follow-up-Betreff | `subject` in Step 2-5 leer | hart |
 | Betreff ohne Schreien | kein Wort mit 4+ Großbuchstaben, kein „!“ | weich |
 | Ein CTA | kein „oder/alternativ … buchen/klicken/vereinbaren/reservieren/anrufen/Termin sichern“ neben der Antwort-Bitte | hart |
 | Kein Link in Mail 1 | kein „http(s)://“, „www.“, „calendly.com“, „hier buchen“ in Step 1 | hart |

@@ -33,7 +33,7 @@ Auch nach dem Warmup ist ein Postfach nicht auf 30 Mails am Tag eingestellt. Der
 - [ ] Warmup läuft seit mind. 14 Tagen, Score in Ordnung
 - [ ] E-Mails verifiziert (Bounce Rate Prognose unter 3 %)
 - [ ] AI-Opener der ersten 40 Mails manuell geprüft (rund 20 Minuten Lesezeit; in ListM8 im Review bzw. mit `outreach-verify`)
-- [ ] Betreffzeilen nach `outreach-copy`: 2-5 Wörter, kein Spam-Wort, nur erlaubte Platzhalter (z. B. `{{lead.company}}`, nie `{{firstName}}`)
+- [ ] Betreff nach `outreach-copy`: Step 1 mit 2-5 Wörtern, kein Spam-Wort, Firmenname nur als `{{ai.firma}}` (nie `{{lead.company}}`, nie `{{firstName}}`), Steps 2-5 ohne Betreff (Thread)
 - [ ] Variablen korrekt gemappt (Variablen-Zuordnung im Reiter „Instantly" vollständig, sonst blockiert der Push; Vorschau mit einem freigegebenen Lead angesehen)
 - [ ] Sperrliste geladen: Kontaktstatus in ListM8 aktuell (`do_not_contact`, bereits Kontaktierte) und Blockliste in Instantly gepflegt
 - [ ] Abmeldehinweis vorhanden, List-Unsubscribe-Header aktiv
