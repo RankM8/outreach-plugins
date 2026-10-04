@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.1
+
+**outreach** (Live-Ansicht in Claude Code)
+- `/outreach-runs zu` klappt das Band auf eine Zeile ein („Outreach · 13 Läufe · 4 laufen · eingeklappt“), `/outreach-runs auf` bzw. `/outreach-runs` klappt es wieder auf und lädt die laufenden Läufe neu. Das Abfragen läuft im eingeklappten Zustand weiter. Daneben bleibt das Einklappen von Claude Code selbst (`[−]`, Strg+X Strg+A).
+
 ## 2026-10-04 – outreach 0.3.0
 
 **outreach** (Abo-Lauf vereinfacht: ein Agent je Lead für alle Stufen)

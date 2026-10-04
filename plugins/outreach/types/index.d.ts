@@ -78,6 +78,8 @@ declare module 'claude-code' {
       origins: Record<string, string>
       /** Spinner frame of the band, advanced only while a run is going. */
       frame: number
+      /** The band shrunk to one summary line (`/outreach-runs zu`); `/outreach-runs auf` opens it again. */
+      folded: boolean
     }
   }
 }

@@ -290,6 +290,27 @@ describe('run status', () => {
     await band.unmount()
   })
 
+  test('/outreach-runs zu folds the band to one line, auf opens it again', async ($, on) => {
+    engineDraws(on)
+    mock.clock(on)
+    on('mcp.call', () => ({
+      value: { content: [{ type: 'text', text: JSON.stringify({ runs: [RUN_STATUS], count: 1 }) }], isError: false },
+    }))
+    const run = (args: string) => $.command.run({ command: 'outreach-runs', args } as Parameters<typeof $.command.run>[0])
+    await run('')
+    const folded = await run('zu')
+    expect(String((folded as { text?: string }).text)).toContain('eingeklappt')
+    let band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: 'Outreach · 1 Lauf · 1 läuft' })).toBeDefined()
+    expect(await band.find({ text: '40/46' })).toBeUndefined()
+    await band.unmount()
+
+    await run('auf')
+    band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: '40/46' })).toBeDefined()
+    await band.unmount()
+  })
+
   test('asking Claude for the runs fills the band too', async ($, on) => {
     engineDraws(on)
     mock.clock(on)

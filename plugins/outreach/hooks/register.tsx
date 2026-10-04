@@ -35,6 +35,7 @@ const imports = atom({ plugin: 'outreach', key: 'imports' } as const, {})
 const locals = atom({ plugin: 'outreach', key: 'locals' } as const, {})
 const origins = atom({ plugin: 'outreach', key: 'origins' } as const, {})
 const frame = atom({ plugin: 'outreach', key: 'frame' } as const, 0)
+const folded = atom({ plugin: 'outreach', key: 'folded' } as const, false)
 let configuredServer = 'akquise'
 let poller: { cancel: () => void } | null = null
 let spinner: { cancel: () => void } | null = null
@@ -366,6 +367,25 @@ const importRow = (el: El, job: ImportView, step: number) => {
       <Box flexShrink={0} marginLeft={1}>
         <Link href={importHref(job)} label="Öffnen ↗" />
       </Box>
+    </Box>
+  )
+}
+
+/** The band folded to one line: how many runs, how many still going; `/outreach-runs auf` opens it. */
+const foldedBand = (el: El, shown: RunView[], jobs: ImportView[], phases: LocalRun[]) => {
+  const { Box, Text } = el
+  const groups = groupPhases(phases)
+  const count = shown.length + jobs.length + groups.length
+  const active =
+    shown.filter(r => !r.isTerminal).length +
+    jobs.filter(j => !j.isTerminal).length +
+    groups.filter(g => g.some(l => !l.isTerminal)).length
+  const color = active > 0 ? BRAND.accent : BRAND.done
+
+  return (
+    <Box borderStyle="round" borderColor={color} paddingX={1} justifyContent="space-between">
+      <Text bold>{`Outreach · ${count} ${count === 1 ? 'Lauf' : 'Läufe'} · ${active === 0 ? 'alle beendet' : `${active} ${active === 1 ? 'läuft' : 'laufen'}`}`}</Text>
+      <Text dimColor>eingeklappt · /outreach-runs auf</Text>
     </Box>
   )
 }
@@ -842,7 +862,7 @@ export const register: Register = (on, options) => {
     try {
       await $.command.register({
         name: 'outreach-runs',
-        description: 'Laufende Outreach-Lead-Runs über dem Prompt anzeigen',
+        description: 'Laufende Outreach-Läufe über dem Prompt anzeigen; „zu“ klappt das Band auf eine Zeile ein, „auf“ wieder auf',
       })
     } catch {
       // Without the command, runs still join the band when Claude checks them.
@@ -857,7 +877,14 @@ export const register: Register = (on, options) => {
 
 
   // One command, no wording needed: every run still going appears in the band.
-  on('command.run', { command: 'outreach-runs' }, async $ => {
+  // „zu“ shrinks the band to one line, „auf“ (or the bare command) opens it again.
+  on('command.run', { command: 'outreach-runs' }, async ($, e) => {
+    const arg = (e.args ?? '').trim().toLowerCase()
+    if (arg === 'zu' || arg === 'ein' || arg === 'einklappen') {
+      await update($, folded, () => true)
+      return { text: 'Outreach-Band eingeklappt – `/outreach-runs auf` klappt es wieder auf.' }
+    }
+    await update($, folded, () => false)
     let active = 0
     let reached = 0
     for (const server of await akquiseServers($)) {
@@ -915,6 +942,7 @@ export const register: Register = (on, options) => {
     const jobs = bandImports(Object.values(await read($, imports)))
     const phases = bandPhases(Object.values(await read($, locals)))
     if (e.props.hasSurvey || shown.length + jobs.length + phases.length === 0) return next(e)
+    if (await read($, folded)) return foldedBand($.ui.resolve(e), shown, jobs, phases)
     const weekUsed = phases.some(l => l.weekStartPercent !== null) ? await weekPercent($) : null
     return band($.ui.resolve(e), shown, jobs, phases, await read($, frame), await read($, origins), weekUsed)
   })
