@@ -45,6 +45,11 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
 
 ### 3. Recherchieren (wenn noch keine Recherche vorliegt; eine vorhandene gilt kampagnenübergreifend)
 
+- Vorher prüfen: Steht in `get_lead_data` unter `research.text` schon ein Text (kam die Antwort als
+  Datei, dieses Feld gezielt darin suchen), ist dieser Schritt übersprungen. Dann kein
+  `write_lead_details` mit `research`, `bestEmail`, `decisionMaker` oder `contactRecommendation`;
+  eine vorhandene Recherche wird nie überschrieben, auch nicht mit einer besseren.
+
 - `researchGeneration.config` bestimmt, WONACH du suchst; `agent.additionalPrompt` gilt zusätzlich.
 - Website und relevante Unterseiten (Leistungen, Über uns, Team, Referenzen, Impressum, Kontakt) per
   WebFetch; WebSearch für öffentliche Signale (Bewertungen, Verzeichnisse), wenn die Website wenig

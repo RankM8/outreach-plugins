@@ -14,7 +14,7 @@ Dieser Skill orchestriert das Lead-Research via MCP Business Tools. Claude-Subag
 > - **Agent:** In Claude Code und Cowork `outreach:lead-agent` (Plugin-Agent, Sonnet) mit dem Auftrag „Kampagne <id>, Lead <id>, nur Recherche“; sind mehrere Outreach-Server verbunden, zusätzlich „Server: <name>“. Fehlt der Agent, `general-purpose` mit `model: "sonnet"` und der Vorlage unten. Nie das Modell der Sitzung erben lassen: Opus verbraucht das Abo-Kontingent um ein Vielfaches. Andere Clients: das günstigste Modell mit Web-Zugriff; ohne Subagents die Leads **sequentiell** mit denselben Schritten.
 > - **Ganzer Lauf** (Qualifizierung → Recherche → Mail in einem): `/outreach-pipeline <id> --abo`.
 > - **Parallelität:** höchstens 10 Agents gleichzeitig.
-> - **Fortschritt:** Gibt es das Werkzeug `outreach_progress` (Claude Code mit Plugin `outreach`), zu Beginn einmal `outreach_progress(action="start", campaign_id, phase="research", total=<Leads>)` aufrufen; gezählt wird automatisch, auch jeder Schreibaufruf der Subagents. Den Stand danach aus den Agenten-Antworten berichten, nicht per `list_leads` erneut auflisten.
+> - **Fortschritt:** Gibt es das Werkzeug `outreach_progress` (Claude Code mit Plugin `outreach`), zu Beginn einmal `outreach_progress(action="start", campaign_id, phase="research", total=<Leads>)` aufrufen; gezählt wird automatisch, auch jeder Schreibaufruf der Subagents. Den Stand danach aus den Agenten-Antworten berichten, nicht per `list_leads` erneut auflisten, und die Phase mit `outreach_progress(action="end", …)` schließen, damit Leads ohne Schreibaufruf nicht offen im Band hängen.
 
 ## Websitehinweise und gespeicherte Sperren getrennt halten
 

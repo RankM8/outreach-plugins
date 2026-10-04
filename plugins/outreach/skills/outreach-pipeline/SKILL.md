@@ -78,7 +78,7 @@ Soll der Client selbst denken (eigenes Abo statt OpenRouter-Guthaben, kein OpenR
    - Claude Code und Cowork: `outreach:lead-agent` mit dem Auftrag „Kampagne <id>, Lead <id> (<Firma>)“; sind mehrere Outreach-Server verbunden, zusätzlich „Server: <name>“.
    - Ohne diesen Agenten: `general-purpose` mit `model: "sonnet"`; Auftrag = die Sub-Agent-Vorlagen aus `/outreach-qualify`, `/outreach-research` und `/outreach-generate` nacheinander, mit ersetzten Platzhaltern, den Abschnitten „Anrede und Ansprache“ und „Intro-Regeln“ aus `outreach-copy` und dem Hinweis, bei `not_qualified` nach der Qualifizierung aufzuhören.
    - Ohne Subagents (manche Clients): die Leads nacheinander mit denselben Schritten.
-5. **Bericht:** aus den Antwortzeilen der Agents (`OK lead=… fit=… recherche=… mail=…` bzw. `FEHLER …`): qualifiziert / aussortiert / Mails gespeichert / Fehler, je mit Lead. Nicht erneut per `list_leads` auflisten. Bleiben Leads wegen Fehlern offen, die angemeldeten Phasen mit `outreach_progress(action="end", …)` schließen.
+5. **Bericht:** aus den Antwortzeilen der Agents (`OK lead=… fit=… recherche=… mail=…` bzw. `FEHLER …`): qualifiziert / aussortiert / Mails gespeichert / Fehler, je mit Lead. Nicht erneut per `list_leads` auflisten. Danach immer alle drei angemeldeten Phasen mit `outreach_progress(action="end", campaign_id, phase=…)` schließen, auch wenn alles gezählt scheint: Leads ohne Schreibaufruf (Recherche vorhanden, Mail wegen Fremdadresse übersprungen, Fehler) hält das Band sonst als offen.
 6. **Rennschutz:** Fällt ein Schreib-Tool mit `lead_run_active` aus, läuft parallel ein Server-Lauf – abwarten (`get_lead_run_status`), dann fortsetzen.
 
 Danach: `/outreach-verify` — Variablen prüfen und freigeben.

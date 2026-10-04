@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.8
+
+**outreach**
+- `outreach-pipeline`, `outreach-qualify`, `outreach-research`, `outreach-generate` → Abo-Lauf: Nach dem Bericht werden die angemeldeten Phasen immer mit `outreach_progress(action="end")` geschlossen. Leads ohne Schreibaufruf (Recherche schon vorhanden und Mail wegen Fremdadresse übersprungen) hielten das Band sonst als laufend.
+- `lead-agent` → Recherche: Vor Schritt 3 prüft der Agent `research.text` in `get_lead_data` (auch wenn die Antwort als Datei kommt). Steht dort schon ein Text, schreibt er weder Recherche noch `bestEmail`, `decisionMaker` oder `contactRecommendation`. Im 50er-Lauf auf Kampagne 2274 hatten zwei Agents eine vorhandene Recherche übersehen und überschrieben.
+
 ## 2026-10-04 – outreach 0.3.7
 
 **outreach**
