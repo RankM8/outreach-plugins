@@ -68,7 +68,7 @@ In Claude Code sind Updates fremder Marketplaces standardmäßig aus. Empfehlen:
 ## 6. Erste Schritte
 
 - **Claude Code:** Die Live-Ansicht zeigt Lead-Vorschauen und laufende Lead-Runs über dem Prompt;
-  `/outreach-runs` holt alle laufenden Läufe ins Band.
+  `/outreach-status` holt alle laufenden Läufe ins Band (`zu`/`auf` klappt es ein und aus).
 - Weiter mit dem Einstieg `outreach` oder direkt mit `outreach-campaign`.
 
 ## Abschluss

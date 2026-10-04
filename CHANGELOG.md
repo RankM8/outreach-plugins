@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.13
+
+**outreach**
+- Befehl `/outreach-runs` heißt jetzt `/outreach-status` (zeigt Server-Läufe, Abo-Läufe und Imports über dem Prompt; `zu`/`auf` wie bisher). Der alte Name funktioniert als Alias weiter.
+
 ## 2026-10-04 – outreach 0.3.12
 
 **outreach** (Verify-Test auf Kampagne 1081, 19 Urteile)

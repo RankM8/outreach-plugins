@@ -395,7 +395,7 @@ const importRow = (el: El, job: ImportView, step: number) => {
   )
 }
 
-/** The band folded to one line: how many runs, how many still going; `/outreach-runs auf` opens it. */
+/** The band folded to one line: how many runs, how many still going; `/outreach-status auf` opens it. */
 const foldedBand = (el: El, shown: RunView[], jobs: ImportView[], phases: LocalRun[]) => {
   const { Box, Text } = el
   const groups = groupPhases(phases)
@@ -409,7 +409,7 @@ const foldedBand = (el: El, shown: RunView[], jobs: ImportView[], phases: LocalR
   return (
     <Box borderStyle="round" borderColor={color} paddingX={1} justifyContent="space-between">
       <Text bold>{`Outreach · ${count} ${count === 1 ? 'Lauf' : 'Läufe'} · ${active === 0 ? 'alle beendet' : `${active} ${active === 1 ? 'läuft' : 'laufen'}`}`}</Text>
-      <Text dimColor>eingeklappt · /outreach-runs auf</Text>
+      <Text dimColor>eingeklappt · /outreach-status auf</Text>
     </Box>
   )
 }
@@ -610,7 +610,7 @@ const tick = async ($: EngineInterface) => {
           status: 'stand_unbekannt',
           isTerminal: true,
           finishedAt: Date.now(),
-          reason: 'Server antwortet nicht rechtzeitig – /outreach-runs lädt den Stand neu.',
+          reason: 'Server antwortet nicht rechtzeitig – /outreach-status lädt den Stand neu.',
         }
         return { ...all, [run.id]: stale }
       })
@@ -874,6 +874,29 @@ const registerProgressTool = async ($: EngineInterface) => {
   })
 }
 
+/** /outreach-status (old name /outreach-runs): every run still going appears in the band; „zu“ folds it, „auf“ opens it. */
+const statusCommand = async ($: EngineInterface, e: { args?: string }) => {
+  const arg = (e.args ?? '').trim().toLowerCase()
+  if (arg === 'zu' || arg === 'ein' || arg === 'einklappen') {
+    await update($, folded, () => true)
+    return { text: 'Outreach-Band eingeklappt – `/outreach-status auf` klappt es wieder auf.' }
+  }
+  await update($, folded, () => false)
+  let active = 0
+  let reached = 0
+  for (const server of await akquiseServers($)) {
+    try {
+      const listed = await call($, server, 'list_lead_runs', { active_only: true })
+      reached += 1
+      if (listed !== null) active += await putActiveRuns($, listed, server)
+    } catch {
+      // Not connected: the others may still answer.
+    }
+  }
+  if (reached === 0) return { text: 'Der Outreach-MCP ist nicht erreichbar – ist er verbunden?' }
+  return { text: active === 0 ? 'Gerade läuft kein Lead-Run.' : `${active} laufende(r) Lead-Run(s) – Fortschritt über dem Prompt.` }
+}
+
 export const register: Register = (on, options) => {
   configuredServer = String(options.mcpServer ?? 'akquise').replace(/[^A-Za-z0-9_-]/g, '_')
   knownServers = new Map()
@@ -929,13 +952,15 @@ export const register: Register = (on, options) => {
     try {
       await registerProgressTool($)
     } catch {
-      // The band and /outreach-runs work without the progress tool.
+      // The band and /outreach-status work without the progress tool.
     }
     try {
       await $.command.register({
-        name: 'outreach-runs',
-        description: 'Laufende Outreach-Läufe über dem Prompt anzeigen; „zu“ klappt das Band auf eine Zeile ein, „auf“ wieder auf',
+        name: 'outreach-status',
+        description: 'Was gerade läuft (Server-Läufe, Abo-Läufe, Imports) über dem Prompt anzeigen; „zu“ klappt das Band auf eine Zeile ein, „auf“ wieder auf',
       })
+      // The former name keeps working for habits and older notes.
+      await $.command.register({ name: 'outreach-runs', description: 'Alter Name von /outreach-status' })
     } catch {
       // Without the command, runs still join the band when Claude checks them.
     }
@@ -950,27 +975,8 @@ export const register: Register = (on, options) => {
 
   // One command, no wording needed: every run still going appears in the band.
   // „zu“ shrinks the band to one line, „auf“ (or the bare command) opens it again.
-  on('command.run', { command: 'outreach-runs' }, async ($, e) => {
-    const arg = (e.args ?? '').trim().toLowerCase()
-    if (arg === 'zu' || arg === 'ein' || arg === 'einklappen') {
-      await update($, folded, () => true)
-      return { text: 'Outreach-Band eingeklappt – `/outreach-runs auf` klappt es wieder auf.' }
-    }
-    await update($, folded, () => false)
-    let active = 0
-    let reached = 0
-    for (const server of await akquiseServers($)) {
-      try {
-        const listed = await call($, server, 'list_lead_runs', { active_only: true })
-        reached += 1
-        if (listed !== null) active += await putActiveRuns($, listed, server)
-      } catch {
-        // Not connected: the others may still answer.
-      }
-    }
-    if (reached === 0) return { text: 'Der Outreach-MCP ist nicht erreichbar – ist er verbunden?' }
-    return { text: active === 0 ? 'Gerade läuft kein Lead-Run.' : `${active} laufende(r) Lead-Run(s) – Fortschritt über dem Prompt.` }
-  })
+  on('command.run', { command: 'outreach-status' }, statusCommand)
+  on('command.run', { command: 'outreach-runs' }, statusCommand)
 
   on('tool.call', { tool: 'mcp__outreach__outreach_progress' }, async ($, e) => ({
     result: await reportProgress($, e as unknown as ProgressInput),

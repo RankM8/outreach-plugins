@@ -296,14 +296,14 @@ describe('run status', () => {
     await band.unmount()
   })
 
-  test('/outreach-runs puts every run still going into the band, and only those', async ($, on) => {
+  test('/outreach-status puts every run still going into the band, and only those', async ($, on) => {
     engineDraws(on)
     mock.clock(on)
     const ended = { ...RUN_STATUS, id: 'run-old', status: 'completed', is_terminal: true }
     on('mcp.call', () => ({
       value: { content: [{ type: 'text', text: JSON.stringify({ runs: [RUN_STATUS, ended], count: 2 }) }], isError: false },
     }))
-    const res = await $.command.run({ command: 'outreach-runs' } as Parameters<typeof $.command.run>[0])
+    const res = await $.command.run({ command: 'outreach-status' } as Parameters<typeof $.command.run>[0])
     expect(String((res as { text?: string }).text)).toContain('1 laufende')
     const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: 'Outreach · Lead-Run' })).toBeDefined()
@@ -311,13 +311,13 @@ describe('run status', () => {
     await band.unmount()
   })
 
-  test('/outreach-runs zu folds the band to one line, auf opens it again', async ($, on) => {
+  test('/outreach-status zu folds the band to one line, the old name /outreach-runs auf opens it again', async ($, on) => {
     engineDraws(on)
     mock.clock(on)
     on('mcp.call', () => ({
       value: { content: [{ type: 'text', text: JSON.stringify({ runs: [RUN_STATUS], count: 1 }) }], isError: false },
     }))
-    const run = (args: string) => $.command.run({ command: 'outreach-runs', args } as Parameters<typeof $.command.run>[0])
+    const run = (args: string, command = 'outreach-status') => $.command.run({ command, args } as Parameters<typeof $.command.run>[0])
     await run('')
     const folded = await run('zu')
     expect(String((folded as { text?: string }).text)).toContain('eingeklappt')
@@ -326,7 +326,7 @@ describe('run status', () => {
     expect(await band.find({ text: '40/46' })).toBeUndefined()
     await band.unmount()
 
-    await run('auf')
+    await run('auf', 'outreach-runs')
     band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: '40/46' })).toBeDefined()
     await band.unmount()
