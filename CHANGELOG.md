@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.12
+
+**outreach** (Verify-Test auf Kampagne 1081, 19 Urteile)
+- `lead-agent` → Anrede: Der `hallo`-Prompt der Kampagne entscheidet auch, wer bei einer Sammeladresse angesprochen wird. Verlangt er dort eine Team-Anrede, gilt sie, selbst wenn der Entscheider bekannt ist; die eingebaute Regel „bei info@ der Entscheider“ greift nur, wenn der Prompt nichts dazu sagt. Im Test hatten sechs Mails einen Vornamen an einer Sammeladresse, obwohl die Kampagne Team-Anrede vorgibt.
+- `verify-agent`: hält die gespeicherte `bestEmail` gegen die Adress-Hinweise der Recherche (ungültig markierte Adresse → `hinweis`); bei einer offenen Abwägung nie `freigeben`, sondern `hinweis`, gleiche Fälle bekommen das gleiche Urteil.
+
 ## 2026-10-04 – outreach 0.3.11
 
 **outreach**

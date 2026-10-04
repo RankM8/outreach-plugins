@@ -80,8 +80,10 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
 - `emailGeneration.systemPrompt`, `salutation`/`salutationRule` und `campaignContext` lesen; für jede
   Variable in `emailGeneration.variables` den Text nach ihrem Prompt schreiben, mit dem, was du in
   Schritt 2 und 3 über den Lead gelernt hast.
-- Prüfen: Anrede nach Regel und überall gleich; Du-Form „Hallo Vorname,“ (bei info@ der Entscheider),
-  ohne Person „Hallo,“; Intro max. 2 Sätze, beginnt klein, nur positiv, konkret belegt, keine Kritik,
+- Prüfen: Anrede genau nach dem `hallo`-Prompt der Kampagne und überall gleich. Der Prompt entscheidet
+  auch, wer bei einer Sammeladresse (info@, contact@, hello@) angesprochen wird: verlangt er dort eine
+  Team-Anrede, gilt sie, auch wenn der Entscheider bekannt ist. Nur wenn der Prompt dazu nichts sagt:
+  Du-Form „Hallo Vorname,“ (bei Sammeladressen der belegte Entscheider), ohne Person „Hallo,“. Intro max. 2 Sätze, beginnt klein, nur positiv, konkret belegt, keine Kritik,
   keine Floskel, kein Pitch, keine erfundene Zahl, keine Gedankenstriche; keine internen Scores.
 - Intro-Gegenprobe: Eine bloße Feststellung („du bietest X an“, „du machst Y mit dem Mikroskop“) ist
   kein Aufhänger; sie braucht, was daran besonders ist oder wem es nützt, sonst gilt der Fallback der
