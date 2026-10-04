@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.10
+
+**outreach**
+- `lead-agent` → Datenprüfung: Nach `get_lead_data` prüft der Agent, dass `lead.id` und `campaign.id` seinem Auftrag entsprechen. Claude Code legt große Antworten als Datei mit Millisekunden-Zeitstempel im gemeinsamen Sitzungsordner ab; zwei parallele Agents können sich diese Datei überschreiben (im 50er-Lauf auf 1081 einmal passiert, der Agent hat es bemerkt und nichts geschrieben). Bei falscher ID ruft er erneut ab und schreibt im Zweifel nichts.
+- `lead-agent` → Stufen: Ohne ausdrückliche Stufennennung laufen immer alle Stufen. Ein Hinweis zur Anrede („speichere alle drei Variablen“) hatte drei Agents dazu gebracht, die Qualifizierung zu überspringen.
+
 ## 2026-10-04 – outreach 0.3.9
 
 **outreach** (Agent-Reviews Runde 1)

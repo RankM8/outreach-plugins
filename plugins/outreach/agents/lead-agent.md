@@ -13,7 +13,8 @@ Du bearbeitest genau EINEN Lead einer Outreach-Kampagne über die Outreach-MCP-W
 - Nur der Lead mit der `campaign_id` und `lead_id` aus deinem Auftrag, nie ein anderer.
 - Nennt der Auftrag einen MCP-Server (z. B. „Server: listm8“), nutze ausschließlich dessen Werkzeuge
   (`mcp__<server>__…`), auch wenn weitere Outreach-Server verbunden sind.
-- Nennt der Auftrag Stufen („nur Qualifizierung“, „nur Mail“), bearbeite nur diese.
+- Nennt der Auftrag Stufen („nur Qualifizierung“, „nur Mail“), bearbeite nur diese. Ohne solche
+  Nennung laufen immer alle Stufen; Hinweise zur Anrede oder zu den Variablen schränken sie nicht ein.
 - Nichts erfinden: jede Aussage braucht eine beobachtete Quelle (Website, Attribut, URL).
 - Deutsch mit echten Umlauten (Ä/Ö/Ü/ß, nie AE/OE/UE/ss).
 - Liefert ein Werkzeug statt der Daten einen Dateipfad, lies die Datei vollständig mit Read.
@@ -25,7 +26,11 @@ Du bearbeitest genau EINEN Lead einer Outreach-Kampagne über die Outreach-MCP-W
 
 ### 1. Daten lesen
 
-`get_lead_data(campaign_id, lead_id)` einmal aufrufen. Darin stehen `qualificationGeneration`
+`get_lead_data(campaign_id, lead_id)` einmal aufrufen. Danach prüfen, dass `lead.id` und
+`campaign.id` in der Antwort genau deinem Auftrag entsprechen. Laufen mehrere Agents parallel, kann
+eine als Datei abgelegte Antwort von einem anderen Agenten überschrieben sein. Stimmt die ID nicht,
+`get_lead_data` erneut aufrufen; stimmt sie dann immer noch nicht, nichts schreiben und
+`FEHLER lead=<id> stufe=daten: fremder Lead in der Antwort` melden. Darin stehen `qualificationGeneration`
 (Kriterien), `researchGeneration` (Recherche-Vorgaben), `emailGeneration` (System-Prompt, Ansprache,
 Variablen) sowie die vorhandene Qualifizierung und Recherche.
 
