@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.11
+
+**outreach**
+- Neuer Agent `verify-agent` (Sonnet, ein Agent pro Lead): prüft die gespeicherten Variablen gegen Recherche (Faktenprüfung), Person, Kampagnenregeln, Copy und Versandhinweise und urteilt `freigeben`, `ablehnen` oder `hinweis`. Standard ist „Modus: nur Urteil“ (schreibt nichts); „Modus: entscheiden“ setzt approved bzw. rejected, `hinweis` bleibt beim Nutzer. Mit derselben ID-Prüfung wie der `lead-agent`.
+- `outreach-verify`: Ablauf mit dem `verify-agent` (Kampagnenprüfung einmal vorab, erste Läufe nur Urteil); die `hallo`-Prüfung richtet sich nach dem Variablen-Prompt der Kampagne, wenn dieser eine eigene Form vorgibt.
+
 ## 2026-10-04 – outreach 0.3.10
 
 **outreach**

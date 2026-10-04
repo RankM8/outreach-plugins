@@ -13,6 +13,24 @@ Dieser Skill orchestriert den automatischen Review von AI-generierten Variablen 
 
 > **Wichtig:** Vor dem Review `ping` und `list_campaigns` prüfen: Konto und Kampagne müssen zum Auftrag passen. Der fertige Mailtext entsteht erst beim Export aus E-Mail-Schritten und Variablen; geprüft werden hier die gespeicherten Variablenwerte (`get_lead_variables`), nicht ein gerenderter Gesamttext. `approve_lead_variables` setzt nur den Status `approved` (bereit für den CSV-Export, `export_leads`) und überträgt nichts nach Instantly; Push und Export sind eigene Schritte. Während aktiver E-Mail-Läufe warten. Korrigiert wird nie inline: inhaltliche Korrekturen von Werten laufen über eine vollständige neue Version mit `save_lead_variables` oder eine ausdrücklich gestartete Neugenerierung (`start_lead_run`, Stufe `email`); Änderungen an Vorlage oder Variablendefinition über `export_campaign_blueprint` + `edit_campaign` (Replace-all; Ersetzen der AI-Variablen löscht alle generierten Werte — nur mit ausdrücklicher Zustimmung).
 
+## Mit dem verify-agent (Claude Code, Cowork)
+
+Steht der Agent `outreach:verify-agent` zur Verfügung, prüft je Lead genau EIN solcher Agent (Sonnet).
+Er schreibt nie Texte, liest `get_lead_variables` und `export_campaign_blueprint`, prüft Fakten gegen
+die Recherche, Person, Kampagnenregeln, Copy und Versandhinweise und antwortet mit einer Zeile
+`URTEIL lead=… ergebnis=<freigeben|ablehnen|hinweis> geschrieben=… grund=…`.
+
+1. Kampagnenprüfung (Copy-Prüfung unten) einmal vorab, nicht je Lead.
+2. Leads wie in Phase 2 laden, dann je Lead ein Agent mit dem Auftrag
+   „Kampagne <id>, Lead <id> (<Firma>). Server: <name>. Modus: nur Urteil“ bzw. „Modus: entscheiden“.
+   Höchstens 10 gleichzeitig (`run_in_background: true`), bei vielen Leads als Workflow mit
+   `agentType: "outreach:verify-agent"`.
+3. **Erste Läufe einer Kampagne im Modus „nur Urteil“:** Bericht nach Ergebnis (freigeben / ablehnen
+   mit Grund / hinweis), der Nutzer sieht sich Ablehnungen und Hinweise an. Erst danach „entscheiden“,
+   dann setzt der Agent `approved` bzw. `rejected`; `hinweis` bleibt immer beim Nutzer.
+
+Ohne diesen Agenten gilt der Ablauf unten mit der Sub-Agent-Vorlage.
+
 ## Workflow-Übersicht
 
 ```
@@ -138,7 +156,7 @@ Grundlage sind die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ 
 - [ ] Keine M-dashes? (nur normale Bindestriche -)
 
 ### Copy-Regeln (outreach-copy)
-- [ ] hallo: nur die Begrüßungszeile mit Komma, Format passend zur Ansprache (Du: „Hallo Vorname,“ der Person der Versandadresse, bei generischen Adressen des Entscheiders aus der Recherche, Fallback „Hallo,“ (dann Text im Singular, „dein Team“); Sie: „Hallo Frau/Herr Nachname,“ bzw. „Guten Tag,“)? Nie „Hallo Herr/Frau …“, „Hallo <Firma> Team,“ oder „Hallo zusammen,“, keine Ihr-Form, kein erfundener Name oder Titel?
+- [ ] hallo: nur die Begrüßungszeile mit Komma. Gibt der Variablen-Prompt der Kampagne eine eigene Form vor (z. B. Team-Anrede mit ihr/euch), gilt diese; sonst Format passend zur Ansprache (Du: „Hallo Vorname,“ der Person der Versandadresse, bei generischen Adressen des Entscheiders aus der Recherche, Fallback „Hallo,“ (dann Text im Singular, „dein Team“); Sie: „Hallo Frau/Herr Nachname,“ bzw. „Guten Tag,“)? Nie „Hallo Herr/Frau …“, „Hallo <Firma> Team,“ oder „Hallo zusammen,“, keine Ihr-Form, kein erfundener Name oder Titel?
 - [ ] intro: max. 2 Sätze, erster Buchstabe klein, weitere Sätze groß?
 - [ ] intro: ausschließlich positiv (Lob/anerkennende Beobachtung), über den Empfänger, kein Problem benannt?
 - [ ] intro: keine verbotenen Wörter/Formen („Lücke", „Hürde", „Problem", „leider", „schade", „noch nicht", „fehlt", „begrenzt", „veraltet", „ausbaufähig", „verschenkt Potenzial", Konjunktiv-Wunsch, Ratschlag, Selbstvorstellung/Pitch, Floskel wie „bin auf eure Webseite gestoßen")?
