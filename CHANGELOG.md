@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.9
+
+**outreach** (Agent-Reviews Runde 1)
+- `outreach-campaign` → Qualifizierung: Hat der Betrieb schon, was das Angebot liefert, gehört das in die Ausschlussgründe. Bei einem Angebot mit Online-Terminbuchung schließt „bereits eingebundene Online-Terminbuchung bei sonst modernem Auftritt“ aus; im Testfeld bekamen sonst fünf Betriebe mit funktionierender Buchung genau diese als Neuheit angeboten.
+
 ## 2026-10-04 – outreach 0.3.8
 
 **outreach**
