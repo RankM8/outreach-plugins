@@ -64,11 +64,14 @@ Hinweis zu den Zahlen: `not_qualified`-Leads und Leads mit blockierendem Kontakt
 
 Danach: "Nächster Schritt: /outreach-verify — Variablen prüfen und freigeben."
 
-## Manuell-Modus (Subagent-Orchestrierung)
+## Manuell-Modus (Abo-Lauf mit Subagents)
 
 Soll der Client selbst denken (eigenes Modell/eigene Quellen, kein OpenRouter-Key, gezielte Einzelfälle): die Phasen-Skills `/outreach-qualify`, `/outreach-research`, `/outreach-generate` einzeln fahren. Regeln:
 
-1. **Phasen strikt sequentiell**: Research erst, wenn die Qualifizierung für die Kampagne komplett durch ist (Research nutzt den Qualifizierungs-Kontext); Generate erst nach Research. Innerhalb einer Phase laufen die Subagent-Batches parallel.
+1. **Reihenfolge je Lead**: Qualifizierung → Recherche → Mail; Recherche nur nach einem Urteil außer `not_qualified`, Mail nur nach erfolgreicher Recherche. Ein Lead pro Agent und Stufe, Agent-Typ und Modell wie im Abschnitt „Abo-Lauf“ der Phasen-Skills (schlank → Plugin-Agent → `general-purpose` mit Sonnet).
+   - **Claude Code mit Workflow-Werkzeug (bevorzugt):** EIN Workflow mit `pipeline()` über die Leads, je Stufe ein `agent()` mit `agentType` (z. B. `outreach:qualifier-schlank`) bzw. `model: "sonnet"`. Prompts sind die Sub-Agent-Vorlagen aus `/outreach-qualify`, `/outreach-research` und `/outreach-generate` mit ersetzten Platzhaltern; beim Writer die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ aus `outreach-copy` anhängen. Leads laufen nebeneinander, jeder durch seine eigene Kette.
+   - **Ohne Workflow-Werkzeug:** Phasen nacheinander (erst alle Qualifizierungen, dann Recherche, dann Mail), innerhalb einer Phase bis zu 10 Agents parallel.
+   - **Fortschritt:** Vor dem Start alle drei Phasen mit `outreach_progress(action="start", …, total=<Leads>)` anmelden; das Band zählt mit und führt nicht qualifizierte Leads in Recherche und Mail als aussortiert.
 2. **Jede Phase folgt exakt ihrem Skill** — Prompts, Regeln und Fehlerbehandlung von dort übernehmen, keine abweichende Logik. Jede Phase läuft, bis ihre Queue leer ist.
 3. **Idempotenz nutzen**: Jede Phase zieht ihre Queue über die list_leads-Filter; bereits verarbeitete Leads tauchen nicht mehr auf. Ein abgebrochener Lauf kann jederzeit fortgesetzt werden.
 4. **Fehler blockieren nicht**: Fehlgeschlagene Leads bleiben in ihrer Phase-Queue und werden im Report ausgewiesen. Nur wenn ein KOMPLETTER Batch fehlschlägt: stoppen und User fragen.

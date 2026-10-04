@@ -33,6 +33,7 @@ const LINGER_MS = 120_000
 const runs = atom({ plugin: 'outreach', key: 'runs' } as const, {})
 const imports = atom({ plugin: 'outreach', key: 'imports' } as const, {})
 const locals = atom({ plugin: 'outreach', key: 'locals' } as const, {})
+const origins = atom({ plugin: 'outreach', key: 'origins' } as const, {})
 const frame = atom({ plugin: 'outreach', key: 'frame' } as const, 0)
 let configuredServer = 'akquise'
 let poller: { cancel: () => void } | null = null
@@ -276,25 +277,55 @@ const funnelRun = (el: El, run: RunView, step: number) => {
   )
 }
 
-/** One local workflow phase as one row: counted from the writes, so exact and without polling. */
-const localRow = (el: El, local: LocalRun) => {
+/** Share of the weekly subscription window used now, or null off a subscription. */
+const weekPercent = async ($: EngineInterface): Promise<number | null> => {
+  try {
+    const { rateLimits } = await $.session.usage()
+    return rateLimits.find(r => r.kind === 'seven_day')?.percentUsed ?? null
+  } catch {
+    return null
+  }
+}
+
+/** A local phase's campaign page: on the origin its server links to; null while that is unknown. */
+const localHref = (local: LocalRun, known: Record<string, string>) => {
+  const origin = local.server === '' ? undefined : known[local.server]
+  return origin === undefined ? null : appLink(origin, `/campaigns/${local.campaignId}/leads`)
+}
+
+/**
+ * One phase Claude runs in the subscription, as one row: counted from the writes, so exact and
+ * without polling. Leads judged not qualified leave the later phases; they count as handled, so a
+ * phase that did all it could ends green, not as if work were missing.
+ */
+const localRow = (el: El, local: LocalRun, href: string | null, weekUsed: number | null) => {
   const { Box, Text, Link } = el
   const done = local.doneLeadIds.length
-  const color = local.isTerminal ? (done >= local.total ? BRAND.done : BRAND.warn) : BRAND.local
+  const skipped = local.skippedLeadIds.length
+  const complete = done + skipped >= local.total
+  const color = local.isTerminal ? (complete ? BRAND.done : BRAND.warn) : BRAND.local
+  const [doneCells, asideCells, restCells] = barCells(local.total, done, skipped, 14)
+  const state = `${done} fertig${skipped > 0 ? ` · ${skipped} aussortiert` : ''}`
+  const week = weekUsed === null || local.weekStartPercent === null ? null : Math.max(0, weekUsed - local.weekStartPercent)
 
   return (
-    <Box key={`local-${local.id}`} justifyContent="space-between">
-      <Box gap={1}>
+    <Box key={`local-${local.id}`}>
+      <Box flexGrow={1} flexShrink={1} gap={1}>
         <Text bold color={color}>{local.isTerminal ? '■' : '▶'}</Text>
-        <Box width={9}><Text>{`${local.total} Leads`}</Text></Box>
-        <Text color={color}>{bar(done, local.total, 14)}</Text>
-        <Box width={13}>
-          <Text bold color={local.isTerminal ? color : undefined}>{local.isTerminal ? 'fertig' : `${done} fertig`}</Text>
+        <Box width={9} flexShrink={0}><Text>{`${local.total} Leads`}</Text></Box>
+        <Box flexShrink={0}>
+          <Text color={color}>{'█'.repeat(doneCells)}</Text>
+          <Text dimColor>{'█'.repeat(asideCells)}</Text>
+          <Text color={color} dimColor>{'░'.repeat(restCells)}</Text>
         </Box>
-        <Text>{STAGE_LABEL[local.phase] ?? local.phase}</Text>
-        <Text dimColor>· lokal in Claude</Text>
+        <Text bold color={local.isTerminal ? color : undefined} wrap="truncate-end">{state}</Text>
+        <Text wrap="truncate-end">{`· ${STAGE_LABEL[local.phase] ?? local.phase}`}</Text>
+        <Text dimColor wrap="truncate-end">· im Abo</Text>
       </Box>
-      <Link href={appLink(base, `/campaigns/${local.campaignId}/leads`)} label="Öffnen ↗" />
+      <Box flexShrink={0} gap={2} marginLeft={1}>
+        {week !== null && <Text dimColor>{`+${week.toFixed(1).replace('.', ',')} % Woche`}</Text>}
+        {href !== null && <Link href={href} label="Öffnen ↗" />}
+      </Box>
     </Box>
   )
 }
@@ -323,7 +354,15 @@ const importRow = (el: El, job: ImportView, step: number) => {
 }
 
 /** Server runs, imports and local phases in one frame. A single run alone shows as a funnel; else a row each. */
-const band = (el: El, shown: RunView[], jobs: ImportView[], phases: LocalRun[], step: number) => {
+const band = (
+  el: El,
+  shown: RunView[],
+  jobs: ImportView[],
+  phases: LocalRun[],
+  step: number,
+  known: Record<string, string>,
+  weekUsed: number | null,
+) => {
   const { Box, Text } = el
   const count = shown.length + jobs.length + phases.length
   const active =
@@ -331,7 +370,7 @@ const band = (el: El, shown: RunView[], jobs: ImportView[], phases: LocalRun[], 
   const allGood =
     shown.every(r => r.status === 'completed') &&
     jobs.every(j => j.status === 'completed') &&
-    phases.every(l => l.doneLeadIds.length >= l.total)
+    phases.every(l => l.doneLeadIds.length + l.skippedLeadIds.length >= l.total)
   const color = active > 0 ? BRAND.accent : allGood ? BRAND.done : BRAND.warn
   const single = shown.length === 1 && jobs.length === 0 && phases.length === 0 ? shown[0] : undefined
 
@@ -354,7 +393,7 @@ const band = (el: El, shown: RunView[], jobs: ImportView[], phases: LocalRun[], 
       </Box>
       {shown.map(run => bandRow(el, run, step))}
       {jobs.map(job => importRow(el, job, step))}
-      {phases.map(local => localRow(el, local))}
+      {phases.map(local => localRow(el, local, localHref(local, known), weekUsed))}
     </Box>
   )
 }
@@ -383,12 +422,15 @@ const bandImports = (all: ImportView[]): ImportView[] => [
     .slice(0, ENDED_SHOWN),
 ]
 
+/** A run in the subscription has up to three phases; all of them stay in view once ended. */
+const ENDED_PHASES_SHOWN = 3
+
 const bandPhases = (all: LocalRun[]): LocalRun[] => [
   ...all.filter(l => !l.isTerminal),
   ...all
     .filter(l => l.isTerminal)
     .sort((a, b) => (b.finishedAt ?? 0) - (a.finishedAt ?? 0))
-    .slice(0, ENDED_SHOWN),
+    .slice(0, ENDED_PHASES_SHOWN),
 ]
 
 // ── the runs of this chat ────────────────────────────────────────────────
@@ -478,6 +520,97 @@ const tick = async ($: EngineInterface) => {
 
 // ── workflow phases Claude runs itself ───────────────────────────────────
 
+/** The outreach server Claude last called itself (not a subagent); the lean agents follow it. */
+let lastUsedServer: string | null = null
+
+/** Keeps the app origin a server's links point to, so a local phase links to the right app. */
+const learnOrigin = async ($: EngineInterface, server: string, payload: Record<string, unknown> | null) => {
+  if (payload === null) return
+  const campaign = payload.campaign
+  const lead = Array.isArray(payload.leads) ? payload.leads[0] : payload.lead
+  const link = [payload.appUrl, isRecord(campaign) ? campaign.appUrl : null, isRecord(lead) ? lead.appUrl : null]
+    .find((v): v is string => typeof v === 'string' && /^https?:\/\//.test(v))
+  if (link === undefined) return
+  const origin = new URL(link).origin
+  await update($, origins, all => (all[server] === origin ? all : { ...all, [server]: origin }))
+}
+
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v)
+
+/**
+ * Lean agents for runs in the subscription: one lead each, Sonnet, only the outreach tools of
+ * one server – far less context than a general agent that carries every tool of the session.
+ * Registered here because only at runtime are the tool names known: they follow whatever the
+ * customer named the server. The plugin's agent files (qualifier, researcher, writer) remain as
+ * the fallback where no mod runs.
+ */
+const LEAN_ONE_LEAD =
+  'Arbeite nur mit dem Lead, dessen campaign_id und lead_id dir der Auftrag nennt; nie mit einem anderen. ' +
+  'Folge den Schritten und Regeln des Auftrags genau. Deutsch mit echten Umlauten. Nichts erfinden.'
+
+const LEAN_AGENTS = [
+  {
+    name: 'qualifier-schlank',
+    what: 'Qualifiziert genau einen Lead gegen die Kriterien seiner Kampagne (schlank: nur Outreach-Werkzeuge, Sonnet)',
+    prompt: 'Du qualifizierst genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
+    tools: ['get_lead_data', 'write_lead_details'],
+    web: ['WebFetch'],
+  },
+  {
+    name: 'researcher-schlank',
+    what: 'Recherchiert genau einen Lead nach den Vorgaben seiner Kampagne (schlank: nur Outreach-Werkzeuge, Sonnet)',
+    prompt: 'Du recherchierst genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
+    tools: ['get_lead_data', 'write_lead_details'],
+    web: ['WebFetch', 'WebSearch'],
+  },
+  {
+    name: 'writer-schlank',
+    what: 'Schreibt die Mail-Variablen für genau einen Lead (schlank: nur Outreach-Werkzeuge, Sonnet)',
+    prompt: 'Du schreibst die KI-Variablen der Cold-Mail für genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
+    tools: ['get_lead_data', 'save_lead_variables', 'get_lead_variables'],
+    web: ['WebFetch'],
+  },
+] as const
+
+/** The server the lean agents work against now; null until one is known. */
+let agentServer: string | null = null
+
+const bindAgents = async ($: EngineInterface, server: string) => {
+  if (server === agentServer) return
+  agentServer = server
+  for (const agent of LEAN_AGENTS) {
+    try {
+      await $.agent.register({
+        name: agent.name,
+        description: `${agent.what}.`,
+        prompt: agent.prompt,
+        tools: [...agent.tools.map(t => `mcp__${server}__${t}`), ...agent.web],
+        model: 'sonnet',
+        maxTurns: 30,
+      })
+    } catch {
+      // Without it the skills fall back to the plugin's agent files.
+    }
+  }
+}
+
+/** Binds the lean agents to the server Claude used last, or to the only one there is. */
+const bindLeanAgents = async ($: EngineInterface) => {
+  try {
+    const servers = await akquiseServers($)
+    const recognised = [...knownServers].filter(([, ok]) => ok).map(([srv]) => srv)
+    const target =
+      lastUsedServer !== null && servers.includes(lastUsedServer)
+        ? lastUsedServer
+        : recognised.length === 1
+          ? recognised[0]
+          : undefined
+    if (target !== undefined) await bindAgents($, target)
+  } catch {
+    // No tool list now: the next turn tries again.
+  }
+}
+
 const PHASES = ['qualification', 'research', 'email'] as const
 type Phase = (typeof PHASES)[number]
 
@@ -491,27 +624,51 @@ const phaseOfWrite = (name: string | null, input: Record<string, unknown>): Phas
   return fields.some(f => f.startsWith('qualification')) ? 'qualification' : 'research'
 }
 
-/** Counts one lead as done for its phase; the phase ends once every lead of it is. */
-const countWrite = async ($: EngineInterface, phase: Phase, input: Record<string, unknown>) => {
+/** Done once every lead of the phase is written or has left the chain. */
+const withLead = (local: LocalRun, leadId: number, how: 'done' | 'skipped'): LocalRun => {
+  const doneLeadIds = how === 'done' ? [...local.doneLeadIds, leadId] : local.doneLeadIds
+  const skippedLeadIds = how === 'skipped' ? [...local.skippedLeadIds, leadId] : local.skippedLeadIds
+  const isTerminal = doneLeadIds.length + skippedLeadIds.length >= local.total
+  return { ...local, doneLeadIds, skippedLeadIds, isTerminal, finishedAt: isTerminal ? Date.now() : null }
+}
+
+/**
+ * Counts one lead as done for its phase. A lead judged not qualified also leaves the research and
+ * email phases of its campaign still going: they will never write it, and must not wait for it.
+ */
+const countWrite = async ($: EngineInterface, phase: Phase, input: Record<string, unknown>, server: string) => {
   const campaignId = Number(input.campaign_id)
   const leadId = Number(input.lead_id)
   if (!Number.isFinite(campaignId) || !Number.isFinite(leadId)) return
-  let ended: LocalRun | null = null
+  const fields = typeof input.fields === 'object' && input.fields !== null ? (input.fields as Record<string, unknown>) : {}
+  const leaves = phase === 'qualification' && fields.qualificationFitLevel === 'not_qualified'
+  const ended: LocalRun[] = []
   await update($, locals, all => {
-    const key = localKey(campaignId, phase)
-    const local = all[key]
-    if (local === undefined || local.isTerminal || local.doneLeadIds.includes(leadId)) return all
-    const doneLeadIds = [...local.doneLeadIds, leadId]
-    const isTerminal = doneLeadIds.length >= local.total
-    const next = { ...local, doneLeadIds, isTerminal, finishedAt: isTerminal ? Date.now() : null }
-    if (isTerminal) ended = next
-    return { ...all, [key]: next }
+    const next = { ...all }
+    const touch = (key: string, how: 'done' | 'skipped') => {
+      const local = next[key]
+      if (local === undefined || local.isTerminal) return
+      if (local.doneLeadIds.includes(leadId) || local.skippedLeadIds.includes(leadId)) return
+      const changed = withLead({ ...local, server: local.server || server }, leadId, how)
+      if (changed.isTerminal) ended.push(changed)
+      next[key] = changed
+    }
+    touch(localKey(campaignId, phase), 'done')
+    if (leaves) {
+      touch(localKey(campaignId, 'research'), 'skipped')
+      touch(localKey(campaignId, 'email'), 'skipped')
+    }
+    return next
   })
-  if (ended !== null) await endLocal($, ended)
+  for (const local of ended) await endLocal($, local)
 }
 
 const endLocal = async ($: EngineInterface, local: LocalRun) => {
-  $.ui.toast(`Outreach: ${STAGE_LABEL[local.phase] ?? local.phase} fertig · ${local.doneLeadIds.length}/${local.total} Leads`)
+  const skipped = local.skippedLeadIds.length
+  $.ui.toast(
+    `Outreach: ${STAGE_LABEL[local.phase] ?? local.phase} fertig · ${local.doneLeadIds.length}/${local.total} Leads` +
+      (skipped > 0 ? `, ${skipped} aussortiert` : ''),
+  )
   $.clock.after(LINGER_MS, () =>
     void update($, locals, all => {
       const now = Date.now()
@@ -532,6 +689,7 @@ const reportProgress = async ($: EngineInterface, input: ProgressInput): Promise
     const local = (await read($, locals))[key]
     if (local === undefined || local.isTerminal) return 'Keine laufende Phase dazu.'
     const ended = { ...local, isTerminal: true, finishedAt: Date.now() }
+    // An end before every lead is through: what remains was neither done nor skipped.
     await update($, locals, all => ({ ...all, [key]: ended }))
     await endLocal($, ended)
     return `Phase beendet: ${ended.doneLeadIds.length}/${ended.total} Leads.`
@@ -542,7 +700,18 @@ const reportProgress = async ($: EngineInterface, input: ProgressInput): Promise
     return `Phase läuft bereits: ${STAGE_LABEL[phase]} · ${going.doneLeadIds.length}/${going.total} Leads.`
   }
   const total = Math.max(1, Math.floor(Number(input.total)) || 1)
-  const local: LocalRun = { id: key, campaignId, phase, total, doneLeadIds: [], isTerminal: false, finishedAt: null }
+  const local: LocalRun = {
+    id: key,
+    campaignId,
+    phase,
+    total,
+    doneLeadIds: [],
+    skippedLeadIds: [],
+    isTerminal: false,
+    finishedAt: null,
+    server: '',
+    weekStartPercent: await weekPercent($),
+  }
   await update($, locals, all => ({ ...all, [key]: local }))
   spin($)
   return `Fortschritt läuft im Band: ${STAGE_LABEL[phase]} · 0/${total} Leads. Gezählt wird jeder erfolgreiche Schreibaufruf.`
@@ -673,6 +842,8 @@ export const register: Register = (on, options) => {
   knownServers = new Map()
   poller = null
   spinner = null
+  lastUsedServer = null
+  agentServer = null
   base = String(options.appUrl ?? 'https://outreach.akquise.de')
 
   // A standalone tool row: our card in place of the engine's result block.
@@ -737,8 +908,12 @@ export const register: Register = (on, options) => {
     } catch {
       // Nothing to resume.
     }
+    await bindLeanAgents($)
     return next(e)
   })
+
+  // A server connected after the start, or another one just used: the lean agents follow.
+  on('turn.start', async ($, e, next) => (await bindLeanAgents($), next(e)))
 
 
   // One command, no wording needed: every run still going appears in the band.
@@ -769,9 +944,11 @@ export const register: Register = (on, options) => {
     const recognized = await recognize($, e.tool)
     if (recognized === null) return ran
     const { name, server } = recognized
+    if (!e.agentId) lastUsedServer = server
+    await learnOrigin($, server, payloadOf(ran.result))
     const written = phaseOfWrite(name, e as unknown as Record<string, unknown>)
     if (written !== null) {
-      await countWrite($, written, e as unknown as Record<string, unknown>)
+      await countWrite($, written, e as unknown as Record<string, unknown>, server)
       return ran
     }
     if (name === 'import_leads' || name === 'get_job_status') {
@@ -799,6 +976,7 @@ export const register: Register = (on, options) => {
     const jobs = bandImports(Object.values(await read($, imports)))
     const phases = bandPhases(Object.values(await read($, locals)))
     if (e.props.hasSurvey || shown.length + jobs.length + phases.length === 0) return next(e)
-    return band($.ui.resolve(e), shown, jobs, phases, await read($, frame))
+    const weekUsed = phases.some(l => l.weekStartPercent !== null) ? await weekPercent($) : null
+    return band($.ui.resolve(e), shown, jobs, phases, await read($, frame), await read($, origins), weekUsed)
   })
 }

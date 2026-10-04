@@ -369,14 +369,53 @@ describe('local workflow phases', () => {
 
     let band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: '1 fertig' })).toBeDefined()
-    expect(await band.find({ text: 'Recherche' })).toBeDefined()
-    expect(await band.find({ text: '· lokal in Claude' })).toBeDefined()
+    expect(await band.find({ text: '· Recherche' })).toBeDefined()
+    expect(await band.find({ text: '· im Abo' })).toBeDefined()
     await band.unmount()
 
     await write(2, { researchText: 'Bericht' })
     band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: 'fertig' })).toBeDefined()
     expect(await band.find({ text: 'alle beendet' })).toBeDefined()
+    await band.unmount()
+  })
+
+  test('a lead judged not qualified leaves research and email: they end green with it set aside', async ($, on) => {
+    engineDraws(on)
+    mock.clock(on)
+    on('tool.call', () => ({ result: { status: 'success' } }))
+    for (const phase of ['qualification', 'research', 'email']) await progress($, { action: 'start', campaign_id: 2274, phase, total: 2 })
+    const write = (tool: string, leadId: number, fields: Record<string, unknown>) =>
+      toolCall($, `mcp__akquise__${tool}`, { campaign_id: 2274, lead_id: leadId, fields, variables: '{}' })
+
+    await write('write_lead_details', 1, { qualificationStatus: 'completed', qualificationFitLevel: 'qualified' })
+    await write('write_lead_details', 2, { qualificationStatus: 'completed', qualificationFitLevel: 'not_qualified' })
+    await write('write_lead_details', 1, { research: 'Bericht', status: 'researched' })
+    await write('save_lead_variables', 1, {})
+
+    const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: '1 fertig · 1 aussortiert' })).toBeDefined()
+    expect(await band.find({ text: /0 fertig/ })).toBeUndefined()
+    expect(await band.find({ text: '2 fertig' })).toBeDefined()
+    expect(await band.find({ text: 'alle beendet' })).toBeDefined()
+    await band.unmount()
+  })
+
+  test('a local phase links into the app only once its server has named its origin', async ($, on) => {
+    engineDraws(on)
+    mock.clock(on)
+    const listed = { ...LIST_LEADS, campaign: { id: 2274, name: 'T', appUrl: 'https://listm8.test/campaigns/2274/leads' } }
+    on('tool.call', (_$, e) => ({ result: String(e.tool).endsWith('list_leads') ? listed : { status: 'success' } }))
+    await progress($, { action: 'start', campaign_id: 2274, phase: 'research', total: 3 })
+    await toolCall($, 'mcp__akquise__write_lead_details', { campaign_id: 2274, lead_id: 1, fields: { research: 'x' } })
+    let band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect((await band.findAll({ type: 'Link' })).length).toBe(0)
+    await band.unmount()
+
+    await toolCall($, 'mcp__akquise__list_leads', { campaign_id: 2274 })
+    band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    const hrefs = (await band.findAll({ type: 'Link' })).map(l => l.props.href)
+    expect(hrefs).toContain('https://listm8.test/campaigns/2274/leads')
     await band.unmount()
   })
 

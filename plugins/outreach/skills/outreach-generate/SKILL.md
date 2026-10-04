@@ -9,7 +9,11 @@ description: Use when user says "outreach:generate", "mcp:generate", "generiere 
 
 Dieser Skill orchestriert die vollautomatische AI-Variablen-Generierung für Leads via MCP Business Tools. Claude generiert AI-Variablen basierend auf Research, Qualification und Custom Attributes, und speichert sie via `save_lead_variables`. Email-Body und Subject werden NICHT durch diesen Skill erzeugt — sie sind in der Email-Sequenz hardcoded und werden beim CSV-Export live mit den Variablen gerendert. Dieser Skill ist der **Manuell-Modus**; Standard ist der serverseitige Lauf via `/outreach-pipeline` (Tool `start_lead_run`, Stufe `email`). Vor dem Start `list_lead_runs(campaign_id, active_only=true)` prüfen: bei aktivem Lauf mit E-Mail-Stufe blockt `save_lead_variables` mit `lead_run_active`.
 
-> **Hinweis zur Parallelisierung:** Wenn dein Client parallele Subagents unterstützt (z.B. Claude Code), spawne pro Lead einen Subagent wie beschrieben. Andernfalls arbeite die Leads **sequentiell** mit exakt denselben Schritten ab — das Ergebnis ist identisch, nur langsamer.
+> **Abo-Lauf (Subagents im Claude- bzw. ChatGPT-Abo):**
+> - **Ein Lead pro Agent, immer.** Nie mehrere Leads in einen Agenten geben – Modelle verwechseln sonst Leads.
+> - **Agent-Typ:** In Claude Code mit Plugin `outreach` zuerst `outreach:writer-schlank` (nur die Outreach-Werkzeuge, Sonnet, rund halb so viel Kontext wie ein allgemeiner Agent); fehlt er, `outreach:writer` (Plugin-Agent auf Sonnet); sonst `general-purpose` mit `model: "sonnet"`. Nie das Modell der Sitzung erben lassen: Opus verbraucht das Abo-Kontingent um ein Vielfaches. Andere Clients: das günstigste Modell mit Web-Zugriff; ohne Subagents die Leads **sequentiell** mit exakt denselben Schritten.
+> - **Parallelität:** höchstens 10 Agents gleichzeitig.
+> - **Fortschritt:** Gibt es das Werkzeug `outreach_progress` (Claude Code mit Plugin `outreach`), zu Beginn der Phase einmal `outreach_progress(action="start", campaign_id, phase="email", total=<Leads der Phase>)` aufrufen. Gezählt wird danach automatisch, auch jeder Schreibaufruf der Subagents; als „nicht qualifiziert“ beurteilte Leads gelten in Recherche und Mail als aussortiert. Nichts weiter melden.
 
 ## Phase 0: Umgebung und Konfiguration prüfen
 
@@ -17,7 +21,7 @@ Vor jeder Generierung `ping` und `list_campaigns` mit dem Auftrag abgleichen (ri
 
 Ansprache und Kampagnenkontext kommen pro Lead aus `get_lead_data` (`emailGeneration.salutation`, `salutationRule`, `campaignContext`); die Ansprache gilt durchgängig für alle Variablen eines Leads. Den fertigen Text einzelner Leads prüfst du nicht über ein Vorschau-Tool, sondern über `get_lead_variables` nach dem Speichern.
 
-**Copy-Regeln (Pflicht):** Bevor `hallo` oder `intro` für einen Lead geschrieben wird, den Skill `outreach-copy` laden und dessen Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ einhalten; jeder Subagent bekommt diese Pflicht im Prompt mit. Der Variablen-Prompt der Kampagne geht vor, solange er diesen Regeln nicht widerspricht; widerspricht er ihnen (z. B. Kritik-Opener, „Hallo Herr …“ bei Du-Form), vor dem Start den Nutzer darauf hinweisen und die Prompts über `/outreach-campaign` korrigieren lassen, statt gegen die Regeln zu generieren.
+**Copy-Regeln (Pflicht):** Bevor `hallo` oder `intro` für einen Lead geschrieben wird, den Skill `outreach-copy` laden und dessen Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ einhalten. Der Orchestrator lädt den Skill EINMAL und hängt beide Abschnitte wörtlich an jeden Agenten-Prompt an; die Subagents laden ihn nicht selbst (spart Kontext je Lead). Der Variablen-Prompt der Kampagne geht vor, solange er diesen Regeln nicht widerspricht; widerspricht er ihnen (z. B. Kritik-Opener, „Hallo Herr …“ bei Du-Form), vor dem Start den Nutzer darauf hinweisen und die Prompts über `/outreach-campaign` korrigieren lassen, statt gegen die Regeln zu generieren.
 
 ## Workflow-Übersicht
 
@@ -64,9 +68,11 @@ Wenn campaign_id als Argument übergeben wurde: Direkt zur Batch-Größe-Abfrage
 Frage den User:
 "Wie viele Leads pro Batch? (Default: 10)"
 - 10 (Standard)
-- 50 (Schneller, 50 parallele Agents)
-- 100 (Aggressiv)
+- 50
+- 100
 - 200 (Maximum)
+
+Gleichzeitig laufen höchstens 10 Agents (siehe „Abo-Lauf“); größere Batches werden in Wellen abgearbeitet.
 
 Merke dir die Antwort als `{batch_size}`. Wenn der User einfach Enter drückt oder nichts sagt: `batch_size = 10`.
 
@@ -92,12 +98,12 @@ Wenn `leads` leer ist: "Keine Leads zur Verarbeitung. Alle Leads haben bereits g
 
 ### Phase 3: Sub-Agents spawnen (parallel)
 
-Für jeden Lead nur die tatsächlich vom Client unterstützte Agent-Signatur verwenden. Berechtigungsmodus unverändert erben; kein `bypassPermissions`, keine erfundenen `run_in_background`-Parameter. Falls der Client keine Parallelisierung unterstützt, sequentiell arbeiten.
+Für jeden Lead genau einen Agent, Typ und Modell nach „Abo-Lauf“ oben; nur die tatsächlich vom Client unterstützte Agent-Signatur verwenden. Berechtigungsmodus unverändert erben; kein `bypassPermissions`, keine erfundenen `run_in_background`-Parameter. Falls der Client keine Parallelisierung unterstützt, sequentiell arbeiten.
 - `name`: "gen-{lead.company}" (auf 20 Zeichen begrenzen)
 - `description`: "Variablen für {lead.company} generieren"
 - `prompt`: das folgende vollständige Lead-Briefing
 
-**WICHTIG:** Spawne ALLE Agents eines Batches in EINEM Message-Block, damit sie parallel laufen.
+**WICHTIG:** Spawne die Agents einer Welle (höchstens 10) in EINEM Message-Block, damit sie parallel laufen.
 
 #### Sub-Agent Prompt Template
 
@@ -112,7 +118,7 @@ LEAD: {lead.company} (ID: {lead.id})
 ## Schritte
 
 1. Rufe get_lead_data(campaign_id={campaign.id}, lead_id={lead.id}) auf
-2. Lies den emailGeneration.systemPrompt sorgfältig — er definiert Ton, Stil und Kontext; dazu emailGeneration.salutation/salutationRule (Ansprache) und campaignContext. Lade den Skill outreach-copy und halte dessen Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ ein
+2. Lies den emailGeneration.systemPrompt sorgfältig — er definiert Ton, Stil und Kontext; dazu emailGeneration.salutation/salutationRule (Ansprache) und campaignContext. Halte die Copy-Regeln „Anrede und Ansprache“ und „Intro-Regeln“ ein, die unten an diesen Auftrag angehängt sind
 3. Analysiere Research, Qualification und Custom Attributes
 4. Optional: Besuche die Lead-Website (lead.website), falls dein Client Websites laden kann — get_lead_data liefert KEINE Screenshots
 5. Generiere für JEDE Variable in emailGeneration.variables[] den Text gemäß ihrem Prompt
@@ -133,6 +139,10 @@ LEAD: {lead.company} (ID: {lead.id})
 7. Speichere via save_lead_variables(campaign_id={campaign.id}, lead_id={lead.id}, variables=JSON-String)
 
 WICHTIG: variables ist ein JSON-STRING. ALLE Variablen aus emailGeneration.expectedOutput müssen enthalten sein.
+
+# Copy-Regeln (aus dem Skill outreach-copy)
+
+{Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ wörtlich einfügen}
 ```
 
 ### Phase 4: Visueller Kontext (optional)
@@ -287,6 +297,6 @@ Details: siehe `/outreach-verify` Skill.
 
 1. **Voll autonom** — Keine Rückfragen während der Generierung. Durchlaufen bis fertig.
 2. **{batch_size}er-Batches** — {batch_size} Leads pro Batch (vom User gewählt, Default 10, Maximum 200).
-3. **Parallel** — Alle Agents eines Batches gleichzeitig spawnen (ein Message-Block).
+3. **Parallel** — höchstens 10 Agents gleichzeitig (ein Message-Block je Welle), ein Lead pro Agent.
 4. **Idempotent** — Leads mit bereits generierten Variablen tauchen nicht mehr in list_leads (default-filter `campaign_status="processing"`) auf.
 5. **Versionierung** — Jeder save_lead_variables-Aufruf erzeugt eine neue Version, ältere Versionen bleiben als Historie erhalten.

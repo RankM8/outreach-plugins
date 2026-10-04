@@ -55,8 +55,14 @@ export type LocalRun = {
   total: number
   /** Leads whose result for this phase has been written, by id. */
   doneLeadIds: number[]
+  /** Leads that left the chain before this phase (judged not qualified): they count as handled. */
+  skippedLeadIds: number[]
   isTerminal: boolean
   finishedAt: number | null
+  /** The MCP server the phase writes to, as its tool names spell it; '' until the first write. */
+  server: string
+  /** Share of the weekly subscription window used when the phase began; null off a subscription. */
+  weekStartPercent: number | null
 }
 
 declare module 'claude-code' {
@@ -68,6 +74,8 @@ declare module 'claude-code' {
       imports: Record<string, ImportView>
       /** Workflow phases Claude runs locally in this chat, by campaign and phase. */
       locals: Record<string, LocalRun>
+      /** App origin per outreach MCP server, learned from the links its answers carry. */
+      origins: Record<string, string>
       /** Spinner frame of the band, advanced only while a run is going. */
       frame: number
     }

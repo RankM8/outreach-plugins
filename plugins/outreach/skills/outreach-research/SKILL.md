@@ -9,7 +9,11 @@ description: Use when user says "outreach:research", "mcp:research", "recherchie
 
 Dieser Skill orchestriert das Lead-Research via MCP Business Tools. Claude-Subagents recherchieren jeden Lead (Website, öffentliche Quellen) nach den Kampagnen-Vorgaben (aus `get_lead_data.researchGeneration`) und schreiben den Report via `write_lead_details` zurück. Die serverseitige Research-Pipeline (OpenRouter, serverseitiges Website-Scraping) wird dabei bewusst NICHT verwendet — dieser Skill ist der **Manuell-Modus** (eigenes Modell/eigene Quellen); entsprechend entstehen keine Screenshot-Artefakte. Der serverseitige Lauf (`/outreach-pipeline`, Tool `start_lead_run`) erzeugt sie dagegen. Vor dem Start `list_lead_runs(campaign_id, active_only=true)` prüfen: bei aktivem Lauf mit Research- ODER Qualifizierungs-Stufe blockt `write_lead_details` mit `lead_run_active`.
 
-> **Hinweis zur Parallelisierung:** Wenn dein Client parallele Subagents unterstützt (z.B. Claude Code), spawne pro Lead einen Subagent wie beschrieben. Andernfalls arbeite die Leads **sequentiell** mit exakt denselben Schritten ab — das Ergebnis ist identisch, nur langsamer.
+> **Abo-Lauf (Subagents im Claude- bzw. ChatGPT-Abo):**
+> - **Ein Lead pro Agent, immer.** Nie mehrere Leads in einen Agenten geben – Modelle verwechseln sonst Leads.
+> - **Agent-Typ:** In Claude Code mit Plugin `outreach` zuerst `outreach:researcher-schlank` (nur die Outreach-Werkzeuge, Sonnet, rund halb so viel Kontext wie ein allgemeiner Agent); fehlt er, `outreach:researcher` (Plugin-Agent auf Sonnet); sonst `general-purpose` mit `model: "sonnet"`. Nie das Modell der Sitzung erben lassen: Opus verbraucht das Abo-Kontingent um ein Vielfaches. Andere Clients: das günstigste Modell mit Web-Zugriff; ohne Subagents die Leads **sequentiell** mit exakt denselben Schritten.
+> - **Parallelität:** höchstens 10 Agents gleichzeitig.
+> - **Fortschritt:** Gibt es das Werkzeug `outreach_progress` (Claude Code mit Plugin `outreach`), zu Beginn der Phase einmal `outreach_progress(action="start", campaign_id, phase="research", total=<Leads der Phase>)` aufrufen. Gezählt wird danach automatisch, auch jeder Schreibaufruf der Subagents; als „nicht qualifiziert“ beurteilte Leads gelten in Recherche und Mail als aussortiert. Nichts weiter melden.
 
 ## Websitehinweise und gespeicherte Sperren getrennt halten
 
@@ -64,7 +68,7 @@ Wenn `leads` leer: "Keine Leads mit ausstehendem Research." -> STOP.
 
 ## Phase 2: Sub-Agents spawnen (parallel)
 
-Für JEDEN Lead einen Agent spawnen (general-purpose, `run_in_background: true`, alle in EINEM Message-Block, `name`: "res-{lead.company}" gekürzt).
+Für JEDEN Lead genau einen Agent spawnen (Typ und Modell nach „Abo-Lauf“ oben, `run_in_background: true`, höchstens 10 gleichzeitig in EINEM Message-Block, `name`: "res-{lead.company}" gekürzt).
 
 ### Sub-Agent Prompt Template
 
