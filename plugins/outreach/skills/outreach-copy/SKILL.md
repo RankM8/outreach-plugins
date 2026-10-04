@@ -55,11 +55,20 @@ muss dieselben Pronomen tragen wie der gewählte Modus.
 
 | `salutation` | Pronomen im ganzen Text | `hallo` | Fallback |
 |---|---|---|---|
-| `du` (Du-Form, eine Person) | du/dich/dir/dein, nie ihr/euch | „Hallo Vorname,“ | „Hallo zusammen,“ |
+| `du` (Du-Form, eine Person) | du/dich/dir/dein, nie ihr/euch | „Hallo Vorname,“ | „Hallo,“ |
 | `team` (Du-Form, Betrieb) | ihr/euch/eure | „Hallo <Firma> Team,“ | „Hallo zusammen,“ |
 | `sie` (nur auf ausdrücklichen Wunsch) | Sie/Ihnen/Ihre | „Hallo Frau Nachname,“ / „Hallo Herr Nachname,“ | „Guten Tag,“ |
 
-- NIE „Hallo Herr/Frau Nachname,“ zusammen mit Du-Text, nie „Hey …“, nie Sie und du gemischt.
+- Wer wird in der Du-Form mit Vornamen angesprochen? Die Person, der die Versandadresse gehört.
+  Bei generischen Adressen (info@, kontakt@, office@ …) der Vorname der Ansprechperson, die die
+  Recherche als Entscheider nennt (Inhaber, Geschäftsführung, Verantwortliche), damit die Mail
+  dort ankommt bzw. weitergeleitet wird. Nennt die Recherche mehrere gleichrangige Inhaber oder
+  Geschäftsführer, gilt die Person, die sie als Ansprechpartner empfiehlt, sonst die erstgenannte
+  im Impressum. Personenmarken immer mit Vornamen. Ist keine Person klar erkennbar, steht nur
+  „Hallo,“. Die Sie-Form geht analog mit Herr/Frau und Nachname, Fallback
+  „Guten Tag,“.
+- NIE „Hallo Herr/Frau Nachname,“ oder „Hallo <Firma> Team,“ zusammen mit Du-Text (`du`), nie
+  „Hallo zusammen,“ vor einem Text mit „du“, nie „Hey …“, nie Sie und du gemischt.
 - Die Anrede kommt immer aus `{{ai.hallo}}`. Kein `{{firstName}}`, kein `{{companyName}}`, kein
   `{{custom.vorname}}` direkt in Betreff oder Body: Es gibt kein Vornamen-Feld, und ein leeres
   Attribut ergibt „Hallo ,“. Liegt der Vorname als Custom-Attribut aus dem Import vor (Schlüssel
@@ -156,21 +165,44 @@ nur „Viele Grüße“. Schlank: keine Auszeichnungen, Links, Telefonnummern od
 
 ## Intro-Regeln (`{{ai.intro}}`)
 
-Das Intro ist ein LOB bzw. ein konkreter, positiver Bezug auf den Lead. Es ist KEINE Kritik und
-KEIN Verbesserungsvorschlag.
+Das Intro ist Lob oder eine anerkennende Beobachtung: ein positiver Bezug auf den Lead, der
+beweist, dass jemand hingeschaut hat, getragen von einem konkreten Detail. Es ist KEINE Kritik
+und KEIN Verbesserungsvorschlag. Das Problem sind leere Lobadjektive ohne Inhalt, nicht das Lob.
+Bewährte Einstiege (dürfen über Leads hinweg gleich bleiben, das Detail wechselt): „ich hab mir
+deine Bewertungen angeschaut …“, „mir ist aufgefallen, dass …“, „ich war gerade auf deiner
+Website: …“.
 
 MUSS:
 
 - Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail
   selbst. Verboten sind austauschbare Bewertungsfloskeln wie „das spricht für sich“, „das sieht man
   selten“, „finde ich stark“, „finde ich spannend“ – sie machen alle Opener gleich (ListM8-Regel,
-  gilt zusätzlich zu den Akquise-Regeln).
+  gilt zusätzlich zu den Akquise-Regeln). Auch in Beispielen und Prompts nie als Muster stehen
+  lassen: Modelle kopieren Beispiele.
 - Konkreter, verifizierbarer Bezug, den man nur kennt, wenn man wirklich auf
   Website/Shop/Bewertungen war. Angle-Reihenfolge: 1) Kundenbewertungen 2) Website-Feature/
   Spezialisierung 3) Stellenanzeige/Wachstum 4) Branche/Region (Fallback).
+- Ohne konkretes Kundenlob sind auch diese Aufhänger erlaubt, jeweils mit EINEM konkreten Detail:
+  ein Projekt, eine Referenz oder Spezialisierung, die Firmengeschichte oder das Gründungsjahr
+  (mit seinem Ereignis), Auszeichnungen und Siegel (ohne Altersgrenze), Lage und Ausstattung.
+  Eine Aufzählung von Leistungen („A, B und C“) ist kein Aufhänger. Gibt die Recherche nichts
+  Konkretes her, steht der Fallback-Satz der Kampagne, nicht eine Leistungsliste.
+- Bewertungsanker ist eine konkrete Paraphrase: was genau wird gelobt. Anzahl und Sternedurchschnitt
+  nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt. Plural
+  oder „immer wieder“ nur, wenn mindestens 2 Bewertungen dieses Lob tragen.
+- Stellenanzeige: die Erkenntnis nutzen, die sie über den Betrieb verrät (Wachstum,
+  Spezialisierung, Projekt), nicht „ich hab gesehen, dass ihr gerade … sucht“. Nie „ihr
+  stellt ein“ ankündigen.
+- Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was der feste Text danach
+  sagt (beginnt der feste Text mit „Das hat mich neugierig gemacht.“, darf der Satz nicht davor
+  stehen).
+- Zuschreibung stimmt: Der angeschriebenen Person nie etwas zuschreiben, das einer anderen
+  gehört (der Podcast der Inhaberin bei einer Mail an eine Mitarbeiterin). Die Person beim
+  Namen nennen oder einen Anker wählen, der zur angeschriebenen Person gehört.
 - Maximal 2 Sätze.
 - Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,“). Nur der erste Buchstabe ist klein,
-  jeder weitere Satz beginnt groß.
+  jeder weitere Satz beginnt groß. Substantive und Namen bleiben auch am Anfang groß („Kunden
+  loben …“, nie „kunden loben …“).
 - Über den EMPFÄNGER schreiben, nie über den Absender.
 - Locker und authentisch, Ton wie eine kurze Nachricht an einen Bekannten.
 - Geht nahtlos in den festen Folgesatz über, ohne ein Problem zu benennen.
@@ -211,22 +243,27 @@ wen), Ziel, Aufgabe, verbotene Formulierungen und Tonfall.
 Der `hallo`-Prompt MUSS enthalten:
 
 - dass NUR die Begrüßungszeile ausgegeben wird, kein weiterer Satz, endet mit Komma;
-- das Format passend zur `salutation` (Tabelle oben) samt Fallback „Hallo zusammen,“ bzw.
-  „Guten Tag,“;
-- die Namensquelle (Entscheider/Inhaber aus der Recherche, ggf. Custom-Attribut mit dem
-  Vornamen) und das Verbot, Namen, Titel oder Rollen zu erfinden;
+- das Format passend zur `salutation` (Tabelle oben) samt Fallback („Hallo,“ in der Du-Form,
+  „Guten Tag,“ in der Sie-Form);
+- die Namensquelle: die Person, der die Versandadresse gehört; bei generischen Adressen
+  (info@, kontakt@ …) der Entscheider/Inhaber aus der Recherche; ggf. Custom-Attribut mit dem
+  Vornamen. Dazu das Verbot, Namen, Titel oder Rollen zu erfinden;
 - das Verbot von Platzhaltern in Klammern, Gedankenstrichen und Emojis; echte Umlaute.
 
 Der `intro`-Prompt MUSS enthalten:
 
 - Kontext: Absender, Angebot und den festen Folgesatz, an den das Intro anschließt (z. B.
   „Deswegen war ich so frei …“);
-- die Angle-Reihenfolge (Bewertungen > Website-Feature > Stellenanzeige > Branche/Region);
-- die Verbotsliste aus den Intro-Regeln;
+- die Angle-Reihenfolge (Bewertungen > Website-Feature > Stellenanzeige > Branche/Region) samt
+  den Regeln zu Bewertungsanker (Paraphrase statt Zahl) und Stellenanzeige (Erkenntnis statt
+  „ihr sucht“);
+- die Verbotsliste aus den Intro-Regeln, einschließlich der Floskeln „finde ich spannend/stark“;
 - Form: max. 2 Sätze, erster Buchstabe klein, weitere Sätze groß, über den Empfänger,
   Pronomen gemäß `salutation`;
 - einen ausformulierten FALLBACK-Satz für den Fall, dass kein belastbares Detail gefunden wird,
-  plus die Anweisung, diesen Fallback zu nutzen statt eine Floskel zu erfinden.
+  plus die Anweisung, diesen Fallback zu nutzen statt eine Floskel zu erfinden. Der Fallback
+  behauptet nichts Unbelegtes über den Lead („so gut bewertet“, „seit Jahren“, „viele
+  zufriedene Kunden“).
 
 Ein vollständig ausformuliertes Paar steht in `references/beispiel-blueprint.md`.
 
@@ -335,9 +372,10 @@ oder Werte speicherst. Nach jeder Korrektur von vorne beginnen: Kürzungen erzeu
 9. Platzhalter-Scan: kein [Klammer-Feld]? Jede `{{…}}`-Variable gegen die abschließende Liste
    prüfen. Signatur als Klartext, keine `{{sender.*}}`-Variablen?
 10. Betreffzeilen: 2-5 Wörter, kein Spam-Wort, keine Großschreibung?
-11. Enthält der `intro`-Prompt die Angle-Reihenfolge, die Verbote UND einen Fallback-Satz?
+11. Enthält der `intro`-Prompt die Angle-Reihenfolge, die Verbote UND einen Fallback-Satz, der
+    keine unbelegte Tatsache behauptet?
 12. Passen `salutation`, `hallo`-Prompt und die Pronomen des festen Texts zusammen (kein
-    „Hallo Herr/Frau …“ mit Du-Text, kein du/euch-Mix)?
+    „Hallo Herr/Frau …“ oder „Hallo zusammen,“ mit Du-Text, kein du/euch-Mix)?
 13. Zeigst du dem Nutzer Beispielwerte für `hallo`/`intro`: fertiger Klartext ohne
     `{{…}}`-Platzhalter, Namen und Firmen erkennbar fiktiv, Angle-Reihenfolge und Verbote
     eingehalten?

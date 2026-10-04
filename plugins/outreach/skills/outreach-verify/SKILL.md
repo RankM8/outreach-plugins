@@ -138,10 +138,11 @@ Grundlage sind die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ 
 - [ ] Keine M-dashes? (nur normale Bindestriche -)
 
 ### Copy-Regeln (outreach-copy)
-- [ ] hallo: nur die Begrüßungszeile mit Komma, Format passend zur Ansprache (Du: „Hallo Vorname,“, Team: „Hallo <Firma> Team,“, Fallback „Hallo zusammen,“; Sie: „Hallo Frau/Herr Nachname,“ bzw. „Guten Tag,“)? Nie „Hallo Herr/Frau …“ bei Du-Form, kein erfundener Name oder Titel?
+- [ ] hallo: nur die Begrüßungszeile mit Komma, Format passend zur Ansprache (Du: „Hallo Vorname,“ der Person der Versandadresse, bei generischen Adressen des Entscheiders aus der Recherche, Fallback „Hallo,“; Team: „Hallo <Firma> Team,“, Fallback „Hallo zusammen,“; Sie: „Hallo Frau/Herr Nachname,“ bzw. „Guten Tag,“)? Nie „Hallo Herr/Frau …“, „Hallo <Firma> Team,“ oder „Hallo zusammen,“ bei Du-Form, kein erfundener Name oder Titel?
 - [ ] intro: max. 2 Sätze, erster Buchstabe klein, weitere Sätze groß?
 - [ ] intro: ausschließlich positiv (Lob/anerkennende Beobachtung), über den Empfänger, kein Problem benannt?
 - [ ] intro: keine verbotenen Wörter/Formen („Lücke", „Hürde", „Problem", „leider", „schade", „noch nicht", „fehlt", „begrenzt", „veraltet", „ausbaufähig", „verschenkt Potenzial", Konjunktiv-Wunsch, Ratschlag, Selbstvorstellung/Pitch, Floskel wie „bin auf eure Webseite gestoßen")?
+- [ ] intro: Bewertungsanker ist eine konkrete Paraphrase (Anzahl/Sterne nie allein oder als erste Worte, Plural nur bei mindestens 2 tragenden Bewertungen); Stellenanzeige als Erkenntnis über den Betrieb, nicht als „ihr sucht“; zweiter Satz konkret und ohne Vorwegnahme des festen Texts; nichts, das einer anderen Person gehört, der angeschriebenen Person zugeschrieben?
 - [ ] intro: konkreter Bezug, der nicht auf 100 andere Firmen passt — oder wörtlich der Fallback-Satz aus dem Prompt?
 - [ ] Keine Frage, kein Ausrufezeichen, kein Link, keine sichtbaren Platzhalter ([…], {{…}}) in hallo/intro?
 - [ ] Schließt der feste Folgesatz der Entry-Mail („Genau deshalb …" / „Deswegen war ich so frei …") flüssig an, und bleibt die Entry-Mail mit diesem intro unter 120 Wörtern?
@@ -165,7 +166,7 @@ Grundlage sind die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ 
   - Interne Metriken im Text (Score-Werte, Fit-Level etc.)
   - Erfundene Findings, die nicht in der Research stehen
   - Anrede-Mix oder andere Style-Bruch
-  - Verstoß gegen die Copy-Regeln aus outreach-copy (Kritik-Opener, mehr als 2 Sätze, Großbuchstabe am Anfang, „Hallo Herr/Frau …" bei Du-Form)
+  - Verstoß gegen die Copy-Regeln aus outreach-copy (Kritik-Opener, mehr als 2 Sätze, Großbuchstabe am Anfang, „Hallo Herr/Frau …" oder „Hallo zusammen," bei Du-Form)
   - Falsche HTTPS/SSL-Behauptungen
 
 `reason` muss konkret sein (nennt die problematische Variable + den Defekt). Er steht nur im Audit-Log: Beim manuellen Re-Generate via `/outreach-generate` oder `save_lead_variables` den Grund selbst mitgeben; der Server-Lauf liest ihn nicht.
