@@ -1,10 +1,10 @@
 # Marketing Offer — der Türöffner, der 80 % der Reply Rate macht
 
 > Offer-Lehre zu `outreach-copy`. Bei einem Widerspruch gilt die `SKILL.md` des Skills.
-> Betreffzeilen und CTAs sind auf die Platzhalter von ListM8 umgestellt; die Pronomen
-> (du/euch/Sie) an `emailAgentConfig.salutation` der Kampagne anpassen. Einen Firmennamen im
-> Betreff gibt es nur über `{{ai.firma}}`; ohne die Variable steht „kurze Frage“. Follow-ups
-> haben keinen Betreff.
+> Betreffzeilen und CTAs sind auf die Platzhalter von ListM8 umgestellt; die Texte stehen in der
+> Du-Form (Standard), bei `emailAgentConfig.salutation` `sie` umschreiben. Einen Firmennamen im
+> Betreff gibt es nur über `{{ai.firma}}`; ohne die Variable steht „kurze Frage“. Nur Step 1 und
+> Step 3 tragen einen Betreff, Step 2 und 4 haben keinen.
 
 ## Grundhaltung
 
@@ -83,8 +83,8 @@ Statt „Darf ich dir etwas anbieten?" sagen wir „Ich habe schon etwas für di
 
 Beispiele:
 
-- „Ich habe mir euren Shop angeschaut und ein kurzes Video mit 3 Hebeln aufgenommen. Darf ich es dir zusenden?"
-- „Wir haben eine kurze Ersteinschätzung eurer Fördermöglichkeiten vorbereitet. Darf ich sie dir schicken?"
+- „Ich habe mir deinen Shop angeschaut und ein kurzes Video mit 3 Hebeln aufgenommen. Darf ich es dir zusenden?"
+- „Wir haben eine kurze Ersteinschätzung deiner Fördermöglichkeiten vorbereitet. Darf ich sie dir schicken?"
 
 **Wichtig:** In der Mail steht das Deliverable als bereits erledigte Arbeit („war so frei und habe … erstellt"), nie als Absicht. Reziprozität wirkt erst, wenn das Geschenk schon existiert. Dazu gehört der Feinheiten-Satz: „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]." mit genau einem konkreten, lieferbaren Detail. Genau der macht die Fertigstellung nach der Antwort ehrlich, denn der eigentliche Aufwand (5-10 Min.) fällt erst an, wenn jemand antwortet.
 
@@ -170,9 +170,7 @@ Quoten immer als Spanne nennen („bis zu 100 %"), nie als Zusage - die Förderh
 
 ## Follow-Ups rund um das Offer
 
-Ohne Follow-up verpufft auch ein gutes Offer — viele Leads sehen erst den Nachfass. Der Kampagnen-Standard ist die Entry Mail plus 4 Follow-Ups (5 Steps, `delayDays` 0/3/5/7/7). Das Offer steht nur in Mail 1; die Follow-Ups wiederholen es nicht.
-
-Nur wenn der Nutzer ausdrücklich eine kürzere Sequenz will, entfällt Step 5 (Break-Up). Steps 1 bis 4 bleiben immer. Wichtig: im selben Thread antworten, damit der Lead den ursprünglichen Pitch im Verlauf sieht. Deshalb bleibt der Betreff der Steps 2-5 leer.
+Ohne Follow-up verpufft auch ein gutes Offer — viele Leads sehen erst den Nachfass. Der Kampagnen-Standard ist die Entry Mail plus 3 Follow-Ups (4 Steps, `delayDays` 0/3/5/7). Das Offer steht nur in Mail 1; die Follow-Ups wiederholen es nicht. Step 2 antwortet im Thread von Mail 1, damit der Lead den ursprünglichen Pitch im Verlauf sieht (Betreff leer). Step 3 öffnet einen neuen Thread mit eigenem kurzem Betreff und einem neuen Winkel, Step 4 verabschiedet sich im Thread von Step 3 (Betreff leer). „Dringlichkeit“ kommt nur als zusätzlicher Step dazu, wenn der Nutzer einen echten Zeit- oder Kapazitätsgrund nennt.
 
 ## Das Offer schnell liefern
 

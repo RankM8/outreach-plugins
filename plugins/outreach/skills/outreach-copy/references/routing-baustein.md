@@ -13,9 +13,11 @@ recherchiert wurde. Erprobt in einer Agentur-Kampagne mit über 400 generierten 
 
 ## Wo in der Sequenz
 
-Als **Step 4** an Stelle von „Dringlichkeit“, wenn der Nutzer keinen echten Zeit- oder
-Kapazitätsgrund hat (passt zur CTA-Stufe „kurz abklären“). Bei einer vom Nutzer gewünschten
-kürzeren Sequenz auch als Step 3. Body des Steps: `{{ai.hallo}}` + Leerzeile + `{{ai.routing}}`.
+Als **Step 4** (Abschied mit Routing-Hinweis, Thread von Step 3). Der Standard-Step trägt den
+Routing-Hinweis als festen Satz im Body („sag mir gern kurz Bescheid, falls ich mich damit besser
+bei jemand anderem im Team melden sollte“). Diese Datei beschreibt die Ausbaustufe mit belegten
+Namen: Body des Steps dann `{{ai.hallo}}` + Leerzeile + `{{ai.routing}}`. Hat der Nutzer einen
+echten Zeit- oder Kapazitätsgrund, steht eine Dringlichkeits-Mail davor, der Abschied wird Step 5.
 
 ## Drei Teile, die zusammengehören
 
@@ -29,24 +31,20 @@ kürzeren Sequenz auch als Step 3. Body des Steps: `{{ai.hallo}}` + Leerzeile + 
 
 ## Prompt der Variable `routing` (Vorlage)
 
-Angebotsbezogene Stellen in `<…>` anpassen; Du-Form gezeigt, Sie-Form analog.
+Angebotsbezogene Stellen in `<…>` anpassen; Du-Form gezeigt, Sie-Form nur bei einer gesiezten Kampagne.
 
 ```text
 Erzeuge ausschließlich den vollständigen Text des Routing-Follow-ups, OHNE Anrede und Signatur,
 maximal 55 Wörter. Nutze hallo aus demselben Ergebnis und die Routing-Belege der Recherche.
 Ton: locker wie „not sure if I should be speaking to you or X or Y, let me know“, keine förmliche
 Zuständigkeitsabfrage.
-Fall A, persönliche Anrede und belegte andere Personen: 'ich bin mir nicht sicher, ob ich damit
+Fall A, belegte andere Personen: 'ich bin mir nicht sicher, ob ich damit
 bei dir richtig bin oder eher bei <Name 1> oder <Name 2>. Gib mir gern kurz Bescheid.'
-Bei Teamanrede: 'sagt mir gern kurz Bescheid, falls ich mich damit besser bei <Name 1> oder
-<Name 2> melden sollte.' Bei nur einer Person die zweite Alternative weglassen.
-Fall B, keine belegten Alternativen und Zuständigkeit unklar: persönlich exakt 'sag mir gern kurz
-Bescheid, falls ich mich damit besser bei jemand anderem im Team melden sollte.', bei Teamanrede
-exakt 'sagt mir gern kurz Bescheid, falls ich mich damit besser bei jemand anderem im Team melden
-sollte.'
+Bei nur einer Person die zweite Alternative weglassen.
+Fall B, keine belegten Alternativen und Zuständigkeit unklar: exakt 'sag mir gern kurz Bescheid,
+falls ich mich damit besser bei jemand anderem im Team melden sollte.'
 Fall C, Solo-Betrieb oder eindeutig zuständiger Empfänger: keine künstliche Unsicherheit; stattdessen
-eine weiche Nachfrage zum Angebot, persönlich '<möchtest du dir … ansehen? Ich schicke dir gern …>',
-im Team '<möchtet ihr euch … ansehen? Ich schicke euch gern …>'.
+eine weiche Nachfrage zum Angebot, '<möchtest du dir … ansehen? Ich schicke dir gern …>'.
 Namen nur aus belegter aktueller Firmenzugehörigkeit mit passender Rolle; nie den Empfänger selbst.
 Kein leerer Wert, keine Platzhalter, kein erneuter Pitch, keine Frist, keine Gedankenstriche.
 ```

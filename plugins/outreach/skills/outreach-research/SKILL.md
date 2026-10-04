@@ -107,6 +107,11 @@ LEAD: {lead.company} (ID: {lead.id})
    Adresse (info@, kontakt@). Nur Adressen mit Fundstelle; nie eine aus Vor- und Nachname
    geratene, nie eine als unzustellbar bekannte (Bounce), nie Platzhalter wie "null". Ohne
    belegte Adresse `bestEmail` weglassen.
+   Fremde Importadresse: Gehört die Importadresse laut Recherche belegt einem Dritten (Kammer,
+   Verband, Portal, Agentur, andere Firma) und findest du keine eigene belegte Adresse des
+   Betriebs, `bestEmail` weglassen und die fremde Adresse im Report vermerken. Der Lead bekommt
+   dann keine Mail (der ListM8-Server überspringt ihn in der E-Mail-Stufe). Eine eigene DNS- oder
+   MX-Prüfung der Adresse gibt es nicht und gehört nicht zur Recherche.
    Steht `bestEmail` danach in `skipped_fields`, hat ein Mensch die Versandadresse schon
    gewählt (Text in `warnings`). Die Wahl gilt: nicht erneut schreiben, nicht selbst per
    `switch_primary_email` ändern, im Report vermerken.

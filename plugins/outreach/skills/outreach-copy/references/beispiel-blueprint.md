@@ -7,8 +7,8 @@
 
 Schema v1, wie `create_campaign(blueprint=…)` es erwartet (geprüft gegen den
 Blueprint-Validator von ListM8: `schemaVersion` 1, `campaign.name` 3-255 Zeichen, Config-Blöcke
-als Objekte, `salutation` ∈ `du`/`sie`/`team`, Variablennamen `^[a-zA-Z][a-zA-Z0-9_]*$` und
-eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und in Step 2-5 leer (Thread), `delayDays` ganze Zahl ≥ 0,
+als Objekte, `salutation` ∈ `du`/`sie` (der Server nimmt noch `team` an, der Skill setzt es nie), Variablennamen `^[a-zA-Z][a-zA-Z0-9_]*$` und
+eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und ab Step 2 leer erlaubt (Thread), `delayDays` ganze Zahl ≥ 0,
 `delayUnit` `days` oder `hours`, max. 25 Variablen und 25 Steps).
 
 ## Die Entscheidungen in diesem Beispiel
@@ -19,9 +19,9 @@ eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und in Step 2-5
 | Marketing-Offer | fertiger Entwurf der neuen Startseite inklusive Online-Terminbuchungs-Flow | Deliverable, kein Gespräch; vom Nutzer lieferbar |
 | Feinheiten-Satz | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem daran, die Behandlungsseiten gleich für Google und KI-Suchmaschinen mitzudenken.“ | Pflicht bei Karte C, genau ein On-Top-Detail |
 | Ansprache | `salutation: "du"`: „Hallo Vorname,“ (Person der Versandadresse, bei info@ o. Ä. der Inhaber aus der Recherche), Fallback „Hallo,“, durchgehend du/dir/dein | Du-Form, eine Person (Inhaberin/Inhaber) |
-| Betreffs | Step 1 „kurze Frage“, Step 2-5 leer | Entwurfs-Angebot (Karte C): Frage statt Ankündigung; die Follow-ups laufen im Thread |
-| Sequenz | 5 Steps, `delayDays` 0/3/5/7/7 | Standard; Step 3 trägt den Social Proof, Step 4 einen echten Kapazitätsgrund |
-| Wörter (fester Text ohne Signatur) | 49 / 23 / 63 / 38 / 43 | Step 1 mit Anrede und Bezug (bis 2 Sätze) etwa 75-85, unter 120 |
+| Betreffs | Step 1 „kurze Frage“, Step 3 „kurzes Update“, Step 2 und 4 leer | Entwurfs-Angebot (Karte C): Frage statt Ankündigung; Step 2 antwortet im Thread von Mail 1, Step 3 öffnet einen neuen Thread, Step 4 antwortet darin |
+| Sequenz | 4 Steps, `delayDays` 0/3/5/7 | Standard; Step 3 ist der neue Winkel mit Social Proof, Step 4 der Abschied mit Routing-Hinweis; ohne echten Zeit- oder Kapazitätsgrund des Nutzers keine Dringlichkeits-Mail |
+| Wörter (fester Text ohne Signatur) | 49 / 23 / 72 / 55 | Step 1 mit Anrede und Bezug (bis 2 Sätze) etwa 75-85, unter 120 |
 
 ## Blueprint
 
@@ -121,22 +121,15 @@ eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und in Step 2-5
       },
       {
         "stepNumber": 3,
-        "subject": "",
-        "body": "{{ai.hallo}}\n\nvielleicht macht es das greifbarer. Bei der Praxis Dr. Sommer in Stuttgart haben sich die Online-Terminanfragen nach dem Relaunch in vier Monaten verdreifacht. Der größte Hebel war, dass Terminwünsche nicht mehr nur mitten in der Sprechstunde am Telefon landen. Beim Beauty-Studio Glow in München stieg die Buchungsquote der Behandlungsseiten um 60 Prozent.\n\nWenn du magst, schicke ich dir die Case Study als PDF.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
+        "subject": "kurzes Update",
+        "body": "{{ai.hallo}}\n\nzu dem Entwurf für deine neue Startseite ein Beispiel, was so etwas bringen kann. Bei der Praxis Dr. Sommer in Stuttgart haben sich die Online-Terminanfragen nach dem Relaunch in vier Monaten verdreifacht. Der größte Hebel war, dass Terminwünsche nicht mehr nur mitten in der Sprechstunde am Telefon landen. Beim Beauty-Studio Glow in München stieg die Buchungsquote der Behandlungsseiten um 60 Prozent.\n\nWenn du magst, schicke ich dir die Case Study als PDF.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
         "delayDays": 5,
         "delayUnit": "days"
       },
       {
         "stepNumber": 4,
         "subject": "",
-        "body": "{{ai.hallo}}\n\nich nehme pro Monat zwei Praxis-Projekte an, mehr geht als Einzelkämpfer nicht. Für den nächsten Startplatz sortiere ich gerade und will dich nicht ins Leere anschreiben.\n\nPasst das Thema Website bei dir dieses Jahr noch, ja oder nein?\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
-        "delayDays": 7,
-        "delayUnit": "days"
-      },
-      {
-        "stepNumber": 5,
-        "subject": "",
-        "body": "{{ai.hallo}}\n\nich höre hier auf, dir zu schreiben, damit ich nicht nerve. Der Entwurf bleibt bei mir liegen, falls das Thema bei dir irgendwann wieder oben auf der Liste steht.\n\nMelde dich einfach, dann greife ich es wieder auf. Alles Gute für die Praxis.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
+        "body": "{{ai.hallo}}\n\nda ich bisher nichts gehört habe, gehe ich davon aus, dass es gerade nicht passt. Das ist absolut in Ordnung. Sag mir gern kurz Bescheid, falls ich mich damit besser bei jemand anderem im Team melden sollte. Der Entwurf bleibt bei mir liegen, falls das Thema irgendwann wieder aktuell wird.\n\nAlles Gute für die Praxis.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
         "delayDays": 7,
         "delayUnit": "days"
       }
@@ -145,15 +138,17 @@ eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und in Step 2-5
 }
 ```
 
-## Varianten der Ansprache
+## Variante der Ansprache: Sie
 
-Wer statt der Person den Betrieb anspricht oder siezt, ändert drei Stellen gemeinsam:
-`emailAgentConfig.salutation`, die Format-Regeln im `hallo`-Prompt und die Pronomen im festen
-Sequenztext (inklusive `offer_contract.cta` und der Pronomen-Vorgabe im `intro`-Prompt).
+Standard ist `du` im Singular. Ohne benennbaren Ansprechpartner lautet der Gruß „Hallo,“ und der
+Text bleibt im Singular („dein Team“, „deine Praxis“); eine Ihr- oder Team-Form gibt es nicht. Nur
+wenn der Nutzer die Kampagne siezen will (Kampagnen an sehr große Unternehmen), ändert man drei
+Stellen gemeinsam: `emailAgentConfig.salutation`, die Format-Regeln im `hallo`-Prompt und die
+Pronomen im festen Sequenztext (inklusive `offer_contract.cta` und der Pronomen-Vorgabe im
+`intro`-Prompt).
 
 | `salutation` | `hallo`-Regel im Prompt | fester Text, Beispiel Step 1 |
 |---|---|---|
-| `team` (Ihr-Form) | „Hallo <Firmenname> Team,“ mit dem echten Praxisnamen; Fallback „Hallo zusammen,“ | „Deswegen war ich so frei und habe euch einen kompletten Entwurf … erstellt …“ / „Wäre es in Ordnung, wenn ich euch das morgen zusende?“ |
 | `sie` | „Hallo Frau <Nachname>,“ / „Hallo Herr <Nachname>,“, Titel nur wenn belegt; Fallback „Guten Tag,“ | „Deswegen war ich so frei und habe Ihnen einen kompletten Entwurf … erstellt …“ / „Wäre es in Ordnung, wenn ich Ihnen das morgen zusende?“ |
 
 Nie „Hallo Herr/Frau …“ zusammen mit Du-Text.

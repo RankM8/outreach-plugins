@@ -138,7 +138,7 @@ Grundlage sind die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ 
 - [ ] Keine M-dashes? (nur normale Bindestriche -)
 
 ### Copy-Regeln (outreach-copy)
-- [ ] hallo: nur die Begrüßungszeile mit Komma, Format passend zur Ansprache (Du: „Hallo Vorname,“ der Person der Versandadresse, bei generischen Adressen des Entscheiders aus der Recherche, Fallback „Hallo,“; Team: „Hallo <Firma> Team,“, Fallback „Hallo zusammen,“; Sie: „Hallo Frau/Herr Nachname,“ bzw. „Guten Tag,“)? Nie „Hallo Herr/Frau …“, „Hallo <Firma> Team,“ oder „Hallo zusammen,“ bei Du-Form, kein erfundener Name oder Titel?
+- [ ] hallo: nur die Begrüßungszeile mit Komma, Format passend zur Ansprache (Du: „Hallo Vorname,“ der Person der Versandadresse, bei generischen Adressen des Entscheiders aus der Recherche, Fallback „Hallo,“ (dann Text im Singular, „dein Team“); Sie: „Hallo Frau/Herr Nachname,“ bzw. „Guten Tag,“)? Nie „Hallo Herr/Frau …“, „Hallo <Firma> Team,“ oder „Hallo zusammen,“, keine Ihr-Form, kein erfundener Name oder Titel?
 - [ ] intro: max. 2 Sätze, erster Buchstabe klein, weitere Sätze groß?
 - [ ] intro: ausschließlich positiv (Lob/anerkennende Beobachtung), über den Empfänger, kein Problem benannt?
 - [ ] intro: keine verbotenen Wörter/Formen („Lücke", „Hürde", „Problem", „leider", „schade", „noch nicht", „fehlt", „begrenzt", „veraltet", „ausbaufähig", „verschenkt Potenzial", Konjunktiv-Wunsch, Ratschlag, Selbstvorstellung/Pitch, Floskel wie „bin auf eure Webseite gestoßen")?
@@ -166,7 +166,7 @@ Grundlage sind die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ 
   - Interne Metriken im Text (Score-Werte, Fit-Level etc.)
   - Erfundene Findings, die nicht in der Research stehen
   - Anrede-Mix oder andere Style-Bruch
-  - Verstoß gegen die Copy-Regeln aus outreach-copy (Kritik-Opener, mehr als 2 Sätze, Großbuchstabe am Anfang, „Hallo Herr/Frau …" oder „Hallo zusammen," bei Du-Form)
+  - Verstoß gegen die Copy-Regeln aus outreach-copy (Kritik-Opener, mehr als 2 Sätze, Großbuchstabe am Anfang, „Hallo Herr/Frau …" oder „Hallo zusammen," oder Ihr-Form)
   - Falsche HTTPS/SSL-Behauptungen
 
 `reason` muss konkret sein (nennt die problematische Variable + den Defekt). Er steht nur im Audit-Log: Beim manuellen Re-Generate via `/outreach-generate` oder `save_lead_variables` den Grund selbst mitgeben; der Server-Lauf liest ihn nicht.

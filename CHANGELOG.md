@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.2
+
+**outreach** (Sequenz, Anrede und Adressregel nach den Entscheidungen des Inhabers)
+- `outreach-copy` → Sequenz: Standard sind 4 Steps statt 5: Step 1 Entry (eigener Betreff, neuer Thread), Step 2 Erinnerung (Betreff leer, Thread von Mail 1), Step 3 neuer Winkel mit Social Proof (NEUER Thread mit eigenem kurzem Betreff, z. B. „kurzes Update“), Step 4 Abschied mit Routing-Hinweis (Betreff leer, Thread von Mail 3). `delayDays` 0/3/5/7, Wortlimits 120/50/80/60. „Dringlichkeit“ ist kein Standard-Step mehr, sondern nur ein zusätzlicher Step, wenn der Nutzer einen echten Zeit- oder Kapazitätsgrund nennt. Das ersetzt die Regel „alle Follow-up-Betreffs leer“ aus 0.3.1 und die 5-Step-Struktur. Begründung aus der Praxis: Eric Nowoslawski arbeitet mit 2 bis 3 Mails und nie alle im selben Thread, Jay mit 4 Steps und Routing, ohne künstliche Knappheit. Der Routing-Hinweis steht jetzt als fester Satz im Abschied; die Variable `routing` mit belegten Namen bleibt die Ausbaustufe (`routing-baustein.md`).
+- `outreach-copy` → Anrede: Standard ist du im Singular. Ohne benennbaren Ansprechpartner lautet der Gruß „Hallo,“ und der Text bleibt im Singular („dein Team“, „dein Betrieb“). Der Team-Modus (ihr/euch, „Hallo <Firma> Team,“, „Hallo zusammen,“) entfällt in `outreach-copy`, `outreach-campaign`, `outreach-generate`, `outreach-verify`, `lead-agent` und den Beispielen. Die Sie-Form gilt nur als Wahl je Kampagne für sehr große Unternehmen, nie automatisch je Lead. Alle Beispiele in `copy-lehre.md` von „ihr/euch“ auf du umgestellt.
+- `outreach-copy` → Betreff: „kurze Frage“ bleibt Standard für Step 1. Als Testmöglichkeit beim echten Versand in Instantly von Hand eine Variante B „Frage zu {{firma}}“ (braucht die Variable `firma`), nur als Hinweis, keine Pflicht.
+- `outreach-research`, `lead-agent`: Gehört die Importadresse laut Recherche belegt einem Dritten (Kammer, Verband, Portal, Agentur, andere Firma) und gibt es keine eigene belegte Adresse, entsteht keine Mail; `bestEmail` bleibt leer, die Recherche vermerkt es. Eine eigene DNS- oder MX-Prüfung gibt es nicht. Der ListM8-Server setzt die Regel in der E-Mail-Stufe um.
+- Gleichstand: `outreach-campaign`, `outreach-generate`, `outreach-verify`, `outreach-launch`, `marketing-offer.md`, `routing-baustein.md` und `beispiel-blueprint.md` (jetzt 4 Steps, Step 3 „kurzes Update“, Abschied mit Routing) auf Sequenz und Anrede angeglichen.
+- Hinweis: Betreff in Step 3 und leere Betreffs in Step 2 und 4 setzen voraus, dass der ListM8-Server sie beim Blueprint-Import annimmt (Betreff ab Step 2 darf leer sein, Step 3 darf einen eigenen tragen).
+
 ## 2026-10-04 – outreach 0.3.1
 
 **outreach** (Copy-SOPs nach dem Testfeld korrigiert)

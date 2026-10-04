@@ -1,6 +1,6 @@
 ---
 name: outreach-copy
-description: 'Use when user says "Cold-Mail schreiben", "Cold-Mail prüfen", "Copy prüfen", "Kampagnen-Copy", "Sequenz schreiben", "Betreffzeile", "Opener", "Intro-Prompt", "hallo-Prompt", "Marketing-Offer formulieren", "Offer schärfen", "Feinheiten-Satz", "Follow-ups schreiben", or wants to write, review or fix the copy of an outreach campaign. Verbindliche Cold-Mail-Copy-Regeln (Anatomie der Entry-Mail, Offer-Karten A-E, Feinheiten-Satz, 5er-Sequenz, Wortlimits, Intro- und Anrede-Regeln, Verbote, Selbstprüfung). outreach-campaign, outreach-generate und outreach-verify laden diesen Skill verbindlich.'
+description: 'Use when user says "Cold-Mail schreiben", "Cold-Mail prüfen", "Copy prüfen", "Kampagnen-Copy", "Sequenz schreiben", "Betreffzeile", "Opener", "Intro-Prompt", "hallo-Prompt", "Marketing-Offer formulieren", "Offer schärfen", "Feinheiten-Satz", "Follow-ups schreiben", or wants to write, review or fix the copy of an outreach campaign. Verbindliche Cold-Mail-Copy-Regeln (Anatomie der Entry-Mail, Offer-Karten A-E, Feinheiten-Satz, 4er-Sequenz, Wortlimits, Intro- und Anrede-Regeln, Verbote, Selbstprüfung). outreach-campaign, outreach-generate und outreach-verify laden diesen Skill verbindlich.'
 ---
 
 # Outreach Copy — die Cold-Mail-Regeln für Kampagnen
@@ -23,7 +23,7 @@ SKILL.md.
 ## Ziel und Grundsatz
 
 Aus den Angaben des Nutzers entsteht eine Cold-Mail-Kampagne für die erste Aussendung: eine
-Entry-Mail, die wie eine persönliche Nachricht wirkt, und vier Follow-ups mit je einer Aufgabe.
+Entry-Mail, die wie eine persönliche Nachricht wirkt, und drei Follow-ups mit je einer Aufgabe.
 Ziel ist eine Antwort, kein Klick und kein Termin in Mail 1.
 
 - Nur verwenden, was der Nutzer im Gespräch angegeben hat (Angebot, Zielgruppe, Absender, Belege,
@@ -35,7 +35,7 @@ Ziel ist eine Antwort, kein Klick und kein Termin in Mail 1.
 ## Tonalität und Formatierung
 
 - Du-Form als Standard: direkt, konkret, kein Beratersprech, keine Floskeln. Deutsch.
-  Sie-Form nur, wenn der Nutzer sie ausdrücklich will (siehe Anrede).
+  Sie-Form nur, wenn der Nutzer sie für die Kampagne wählt (siehe Anrede).
 - Knapp und menschlich: kurze Sätze, ein klarer CTA pro Mail. Die Mail klingt wie eine kurze
   Nachricht an einen Bekannten, nicht wie eine Agentur-Website.
 - Keine M-Striche (—) und keine Gedankenstriche als Trenner, auch kein Bindestrich mit
@@ -53,17 +53,19 @@ Die Ansprache steht in `campaign.emailAgentConfig.salutation` und gilt für jede
 Variable einer Mail. Immer explizit setzen. Der feste Sequenztext (Überleitung, CTA, Follow-ups)
 muss dieselben Pronomen tragen wie der gewählte Modus.
 
-| `salutation` | Pronomen im ganzen Text | `hallo` | Fallback |
+| `salutation` | Pronomen im ganzen Text | `hallo` | Fallback ohne benennbare Person |
 |---|---|---|---|
-| `du` (Du-Form, eine Person) | du/dich/dir/dein, nie ihr/euch | „Hallo Vorname,“ | „Hallo,“ |
-| `team` (Du-Form, Betrieb) | ihr/euch/eure | „Hallo <Firma> Team,“ | „Hallo zusammen,“ |
-| `sie` (nur auf ausdrücklichen Wunsch) | Sie/Ihnen/Ihre | „Hallo Frau Nachname,“ / „Hallo Herr Nachname,“ | „Guten Tag,“ |
+| `du` (Standard, Singular) | du/dich/dir/dein, nie ihr/euch | „Hallo Vorname,“ | „Hallo,“ |
+| `sie` (Ausnahme) | Sie/Ihnen/Ihre | „Hallo Frau Nachname,“ / „Hallo Herr Nachname,“ | „Guten Tag,“ |
 
-**Standard ist immer `du`** – auch bei Praxen, Kanzleien, Finanz und generischen Adressen: Die Mail
-richtet sich an den Ansprechpartner bzw. Entscheider, nicht an den Betrieb. `team` und `sie` nur,
-wenn der Nutzer es ausdrücklich verlangt; dass eine alte Vorlage, eine Bestandskampagne oder die
-Branche siezt bzw. „ihr“ schreibt, ist KEIN Grund für eine Abweichung. Keine Mischform: „Hallo Max,“
-vor „für euch“ ist ein Fehler.
+**Standard ist immer `du`, Singular** – auch bei Praxen, Kanzleien, Finanz und generischen Adressen:
+Die Mail richtet sich an den Ansprechpartner bzw. Entscheider, nicht an den Betrieb. Es gibt keine
+Ihr- und keine Team-Form, auch nicht im Gruß. Ohne benennbaren Ansprechpartner lautet der Gruß
+„Hallo,“ und der Text bleibt im Singular („dein Team“, „dein Betrieb“, „deine Praxis“). `sie` gilt nur,
+wenn der Nutzer es für die Kampagne wählt (Kampagnen, die gezielt sehr große Unternehmen
+ansprechen), nie automatisch je Lead. Dass eine alte Vorlage, eine Bestandskampagne oder die Branche
+siezt bzw. „ihr“ schreibt, ist KEIN Grund für eine Abweichung. Keine Mischform: „Hallo Max,“
+vor „für euch“ ist ein Fehler. Den Wert `team`, den der Server noch annimmt, setzt dieser Skill nie.
 
 - Wer wird in der Du-Form mit Vornamen angesprochen? Die Person, der die Versandadresse gehört.
   Bei generischen Adressen (info@, kontakt@, office@ …) der Vorname der Ansprechperson, die die
@@ -73,8 +75,8 @@ vor „für euch“ ist ein Fehler.
   im Impressum. Personenmarken immer mit Vornamen. Ist keine Person klar erkennbar, steht nur
   „Hallo,“. Die Sie-Form geht analog mit Herr/Frau und Nachname, Fallback
   „Guten Tag,“.
-- NIE „Hallo Herr/Frau Nachname,“ oder „Hallo <Firma> Team,“ zusammen mit Du-Text (`du`), nie
-  „Hallo zusammen,“ vor einem Text mit „du“, nie „Hey …“, nie Sie und du gemischt.
+- NIE „Hallo Herr/Frau Nachname,“ zusammen mit Du-Text (`du`), nie „Hallo <Firma> Team,“ oder
+  „Hallo zusammen,“, nie „Hey …“, nie Sie und du gemischt.
 - Die Anrede kommt immer aus `{{ai.hallo}}`. Kein `{{firstName}}`, kein `{{companyName}}`, kein
   `{{custom.vorname}}` direkt in Betreff oder Body: Es gibt kein Vornamen-Feld, und ein leeres
   Attribut ergibt „Hallo ,“. Liegt der Vorname als Custom-Attribut aus dem Import vor (Schlüssel
@@ -158,7 +160,7 @@ interessant?“. Kein Terminvorschlag und kein Link in Mail 1.
 in Step 3. Über den Empfänger schreiben, nie über den Absender („Du bekommst …“, nicht „Wir
 bieten …“).
 
-Muster für Karte C, direkt nach dem Lob-Intro (Team-Form):
+Muster für Karte C, direkt nach dem Lob-Intro:
 „Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive
 Buchungssystem erstellt. Ich bin gerade noch an den letzten Feinheiten dran, vor allem der
 Optimierung für Google und KI-Suchmaschinen. Wäre es in Ordnung, wenn ich dir das morgen
@@ -198,8 +200,8 @@ MUSS:
   nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt. Plural
   oder „immer wieder“ nur, wenn mindestens 2 Bewertungen dieses Lob tragen.
 - Stellenanzeige: die Erkenntnis nutzen, die sie über den Betrieb verrät (Wachstum,
-  Spezialisierung, Projekt), nicht „ich hab gesehen, dass ihr gerade … sucht“. Nie „ihr
-  stellt ein“ ankündigen.
+  Spezialisierung, Projekt), nicht „ich hab gesehen, dass du gerade … suchst“. Nie „du
+  stellst ein“ ankündigen.
 - Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was der feste Text danach
   sagt (beginnt der feste Text mit „Das hat mich neugierig gemacht.“, darf der Satz nicht davor
   stehen).
@@ -266,7 +268,7 @@ Der `intro`-Prompt MUSS enthalten:
   „Deswegen war ich so frei …“);
 - die Angle-Reihenfolge (Bewertungen > Website-Feature > Stellenanzeige > Branche/Region) samt
   den Regeln zu Bewertungsanker (Paraphrase statt Zahl) und Stellenanzeige (Erkenntnis statt
-  „ihr sucht“);
+  „du suchst“);
 - die Verbotsliste aus den Intro-Regeln, einschließlich der Floskeln „finde ich spannend/stark“;
 - Form: max. 2 Sätze, erster Buchstabe klein, weitere Sätze groß, über den Empfänger,
   Pronomen gemäß `salutation`;
@@ -294,38 +296,41 @@ Betreffzeilen.
 
 ## Sequenz
 
-Genau 5 Steps mit festen Rollen. `delayDays` ist die Wartezeit VOR dem Step (kumuliert Tag 0, 3,
-8, 15, 22), eine ganze Zahl; `delayUnit` immer `"days"`. `subject` ist in Step 1 Pflicht und nicht leer, in den Steps 2-5
-leer (die Mails laufen im Thread).
+Standard sind 4 Steps mit festen Rollen (Praxis-Belege: Eric Nowoslawski mit 2 bis 3 Mails, nie
+alle im selben Thread; Jay mit 4 Steps und Routing, ohne künstliche Knappheit). `delayDays` ist die
+Wartezeit VOR dem Step (kumuliert Tag 0, 3, 8, 15), eine ganze Zahl; `delayUnit` immer `"days"`.
+Threads: Step 1 öffnet einen Thread, Step 2 antwortet darin, Step 3 öffnet einen NEUEN Thread, Step 4
+antwortet im Thread von Step 3. Der Betreff steht deshalb nur in Step 1 und Step 3, in Step 2 und 4
+bleibt er leer.
 
-| Step | Rolle | `delayDays` | Wörter max. | Inhalt |
-|---|---|---|---|---|
-| 1 | Entry Mail | 0 | 120 (Ziel 50-90) | `{{ai.hallo}}` + `{{ai.intro}}` + feste Überleitung mit Offer + Feinheiten-Satz (A/C) + EIN CTA + Signatur |
-| 2 | Reminder | 3 | 50 | `{{ai.hallo}}` + nur nachhaken, weich wie eine schnell getippte Nachricht („du hast sicher viel um die Ohren, ich wollte nur sichergehen, dass meine Mail angekommen ist“). Kein Doppelpunkt-Opener, kein Offer, kein neuer Aspekt, kein `{{ai.intro}}` |
-| 3 | Mehrwert + Social Proof | 5 | 80 | `{{ai.hallo}}` + EIN Beleg: eine Case Story, eine Zahl, ein Ergebnis. HIER steht der Social Proof. Kein Offer |
-| 4 | Dringlichkeit | 7 | 60 | `{{ai.hallo}}` + echter Zeit- oder Kapazitätsgrund aus den Angaben des Nutzers. Nichts Erfundenes. Kein Offer |
-| 5 | Break-Up | 7 | 60 | `{{ai.hallo}}` + Tür offen lassen, ohne Druck und ohne Vorwurf. Kein Offer |
+| Step | Rolle | `delayDays` | Wörter max. | Betreff | Inhalt |
+|---|---|---|---|---|---|
+| 1 | Entry Mail | 0 | 120 (Ziel 50-90) | eigener, neuer Thread | `{{ai.hallo}}` + `{{ai.intro}}` + feste Überleitung mit Offer + Feinheiten-Satz (A/C) + EIN CTA + Signatur |
+| 2 | Erinnerung | 3 | 50 | leer, Thread von Mail 1 | `{{ai.hallo}}` + nur nachhaken, weich wie eine schnell getippte Nachricht („du hast sicher viel um die Ohren, ich wollte nur sichergehen, dass meine Mail angekommen ist“). Kein Doppelpunkt-Opener, kein Offer, kein neuer Aspekt, kein `{{ai.intro}}` |
+| 3 | Neuer Winkel (Mehrwert + Social Proof) | 5 | 80 | eigener kurzer Betreff, NEUER Thread (z. B. „kurzes Update“) | `{{ai.hallo}}` + EIN Beleg: eine Case Story, eine Zahl, ein Ergebnis. HIER steht der Social Proof. Die Mail muss ohne den Verlauf von Mail 1 verständlich sein: höchstens ein Halbsatz Bezug auf das Angebot, kein neues Offer, kein `{{ai.intro}}` |
+| 4 | Abschied mit Routing-Hinweis | 7 | 60 | leer, Thread von Mail 3 | `{{ai.hallo}}` + Tür offen lassen, ohne Druck und ohne Vorwurf + Routing-Hinweis („sag mir gern kurz Bescheid, falls ich mich damit besser bei jemand anderem im Team melden sollte“). Kein Offer |
 
 - Gezählt wird der Body ohne Betreff und ohne Signatur, den Bezug aus `{{ai.intro}}` (bis zu
-  2 Sätze) eingerechnet. Die Limits sind Obergrenzen: kürzer ist erlaubt und meist besser.
+  2 Sätzen) eingerechnet. Die Limits sind Obergrenzen: kürzer ist erlaubt und meist besser.
   Bewährte Entry-Mails liegen bei 55 bis 86 Wörtern. Nie auffüllen.
 - Der CTA wird von Step zu Step weicher: Erlaubnis erbitten → nur anstoßen → offen anbieten →
-  kurz abklären → Tür offen lassen.
+  Tür offen lassen.
 - Jedes Follow-up hat max. EINEN neuen Aspekt und beginnt mit einem ganzen, weichen Satz in der
   gewählten Ansprache. Das erste Wort nach `{{ai.hallo}}` (in jedem Step) schreibt man klein, weil
-  es auf „Hallo …,“ folgt: „du hast sicher …“, nicht „Du hast sicher …“; Substantive bleiben groß. Follow-ups laufen im selben Thread, deshalb ohne eigenen Betreff.
-- Nur wenn der Nutzer ausdrücklich eine kürzere Sequenz will, entfällt Step 5. Nie einen der
-  Steps 1 bis 4.
-- Fehlt dem Nutzer ein echter Beleg für Step 3 oder ein echter Grund für Step 4: nachfragen,
-  nicht erfinden.
-- **Routing-Follow-up** („bin ich bei dir richtig oder eher bei Anna oder Tom?“): bei Zielgruppen
-  mit Teams als Step 4 an Stelle von „Dringlichkeit“ anbieten, besonders wenn kein echter
-  Dringlichkeitsgrund da ist. Braucht ein Recherche-Ziel und die AI-Variable `routing`; Vorlage und
-  Regeln in `references/routing-baustein.md`.
+  es auf „Hallo …,“ folgt: „du hast sicher …“, nicht „Du hast sicher …“; Substantive bleiben groß.
+- **Dringlichkeit** ist kein Standard-Step. Nur wenn der Nutzer einen echten Zeit- oder
+  Kapazitätsgrund nennt, kommt sie als zusätzlicher Step zwischen Step 3 und den Abschied
+  (dann 5 Steps, `delayDays` 0/3/5/7/7; Wortlimit 60; leerer Betreff, Thread von Mail 3). Ohne
+  echten Grund entfällt sie, nichts Erfundenes und keine künstliche Knappheit.
+- Fehlt dem Nutzer ein echter Beleg für Step 3: nachfragen, nicht erfinden.
+- Der Routing-Hinweis in Step 4 steht als fester Satz im Body. Hat die Kampagne ein
+  Recherche-Ziel für Ansprechpartner, ersetzt die AI-Variable `routing` ihn durch eine Version mit
+  belegten Namen („bin ich bei dir richtig oder eher bei Anna oder Tom?“); Vorlage und Regeln in
+  `references/routing-baustein.md`.
 
 ## Betreffzeilen
 
-Nur Step 1 trägt einen Betreff: 2-5 Wörter, keine Werbung, kein Spam-Wort, keine Großschreibung
+Nur Step 1 und Step 3 tragen einen Betreff (jeweils ein neuer Thread): 2-5 Wörter, keine Werbung, kein Spam-Wort, keine Großschreibung
 ganzer Wörter, kein Ausrufezeichen, kein Prozentzeichen. Er klingt wie eine harmlose Frage eines
 Menschen. Keine Ankündigung und keine Ergebnisansage („Website für …“, „Entwurf für …“, „Idee
 für …“, „Website ist fertig“).
@@ -344,8 +349,17 @@ Bewährte Muster (an den Offer-Typ anpassen):
 - „Deine Förderung“ (nur bei Karte D)
 - „Partnerschaft {{ai.firma}}?“ (nur bei Karte E, nur mit `firma`)
 
-Follow-ups (Step 2-5): Betreff LEER, die Mails laufen im Thread von Step 1. Kein neuer
-Betreff-Text, keine Wiederholung des Betreffs von Step 1, kein „Re:“.
+Step 2 und Step 4 (und eine optionale Dringlichkeits-Mail): Betreff LEER, die Mails laufen im Thread
+der vorigen Betreff-Mail (Step 2 in Step 1, Step 4 in Step 3). Kein neuer Betreff-Text, kein „Re:“.
+
+Step 3 startet einen neuen Thread mit eigenem kurzem Betreff, z. B. „kurzes Update“. Er wiederholt
+den Betreff von Step 1 nicht, kündigt kein Ergebnis an und hält dieselben Regeln (2-5 Wörter, kein
+Spam-Wort, Firmenname nur über `{{ai.firma}}`).
+
+**Test von Hand (Hinweis, keine Pflicht):** Der Standard für Step 1 bleibt „kurze Frage“. Wer
+Betreffs testen will, legt beim echten Versand in Instantly von Hand eine Variante B „Frage zu
+{{firma}}“ an (braucht die Variable `firma` in der Kampagne, am besten in 1 bis 2 Kampagnen). ListM8
+kennt keine Betreff-Varianten.
 
 NICHT: „Kostenlose Beratung für …“ (zu lang, Spam), „Exklusives Angebot - jetzt zugreifen!“
 (Spam-Trigger), „Re: Ihre Anfrage“ (Fake-Reply).
@@ -390,19 +404,21 @@ oder Werte speicherst. Nach jeder Korrektur von vorne beginnen: Kürzungen erzeu
 2. Pitch-Scan: kommt „wir helfen“, „wir sind“, „wir machen“, „seit … Jahren“, „als … Partner“
    vor? Jeder Treffer fliegt raus.
 3. CTA zählen: genau einer pro Mail?
-4. Steht das Offer nur in Step 1?
+4. Steht das Offer nur in Step 1 (in Step 3 höchstens ein Halbsatz Bezug)?
 5. Steht `{{ai.intro}}` nur in Step 1?
 6. Steht der Social Proof in Step 3 und nicht früher?
 7. Zeichen-Scan: M-Striche, Emojis, Bold, Bulletpoints, Links in Step 1?
 8. Spam-Scan: Betreff und Body gegen die Wortliste. „kostenlos“ höchstens einmal im Body?
 9. Platzhalter-Scan: kein [Klammer-Feld]? Jede `{{…}}`-Variable gegen die abschließende Liste
    prüfen. Signatur als Klartext, keine `{{sender.*}}`-Variablen?
-10. Betreff von Step 1: 2-5 Wörter, kein Spam-Wort, keine Großschreibung, keine Ankündigung,
-    Firmenname nur über `{{ai.firma}}`? Steps 2-5 ohne Betreff?
+10. Betreff von Step 1 und Step 3: 2-5 Wörter, kein Spam-Wort, keine Großschreibung, keine
+    Ankündigung, Firmenname nur über `{{ai.firma}}`, Step 3 nicht gleich Step 1? Step 2 und Step 4
+    ohne Betreff?
 11. Enthält der `intro`-Prompt die Angle-Reihenfolge, die Verbote UND einen Fallback-Satz, der
     keine unbelegte Tatsache behauptet?
 12. Passen `salutation`, `hallo`-Prompt und die Pronomen des festen Texts zusammen (kein
-    „Hallo Herr/Frau …“ oder „Hallo zusammen,“ mit Du-Text, kein du/euch-Mix)?
+    „Hallo Herr/Frau …“, „… Team,“ oder „Hallo zusammen,“ mit Du-Text, kein du/euch-Mix, auch
+    nicht ohne Ansprechpartner: „Hallo,“ und „dein Team“)?
 13. Zeigst du dem Nutzer Beispielwerte für `hallo`/`intro`: fertiger Klartext ohne
     `{{…}}`-Platzhalter, Namen und Firmen erkennbar fiktiv, Angle-Reihenfolge und Verbote
     eingehalten?
@@ -417,7 +433,7 @@ Hinweis, der begründet werden muss.
 
 | Regel | Prüfung | Stufe |
 |---|---|---|
-| Wortlimit | Step 1-5 max. 120/50/80/60/60 Wörter (Platzhalter zählen nicht mit, den Intro-Umfang einrechnen) | hart |
+| Wortlimit | Step 1-4 max. 120/50/80/60 Wörter, ein zusätzlicher Dringlichkeits-Step max. 60 (Platzhalter zählen nicht mit, den Intro-Umfang einrechnen) | hart |
 | Zielkorridor | Entry-Mail unter 50 Wörtern: trägt der Bezug? | weich |
 | Kein Gedankenstrich | kein „—“ und kein „–“ im Text | hart |
 | Kein Pitch | kein „wir helfen“, „wir sind ein/eine/der/die/seit“, „wir bieten“, „seit (über) N Jahren“, „als zertifizierter/offizieller/Google/Meta … Partner“, „mein Name ist“, „unser Unternehmen“ | hart |
@@ -427,9 +443,9 @@ Hinweis, der begründet werden muss.
 | Keine Formatierung | kein `**fett**`, keine Zeile, die mit „-“, „*“ oder „•“ beginnt | weich |
 | „kostenlos“ | höchstens einmal pro Mail | weich |
 | Betreff ohne Spam | kein Spam-Wort, kein „kostenlos“, „kostenlose“, „kostenloses“, „kostenfrei“ | hart |
-| Betreff-Länge | max. 5 Wörter (Step 1) | weich |
+| Betreff-Länge | max. 5 Wörter (Step 1 und 3) | weich |
 | Betreff-Platzhalter | kein `{{lead.company}}` im Betreff; Firmenname nur als `{{ai.firma}}` | hart |
-| Follow-up-Betreff | `subject` in Step 2-5 leer | hart |
+| Follow-up-Betreff | `subject` in Step 1 und 3 nicht leer, in Step 2 und 4 (sowie in einem Dringlichkeits-Step) leer | hart |
 | Betreff ohne Schreien | kein Wort mit 4+ Großbuchstaben, kein „!“ | weich |
 | Ein CTA | kein „oder/alternativ … buchen/klicken/vereinbaren/reservieren/anrufen/Termin sichern“ neben der Antwort-Bitte | hart |
 | Kein Link in Mail 1 | kein „http(s)://“, „www.“, „calendly.com“, „hier buchen“ in Step 1 | hart |
@@ -445,7 +461,7 @@ Hinweis, der begründet werden muss.
   Zustellregeln, Prüfdurchlauf.
 - `references/marketing-offer.md` — Karten A-E im Detail, Werttest, Offer-Killer,
   Reziprozität, was kein Offer ist.
-- `references/beispiel-blueprint.md` — vollständiger Blueprint (Karte C, Du-Form, 5 Steps,
+- `references/beispiel-blueprint.md` — vollständiger Blueprint (Karte C, Du-Form, 4 Steps,
   `hallo`- und `intro`-Prompt) zum Anlegen mit `create_campaign`.
 - Skill `outreach-launch` — Versand nach dem Export (Domains, Warm-up, Instantly, KPIs) und wann
   bei schwachen Zahlen Copy, Offer oder Liste geändert werden.
