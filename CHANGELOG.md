@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.3
+
+**outreach** (Live-Ansicht in Claude Code)
+- Abo-Lauf im Band zeigt den Stand beider Abo-Fenster („5 h 12 % · Woche 43 %“) und die Zunahme seit Laufbeginn, sobald sie messbar ist (ab 0,1 Punkten). Vorher stand dort nur die Zunahme der Woche, die bei kleinen Läufen immer „+0,0 %“ zeigte. Die Fenster zählen das ganze Konto, parallel laufende Sitzungen erscheinen mit.
+
 ## 2026-10-04 – outreach 0.3.2
 
 **outreach** (Live-Ansicht in Claude Code)

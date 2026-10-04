@@ -63,6 +63,8 @@ export type LocalRun = {
   server: string
   /** Share of the weekly subscription window used when the phase began; null off a subscription. */
   weekStartPercent: number | null
+  /** Share of the five-hour subscription window used when the phase began; null off a subscription. */
+  sessionStartPercent: number | null
 }
 
 declare module 'claude-code' {

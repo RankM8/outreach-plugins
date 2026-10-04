@@ -281,14 +281,38 @@ const funnelRun = (el: El, run: RunView, step: number) => {
   )
 }
 
-/** Share of the weekly subscription window used now, or null off a subscription. */
-const weekPercent = async ($: EngineInterface): Promise<number | null> => {
+/** The subscription windows now, in percent used; null where off a subscription. */
+type Usage = { session: number | null; week: number | null }
+
+const usageNow = async ($: EngineInterface): Promise<Usage> => {
   try {
     const { rateLimits } = await $.session.usage()
-    return rateLimits.find(r => r.kind === 'seven_day')?.percentUsed ?? null
+    const of = (kind: string) => rateLimits.find(r => r.kind === kind)?.percentUsed ?? null
+    return { session: of('five_hour'), week: of('seven_day') }
   } catch {
-    return null
+    return { session: null, week: null }
   }
+}
+
+const pct = (v: number) => `${v.toFixed(1).replace('.', ',').replace(/,0$/, '')} %`
+
+/**
+ * The subscription windows as the run sees them: where each stands now, and – once it is
+ * measurable (a tenth of a point) – how much it rose since the run began. The windows count the
+ * whole account, so other sessions running at the same time show here too.
+ */
+const usageText = (group: LocalRun[], now: Usage): string | null => {
+  const part = (label: string, current: number | null, starts: (number | null)[]) => {
+    if (current === null) return null
+    const known = starts.filter((v): v is number => v !== null)
+    const rose = known.length === 0 ? 0 : current - Math.min(...known)
+    return rose >= 0.1 ? `${label} ${pct(current)} (+${pct(rose).replace(' %', '')})` : `${label} ${pct(current)}`
+  }
+  const parts = [
+    part('5 h', now.session, group.map(l => l.sessionStartPercent)),
+    part('Woche', now.week, group.map(l => l.weekStartPercent)),
+  ].filter((v): v is string => v !== null)
+  return parts.length === 0 ? null : parts.join(' · ')
 }
 
 /** A local phase's campaign page: on the origin its server links to; null while that is unknown. */
@@ -312,7 +336,7 @@ const groupPhases = (phases: LocalRun[]): LocalRun[][] => {
  * polling. Leads judged not qualified leave the later phases and count as handled, so a run that
  * did all it could ends green, not as if work were missing.
  */
-const localRow = (el: El, group: LocalRun[], href: string | null, weekUsed: number | null) => {
+const localRow = (el: El, group: LocalRun[], href: string | null, usage: Usage) => {
   const { Box, Text, Link } = el
   const last = group[group.length - 1]
   if (last === undefined) return null
@@ -327,8 +351,7 @@ const localRow = (el: El, group: LocalRun[], href: string | null, weekUsed: numb
   const stages = group
     .map(l => `${PHASE_SHORT[l.phase] ?? l.phase} ${l.doneLeadIds.length}/${l.total - l.skippedLeadIds.length}`)
     .join(' · ')
-  const starts = group.map(l => l.weekStartPercent).filter((v): v is number => v !== null)
-  const week = weekUsed === null || starts.length === 0 ? null : Math.max(0, weekUsed - Math.min(...starts))
+  const used = usageText(group, usage)
 
   return (
     <Box key={`local-${last.campaignId}`}>
@@ -344,7 +367,7 @@ const localRow = (el: El, group: LocalRun[], href: string | null, weekUsed: numb
         <Text dimColor wrap="truncate-end">{`· ${stages} · im Abo`}</Text>
       </Box>
       <Box flexShrink={0} gap={2} marginLeft={1}>
-        {week !== null && <Text dimColor>{`+${week.toFixed(1).replace('.', ',')} % Woche`}</Text>}
+        {used !== null && <Text dimColor>{used}</Text>}
         {href !== null && <Link href={href} label="Öffnen ↗" />}
       </Box>
     </Box>
@@ -401,7 +424,7 @@ const band = (
   phases: LocalRun[],
   step: number,
   known: Record<string, string>,
-  weekUsed: number | null,
+  usage: Usage,
 ) => {
   const { Box, Text } = el
   const groups = groupPhases(phases)
@@ -436,7 +459,7 @@ const band = (
       </Box>
       {shown.map(run => bandRow(el, run, step))}
       {jobs.map(job => importRow(el, job, step))}
-      {groups.map(g => localRow(el, g, g.map(l => localHref(l, known)).find(h => h !== null) ?? null, weekUsed))}
+      {groups.map(g => localRow(el, g, g.map(l => localHref(l, known)).find(h => h !== null) ?? null, usage))}
     </Box>
   )
 }
@@ -726,7 +749,7 @@ const reportProgress = async ($: EngineInterface, input: ProgressInput): Promise
     isTerminal: false,
     finishedAt: null,
     server: '',
-    weekStartPercent: await weekPercent($),
+    ...(await usageNow($).then(u => ({ weekStartPercent: u.week, sessionStartPercent: u.session }))),
   }
   await update($, locals, all => ({ ...all, [key]: local }))
   spin($)
@@ -994,7 +1017,7 @@ export const register: Register = (on, options) => {
     const phases = bandPhases(Object.values(await read($, locals)))
     if (e.props.hasSurvey || shown.length + jobs.length + phases.length === 0) return next(e)
     if (await read($, folded)) return foldedBand($.ui.resolve(e), shown, jobs, phases)
-    const weekUsed = phases.some(l => l.weekStartPercent !== null) ? await weekPercent($) : null
-    return band($.ui.resolve(e), shown, jobs, phases, await read($, frame), await read($, origins), weekUsed)
+    const usage = phases.length > 0 ? await usageNow($) : { session: null, week: null }
+    return band($.ui.resolve(e), shown, jobs, phases, await read($, frame), await read($, origins), usage)
   })
 }
