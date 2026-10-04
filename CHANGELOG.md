@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.15
+
+**outreach** (Verify-Lauf über 49 Leads auf 1081)
+- `outreach-verify` → Standard ist eine Stichprobe von 10 Leads (neue Kampagne, nach Änderungen, vor dem ersten Export) statt einer Vollprüfung. Systematische Funde werden an der Ursache behoben und die betroffenen Leads neu generiert; Vollprüfung nur auf ausdrücklichen Wunsch. Der Rest wird nach bestandener Stichprobe nur auf Bestätigung freigegeben (App oder `approve_lead_variables` ohne Prüf-Agenten). Im Lauf kamen rund 80 % der Funde aus zwei systematischen Ursachen.
+- `outreach-pipeline`, `outreach-generate`: empfehlen nach dem Generieren die Stichprobe statt einer Vollprüfung.
+- `verify-agent`: Routing-Abwägungen (Fall B oder C, eine Alternative weniger) sind kein Hinweis mehr, solange der Text zum gewählten Fall passt.
+
 ## 2026-10-04 – outreach 0.3.14
 
 **outreach**

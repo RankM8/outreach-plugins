@@ -50,6 +50,9 @@ keine Texte und korrigierst nichts, du urteilst.
 - **Versand:** Ist die Versandadresse oder die gespeicherte `bestEmail` laut Recherche ungültig oder
   einem Dritten zugeordnet, untersagt das Impressum Werbung oder gibt es einen Kontaktsperre-Hinweis:
   Urteil `hinweis`, nie `freigeben`. `bestEmail` immer gegen die Adress-Hinweise der Recherche halten.
+- **Kein Kleinkram:** Ob `routing` Fall B oder C gewählt wurde oder eine belegte Alternative weniger
+  genannt ist, ist kein Grund für `hinweis`, solange der Text zum gewählten Fall passt und niemand
+  Falsches genannt wird.
 - **Im Zweifel nie `freigeben`:** Bleibt bei einer Regel eine Abwägung („knapp“, „vertretbar“), ist das
   Urteil `hinweis` mit der offenen Frage. Gleiche Fälle bekommen das gleiche Urteil.
 

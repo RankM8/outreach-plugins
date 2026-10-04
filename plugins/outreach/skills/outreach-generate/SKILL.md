@@ -183,7 +183,7 @@ Gesamt verarbeitet: {total_processed} Leads
 Erfolg: {total_success} | Fehler: {total_errors}
 Status: Verarbeitete Leads auf "pending_review" gesetzt
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nächster Schritt: /outreach-verify — Variablen prüfen und freigeben
+Nächster Schritt: Stichprobe mit /outreach-verify (10 Leads) bei neuer Kampagne, nach Änderungen oder vor dem ersten Export; danach freigeben
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

@@ -43,7 +43,7 @@ ping + list_campaigns -> Konfiguration prüfen (export_campaign_blueprint) -> li
 
 | Status | Bedeutung | Nächster Schritt |
 |--------|-----------|-------------------|
-| `completed` | Alle Leads durch | /outreach-verify |
+| `completed` | Alle Leads durch | Stichprobe mit /outreach-verify |
 | `completed_with_failures` | Mind. ein Job endgültig gescheitert | Fehl-Leads berichten, Folgelauf anbieten |
 | `budget_exhausted` | Budget erreicht, Rest storniert | Restmenge beziffern, höheres Budget anbieten |
 | `limit_exhausted` | Plan-Limit mitten im Lauf | An den User (Plan/Limit) — kein Auto-Retry |
@@ -65,7 +65,7 @@ Hinweis zu den Kosten: `spentUsd` ist der Betrag, an dem `budgetUsd` stoppt. Lau
 
 Hinweis zu den Zahlen: `not_qualified`-Leads und Leads mit blockierendem Kontaktstatus verlassen die Kette OHNE Job — sie erscheinen in keinem Stufen-Zähler; `completed` kann deshalb legitim unter `leadTotal` bleiben.
 
-Danach: "Nächster Schritt: /outreach-verify — Variablen prüfen und freigeben."
+Danach: "Nächster Schritt: Stichprobe mit /outreach-verify (10 Leads) bei neuer Kampagne, nach Änderungen oder vor dem ersten Export; danach freigeben."
 
 ## Abo-Lauf (Subagents im Claude- bzw. ChatGPT-Abo)
 
@@ -81,7 +81,7 @@ Soll der Client selbst denken (eigenes Abo statt OpenRouter-Guthaben, kein OpenR
 5. **Bericht:** aus den Antwortzeilen der Agents (`OK lead=… fit=… recherche=… mail=…` bzw. `FEHLER …`): qualifiziert / aussortiert / Mails gespeichert / Fehler, je mit Lead. Nicht erneut per `list_leads` auflisten. Danach immer alle drei angemeldeten Phasen mit `outreach_progress(action="end", campaign_id, phase=…)` schließen, auch wenn alles gezählt scheint: Leads ohne Schreibaufruf (Recherche vorhanden, Mail wegen Fremdadresse übersprungen, Fehler) hält das Band sonst als offen.
 6. **Rennschutz:** Fällt ein Schreib-Tool mit `lead_run_active` aus, läuft parallel ein Server-Lauf – abwarten (`get_lead_run_status`), dann fortsetzen.
 
-Danach: `/outreach-verify` — Variablen prüfen und freigeben.
+Danach: Stichprobe mit `/outreach-verify` (10 Leads) bei neuer Kampagne, nach Änderungen oder vor dem ersten Export; danach freigeben.
 
 ## Verwandt
 

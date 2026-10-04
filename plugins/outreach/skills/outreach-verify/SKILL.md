@@ -13,6 +13,21 @@ Dieser Skill orchestriert den automatischen Review von AI-generierten Variablen 
 
 > **Wichtig:** Vor dem Review `ping` und `list_campaigns` prüfen: Konto und Kampagne müssen zum Auftrag passen. Der fertige Mailtext entsteht erst beim Export aus E-Mail-Schritten und Variablen; geprüft werden hier die gespeicherten Variablenwerte (`get_lead_variables`), nicht ein gerenderter Gesamttext. `approve_lead_variables` setzt nur den Status `approved` (bereit für den CSV-Export, `export_leads`) und überträgt nichts nach Instantly; Push und Export sind eigene Schritte. Während aktiver E-Mail-Läufe warten. Korrigiert wird nie inline: inhaltliche Korrekturen von Werten laufen über eine vollständige neue Version mit `save_lead_variables` oder eine ausdrücklich gestartete Neugenerierung (`start_lead_run`, Stufe `email`); Änderungen an Vorlage oder Variablendefinition über `export_campaign_blueprint` + `edit_campaign` (Replace-all; Ersetzen der AI-Variablen löscht alle generierten Werte — nur mit ausdrücklicher Zustimmung).
 
+## Standard: Stichprobe statt Vollprüfung
+
+Die meisten Fehler sind systematisch (falsche Anrede-Regel, Adressfrage, Prompt-Rangfolge) und zeigen sich
+schon an wenigen Leads; eine Vollprüfung kostet etwa so viel wie das Generieren und findet darüber hinaus
+nur wenige Einzelfälle. Darum:
+
+- **Stichprobe von 10 Leads** bei einer neuen Kampagne, nach einer Änderung an Prompts oder Plugin und vor
+  dem ersten Export. Die 10 über die Liste streuen (verschiedene Scores, persönliche und Sammeladressen).
+- Findet die Stichprobe einen Fehler, der sich wiederholen kann: die Ursache beheben (Variablen-Prompt über
+  `/outreach-campaign`, sonst im Generator) und die betroffenen Leads neu generieren, nicht alle prüfen.
+- **Vollprüfung nur auf ausdrücklichen Wunsch** des Nutzers (z. B. für eine besonders wertvolle Liste).
+- Export und Push nehmen nur freigegebene Leads (`approved`). Nach bestandener Stichprobe den Rest nur
+  auf ausdrückliche Bestätigung freigeben: gesammelt in der App oder mit `approve_lead_variables` je Lead
+  aus der Hauptsitzung, ohne Prüf-Agenten. Leads mit offenem Hinweis bleiben draußen.
+
 ## Mit dem verify-agent (Claude Code, Cowork)
 
 Steht der Agent `outreach:verify-agent` zur Verfügung, prüft je Lead genau EIN solcher Agent (Sonnet).
