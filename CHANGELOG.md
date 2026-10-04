@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.3
+
+**outreach** (Kontrolllauf über 12 Testkampagnen)
+- `outreach-copy` → Anrede: Der feste Text nennt den Empfänger nur mit einer Bezeichnung, die auf jeden Lead der Liste passt. Mischt die Zielgruppe Firmen und Einzelpersonen (Agenturen und Freelancer), heißt es „dein Business“ oder „für dich“ statt „deine Agentur“.
+- `outreach-research`, `lead-agent`: Eine öffentlich belegte persönliche Adresse der empfohlenen Entscheidungsperson, auch Freemail, ersetzt eine allgemeine Importadresse (info@, kontakt@); die Importadresse bleibt Zweitadresse. Eine persönliche Importadresse bleibt Versandadresse.
+
 ## 2026-10-04 – outreach 0.3.2
 
 **outreach** (Sequenz, Anrede und Adressregel nach den Entscheidungen des Inhabers)

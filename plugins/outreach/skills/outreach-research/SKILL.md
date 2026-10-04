@@ -104,7 +104,10 @@ LEAD: {lead.company} (ID: {lead.id})
    `bestEmail` ist die gewählte Versandadresse. Gewählt wird die Adresse, über die die
    Entscheidungsperson am wahrscheinlichsten erreicht wird: belegte persönliche Adresse der
    Entscheidungsperson vor Funktionsadresse (vertrieb@, geschäftsführung@) vor allgemeiner
-   Adresse (info@, kontakt@). Nur Adressen mit Fundstelle; nie eine aus Vor- und Nachname
+   Adresse (info@, kontakt@). Eine öffentlich belegte persönliche Adresse der empfohlenen
+   Entscheidungsperson, auch Freemail, ersetzt deshalb eine allgemeine Importadresse; die
+   Importadresse bleibt Zweitadresse. Eine persönliche Importadresse bleibt Versandadresse.
+   Nur Adressen mit Fundstelle; nie eine aus Vor- und Nachname
    geratene, nie eine als unzustellbar bekannte (Bounce), nie Platzhalter wie "null". Ohne
    belegte Adresse `bestEmail` weglassen.
    Fremde Importadresse: Gehört die Importadresse laut Recherche belegt einem Dritten (Kammer,

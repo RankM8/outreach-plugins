@@ -67,6 +67,11 @@ ansprechen), nie automatisch je Lead. Dass eine alte Vorlage, eine Bestandskampa
 siezt bzw. „ihr“ schreibt, ist KEIN Grund für eine Abweichung. Keine Mischform: „Hallo Max,“
 vor „für euch“ ist ein Fehler. Den Wert `team`, den der Server noch annimmt, setzt dieser Skill nie.
 
+Der feste Text nennt den Empfänger nur mit einer Bezeichnung, die auf jeden Lead der Liste passt.
+Mischt die Zielgruppe Firmen und Einzelpersonen (Agenturen und Freelancer, Praxen und
+Einzelbehandler), schreibt er „dein Business“, „deine Kunden“ oder „für dich“ statt „deine Agentur“
+bzw. „deine Praxis“.
+
 - Wer wird in der Du-Form mit Vornamen angesprochen? Die Person, der die Versandadresse gehört.
   Bei generischen Adressen (info@, kontakt@, office@ …) der Vorname der Ansprechperson, die die
   Recherche als Entscheider nennt (Inhaber, Geschäftsführung, Verantwortliche), damit die Mail
