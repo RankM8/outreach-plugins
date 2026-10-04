@@ -59,6 +59,12 @@ muss dieselben Pronomen tragen wie der gewählte Modus.
 | `team` (Du-Form, Betrieb) | ihr/euch/eure | „Hallo <Firma> Team,“ | „Hallo zusammen,“ |
 | `sie` (nur auf ausdrücklichen Wunsch) | Sie/Ihnen/Ihre | „Hallo Frau Nachname,“ / „Hallo Herr Nachname,“ | „Guten Tag,“ |
 
+**Standard ist immer `du`** – auch bei Praxen, Kanzleien, Finanz und generischen Adressen: Die Mail
+richtet sich an den Ansprechpartner bzw. Entscheider, nicht an den Betrieb. `team` und `sie` nur,
+wenn der Nutzer es ausdrücklich verlangt; dass eine alte Vorlage, eine Bestandskampagne oder die
+Branche siezt bzw. „ihr“ schreibt, ist KEIN Grund für eine Abweichung. Keine Mischform: „Hallo Max,“
+vor „für euch“ ist ein Fehler.
+
 - Wer wird in der Du-Form mit Vornamen angesprochen? Die Person, der die Versandadresse gehört.
   Bei generischen Adressen (info@, kontakt@, office@ …) der Vorname der Ansprechperson, die die
   Recherche als Entscheider nennt (Inhaber, Geschäftsführung, Verantwortliche), damit die Mail

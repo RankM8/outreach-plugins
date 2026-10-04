@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.1.8
+
+**outreach**
+- `outreach-copy` (Ansprache): `du` an den Ansprechpartner ist ausdrücklich der Standard, auch für Praxen, Finanz und generische Adressen. `team` und `sie` nur auf ausdrücklichen Wunsch – nicht, weil eine alte Vorlage oder Bestandskampagne so schreibt. Mischform „Hallo Max,“ vor „euch“ als Fehler benannt.
+
 ## 2026-10-04 – outreach 0.1.7
 
 **outreach**
