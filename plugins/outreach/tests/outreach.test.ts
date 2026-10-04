@@ -369,8 +369,7 @@ describe('local workflow phases', () => {
 
     let band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: '1 fertig' })).toBeDefined()
-    expect(await band.find({ text: '· Recherche' })).toBeDefined()
-    expect(await band.find({ text: '· im Abo' })).toBeDefined()
+    expect(await band.find({ text: '· Rech 1/2 · im Abo' })).toBeDefined()
     await band.unmount()
 
     await write(2, { researchText: 'Bericht' })
@@ -396,7 +395,7 @@ describe('local workflow phases', () => {
     const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: '1 fertig · 1 aussortiert' })).toBeDefined()
     expect(await band.find({ text: /0 fertig/ })).toBeUndefined()
-    expect(await band.find({ text: '2 fertig' })).toBeDefined()
+    expect(await band.find({ text: '· Qual 2/2 · Rech 1/1 · Mail 1/1 · im Abo' })).toBeDefined()
     expect(await band.find({ text: 'alle beendet' })).toBeDefined()
     await band.unmount()
   })
@@ -419,6 +418,19 @@ describe('local workflow phases', () => {
     await band.unmount()
   })
 
+  test('a lead whose research already existed counts as researched once its mail is written', async ($, on) => {
+    engineDraws(on)
+    mock.clock(on)
+    on('tool.call', () => ({ result: { status: 'success' } }))
+    for (const phase of ['qualification', 'research', 'email']) await progress($, { action: 'start', campaign_id: 2261, phase, total: 1 })
+    await toolCall($, 'mcp__akquise__write_lead_details', { campaign_id: 2261, lead_id: 5, fields: { qualificationStatus: 'completed', qualificationFitLevel: 'qualified' } })
+    await toolCall($, 'mcp__akquise__save_lead_variables', { campaign_id: 2261, lead_id: 5, variables: '{}' })
+    const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: '· Qual 1/1 · Rech 1/1 · Mail 1/1 · im Abo' })).toBeDefined()
+    expect(await band.find({ text: 'alle beendet' })).toBeDefined()
+    await band.unmount()
+  })
+
   test('email variables count for the email phase; a dry run counts nothing', async ($, on) => {
     engineDraws(on)
     mock.clock(on)
@@ -428,7 +440,7 @@ describe('local workflow phases', () => {
     await toolCall($, 'mcp__akquise__write_lead_details', { campaign_id: 7, lead_id: 2, fields: { researchText: 'x' }, dry_run: true })
     const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: '1 fertig' })).toBeDefined()
-    expect(await band.find({ text: 'E-Mail' })).toBeDefined()
+    expect(await band.find({ text: '· Mail 1/3 · im Abo' })).toBeDefined()
     await band.unmount()
   })
 

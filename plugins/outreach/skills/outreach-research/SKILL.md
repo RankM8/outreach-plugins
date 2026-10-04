@@ -11,9 +11,10 @@ Dieser Skill orchestriert das Lead-Research via MCP Business Tools. Claude-Subag
 
 > **Abo-Lauf (Subagents im Claude- bzw. ChatGPT-Abo):**
 > - **Ein Lead pro Agent, immer.** Nie mehrere Leads in einen Agenten geben – Modelle verwechseln sonst Leads.
-> - **Agent-Typ:** In Claude Code mit Plugin `outreach` zuerst `outreach:researcher-schlank` (nur die Outreach-Werkzeuge, Sonnet, rund halb so viel Kontext wie ein allgemeiner Agent); fehlt er, `outreach:researcher` (Plugin-Agent auf Sonnet); sonst `general-purpose` mit `model: "sonnet"`. Nie das Modell der Sitzung erben lassen: Opus verbraucht das Abo-Kontingent um ein Vielfaches. Andere Clients: das günstigste Modell mit Web-Zugriff; ohne Subagents die Leads **sequentiell** mit exakt denselben Schritten.
+> - **Agent:** In Claude Code und Cowork `outreach:lead-agent` (Plugin-Agent, Sonnet) mit dem Auftrag „Kampagne <id>, Lead <id>, nur Recherche“; sind mehrere Outreach-Server verbunden, zusätzlich „Server: <name>“. Fehlt der Agent, `general-purpose` mit `model: "sonnet"` und der Vorlage unten. Nie das Modell der Sitzung erben lassen: Opus verbraucht das Abo-Kontingent um ein Vielfaches. Andere Clients: das günstigste Modell mit Web-Zugriff; ohne Subagents die Leads **sequentiell** mit denselben Schritten.
+> - **Ganzer Lauf** (Qualifizierung → Recherche → Mail in einem): `/outreach-pipeline <id> --abo`.
 > - **Parallelität:** höchstens 10 Agents gleichzeitig.
-> - **Fortschritt:** Gibt es das Werkzeug `outreach_progress` (Claude Code mit Plugin `outreach`), zu Beginn der Phase einmal `outreach_progress(action="start", campaign_id, phase="research", total=<Leads der Phase>)` aufrufen. Gezählt wird danach automatisch, auch jeder Schreibaufruf der Subagents; als „nicht qualifiziert“ beurteilte Leads gelten in Recherche und Mail als aussortiert. Nichts weiter melden.
+> - **Fortschritt:** Gibt es das Werkzeug `outreach_progress` (Claude Code mit Plugin `outreach`), zu Beginn einmal `outreach_progress(action="start", campaign_id, phase="research", total=<Leads>)` aufrufen; gezählt wird automatisch, auch jeder Schreibaufruf der Subagents. Den Stand danach aus den Agenten-Antworten berichten, nicht per `list_leads` erneut auflisten.
 
 ## Websitehinweise und gespeicherte Sperren getrennt halten
 

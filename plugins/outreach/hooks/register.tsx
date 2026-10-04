@@ -293,34 +293,51 @@ const localHref = (local: LocalRun, known: Record<string, string>) => {
   return origin === undefined ? null : appLink(origin, `/campaigns/${local.campaignId}/leads`)
 }
 
+const PHASE_SHORT: Record<string, string> = { qualification: 'Qual', research: 'Rech', email: 'Mail' }
+
+/** The phases of one campaign's run in the subscription, in the order they happen. */
+const groupPhases = (phases: LocalRun[]): LocalRun[][] => {
+  const byCampaign = new Map<number, LocalRun[]>()
+  for (const local of phases) byCampaign.set(local.campaignId, [...(byCampaign.get(local.campaignId) ?? []), local])
+  const order = (l: LocalRun) => PHASES.indexOf(l.phase as Phase)
+  return [...byCampaign.values()].map(g => [...g].sort((a, b) => order(a) - order(b)))
+}
+
 /**
- * One phase Claude runs in the subscription, as one row: counted from the writes, so exact and
- * without polling. Leads judged not qualified leave the later phases; they count as handled, so a
- * phase that did all it could ends green, not as if work were missing.
+ * One run in the subscription as one row: its phases counted from the writes, so exact and without
+ * polling. Leads judged not qualified leave the later phases and count as handled, so a run that
+ * did all it could ends green, not as if work were missing.
  */
-const localRow = (el: El, local: LocalRun, href: string | null, weekUsed: number | null) => {
+const localRow = (el: El, group: LocalRun[], href: string | null, weekUsed: number | null) => {
   const { Box, Text, Link } = el
-  const done = local.doneLeadIds.length
-  const skipped = local.skippedLeadIds.length
-  const complete = done + skipped >= local.total
-  const color = local.isTerminal ? (complete ? BRAND.done : BRAND.warn) : BRAND.local
-  const [doneCells, asideCells, restCells] = barCells(local.total, done, skipped, 14)
+  const last = group[group.length - 1]
+  if (last === undefined) return null
+  const total = Math.max(...group.map(l => l.total))
+  const done = last.doneLeadIds.length
+  const skipped = last.skippedLeadIds.length
+  const isTerminal = group.every(l => l.isTerminal)
+  const complete = group.every(l => l.doneLeadIds.length + l.skippedLeadIds.length >= l.total)
+  const color = isTerminal ? (complete ? BRAND.done : BRAND.warn) : BRAND.local
+  const [doneCells, asideCells, restCells] = barCells(total, done, skipped, 14)
   const state = `${done} fertig${skipped > 0 ? ` · ${skipped} aussortiert` : ''}`
-  const week = weekUsed === null || local.weekStartPercent === null ? null : Math.max(0, weekUsed - local.weekStartPercent)
+  const stages = group
+    .map(l => `${PHASE_SHORT[l.phase] ?? l.phase} ${l.doneLeadIds.length}/${l.total - l.skippedLeadIds.length}`)
+    .join(' · ')
+  const starts = group.map(l => l.weekStartPercent).filter((v): v is number => v !== null)
+  const week = weekUsed === null || starts.length === 0 ? null : Math.max(0, weekUsed - Math.min(...starts))
 
   return (
-    <Box key={`local-${local.id}`}>
+    <Box key={`local-${last.campaignId}`}>
       <Box flexGrow={1} flexShrink={1} gap={1}>
-        <Text bold color={color}>{local.isTerminal ? '■' : '▶'}</Text>
-        <Box width={9} flexShrink={0}><Text>{`${local.total} Leads`}</Text></Box>
+        <Text bold color={color}>{isTerminal ? '■' : '▶'}</Text>
+        <Box width={9} flexShrink={0}><Text>{`${total} Leads`}</Text></Box>
         <Box flexShrink={0}>
           <Text color={color}>{'█'.repeat(doneCells)}</Text>
           <Text dimColor>{'█'.repeat(asideCells)}</Text>
           <Text color={color} dimColor>{'░'.repeat(restCells)}</Text>
         </Box>
-        <Text bold color={local.isTerminal ? color : undefined} wrap="truncate-end">{state}</Text>
-        <Text wrap="truncate-end">{`· ${STAGE_LABEL[local.phase] ?? local.phase}`}</Text>
-        <Text dimColor wrap="truncate-end">· im Abo</Text>
+        <Text bold color={isTerminal ? color : undefined} wrap="truncate-end">{state}</Text>
+        <Text dimColor wrap="truncate-end">{`· ${stages} · im Abo`}</Text>
       </Box>
       <Box flexShrink={0} gap={2} marginLeft={1}>
         {week !== null && <Text dimColor>{`+${week.toFixed(1).replace('.', ',')} % Woche`}</Text>}
@@ -364,15 +381,18 @@ const band = (
   weekUsed: number | null,
 ) => {
   const { Box, Text } = el
-  const count = shown.length + jobs.length + phases.length
+  const groups = groupPhases(phases)
+  const count = shown.length + jobs.length + groups.length
   const active =
-    shown.filter(r => !r.isTerminal).length + jobs.filter(j => !j.isTerminal).length + phases.filter(l => !l.isTerminal).length
+    shown.filter(r => !r.isTerminal).length +
+    jobs.filter(j => !j.isTerminal).length +
+    groups.filter(g => g.some(l => !l.isTerminal)).length
   const allGood =
     shown.every(r => r.status === 'completed') &&
     jobs.every(j => j.status === 'completed') &&
     phases.every(l => l.doneLeadIds.length + l.skippedLeadIds.length >= l.total)
   const color = active > 0 ? BRAND.accent : allGood ? BRAND.done : BRAND.warn
-  const single = shown.length === 1 && jobs.length === 0 && phases.length === 0 ? shown[0] : undefined
+  const single = shown.length === 1 && jobs.length === 0 && groups.length === 0 ? shown[0] : undefined
 
   if (single !== undefined) {
     return (
@@ -393,7 +413,7 @@ const band = (
       </Box>
       {shown.map(run => bandRow(el, run, step))}
       {jobs.map(job => importRow(el, job, step))}
-      {phases.map(local => localRow(el, local, localHref(local, known), weekUsed))}
+      {groups.map(g => localRow(el, g, g.map(l => localHref(l, known)).find(h => h !== null) ?? null, weekUsed))}
     </Box>
   )
 }
@@ -422,8 +442,8 @@ const bandImports = (all: ImportView[]): ImportView[] => [
     .slice(0, ENDED_SHOWN),
 ]
 
-/** A run in the subscription has up to three phases; all of them stay in view once ended. */
-const ENDED_PHASES_SHOWN = 3
+/** A run in the subscription has up to three phases; those of the last two runs stay in view once ended. */
+const ENDED_PHASES_SHOWN = 6
 
 const bandPhases = (all: LocalRun[]): LocalRun[] => [
   ...all.filter(l => !l.isTerminal),
@@ -520,9 +540,6 @@ const tick = async ($: EngineInterface) => {
 
 // ── workflow phases Claude runs itself ───────────────────────────────────
 
-/** The outreach server Claude last called itself (not a subagent); the lean agents follow it. */
-let lastUsedServer: string | null = null
-
 /** Keeps the app origin a server's links point to, so a local phase links to the right app. */
 const learnOrigin = async ($: EngineInterface, server: string, payload: Record<string, unknown> | null) => {
   if (payload === null) return
@@ -537,83 +554,6 @@ const learnOrigin = async ($: EngineInterface, server: string, payload: Record<s
 
 const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v)
 
-/**
- * Lean agents for runs in the subscription: one lead each, Sonnet, only the outreach tools of
- * one server – far less context than a general agent that carries every tool of the session.
- * Registered here because only at runtime are the tool names known: they follow whatever the
- * customer named the server. The plugin's agent files (qualifier, researcher, writer) remain as
- * the fallback where no mod runs.
- *
- * Read is part of every lean agent: get_lead_data carries the campaign's full system prompt and
- * often exceeds the tool-result limit, so it arrives as a file the agent has to read.
- */
-const LEAN_ONE_LEAD =
-  'Arbeite nur mit dem Lead, dessen campaign_id und lead_id dir der Auftrag nennt; nie mit einem anderen. ' +
-  'Folge den Schritten und Regeln des Auftrags genau. Deutsch mit echten Umlauten. Nichts erfinden. ' +
-  'Liefert get_lead_data nur einen Dateipfad statt der Daten, lies die Datei mit Read vollständig, bevor du bewertest oder schreibst.'
-
-const LEAN_AGENTS = [
-  {
-    name: 'qualifier-schlank',
-    what: 'Qualifiziert genau einen Lead gegen die Kriterien seiner Kampagne (schlank: nur Outreach-Werkzeuge, Sonnet)',
-    prompt: 'Du qualifizierst genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
-    tools: ['get_lead_data', 'write_lead_details'],
-    web: ['Read', 'WebFetch'],
-  },
-  {
-    name: 'researcher-schlank',
-    what: 'Recherchiert genau einen Lead nach den Vorgaben seiner Kampagne (schlank: nur Outreach-Werkzeuge, Sonnet)',
-    prompt: 'Du recherchierst genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
-    tools: ['get_lead_data', 'write_lead_details'],
-    web: ['Read', 'WebFetch', 'WebSearch'],
-  },
-  {
-    name: 'writer-schlank',
-    what: 'Schreibt die Mail-Variablen für genau einen Lead (schlank: nur Outreach-Werkzeuge, Sonnet)',
-    prompt: 'Du schreibst die KI-Variablen der Cold-Mail für genau EINEN Lead einer Outreach-Kampagne. ' + LEAN_ONE_LEAD,
-    tools: ['get_lead_data', 'save_lead_variables', 'get_lead_variables'],
-    web: ['Read', 'WebFetch'],
-  },
-] as const
-
-/** The server the lean agents work against now; null until one is known. */
-let agentServer: string | null = null
-
-const bindAgents = async ($: EngineInterface, server: string) => {
-  if (server === agentServer) return
-  agentServer = server
-  for (const agent of LEAN_AGENTS) {
-    try {
-      await $.agent.register({
-        name: agent.name,
-        description: `${agent.what}.`,
-        prompt: agent.prompt,
-        tools: [...agent.tools.map(t => `mcp__${server}__${t}`), ...agent.web],
-        model: 'sonnet',
-        maxTurns: 30,
-      })
-    } catch {
-      // Without it the skills fall back to the plugin's agent files.
-    }
-  }
-}
-
-/** Binds the lean agents to the server Claude used last, or to the only one there is. */
-const bindLeanAgents = async ($: EngineInterface) => {
-  try {
-    const servers = await akquiseServers($)
-    const recognised = [...knownServers].filter(([, ok]) => ok).map(([srv]) => srv)
-    const target =
-      lastUsedServer !== null && servers.includes(lastUsedServer)
-        ? lastUsedServer
-        : recognised.length === 1
-          ? recognised[0]
-          : undefined
-    if (target !== undefined) await bindAgents($, target)
-  } catch {
-    // No tool list now: the next turn tries again.
-  }
-}
 
 const PHASES = ['qualification', 'research', 'email'] as const
 type Phase = (typeof PHASES)[number]
@@ -658,6 +598,8 @@ const countWrite = async ($: EngineInterface, phase: Phase, input: Record<string
       next[key] = changed
     }
     touch(localKey(campaignId, phase), 'done')
+    // Mail written without a research write: the lead's research already existed (it holds across campaigns).
+    if (phase === 'email') touch(localKey(campaignId, 'research'), 'done')
     if (leaves) {
       touch(localKey(campaignId, 'research'), 'skipped')
       touch(localKey(campaignId, 'email'), 'skipped')
@@ -823,8 +765,8 @@ const registerProgressTool = async ($: EngineInterface) => {
   await $.tool.register({
     name: 'outreach_progress',
     description:
-      'Zeigt den Fortschritt einer Outreach-Phase, die du selbst mit Subagents ausführst (Manuell-Modus von ' +
-      'outreach-qualify, outreach-research, outreach-generate), im Outreach-Band über dem Prompt. Zu Beginn jeder Phase ' +
+      'Zeigt den Fortschritt eines Abo-Laufs (Leads, die du selbst mit Subagents bearbeitest: outreach-pipeline --abo, ' +
+      'outreach-qualify, outreach-research, outreach-generate) als eine Zeile im Outreach-Band über dem Prompt. Zu Beginn jeder Phase ' +
       'einmal mit action=start, campaign_id, phase (qualification|research|email) und total (Anzahl Leads der Phase) aufrufen. ' +
       'Gezählt wird danach automatisch: jeder erfolgreiche write_lead_details- bzw. save_lead_variables-Aufruf für einen ' +
       'Lead dieser Kampagne zählt als erledigt. action=end schließt die Phase vorzeitig ab. Nicht für Server-Läufe (start_lead_run).',
@@ -846,8 +788,6 @@ export const register: Register = (on, options) => {
   knownServers = new Map()
   poller = null
   spinner = null
-  lastUsedServer = null
-  agentServer = null
   base = String(options.appUrl ?? 'https://outreach.akquise.de')
 
   // A standalone tool row: our card in place of the engine's result block.
@@ -912,12 +852,8 @@ export const register: Register = (on, options) => {
     } catch {
       // Nothing to resume.
     }
-    await bindLeanAgents($)
     return next(e)
   })
-
-  // A server connected after the start, or another one just used: the lean agents follow.
-  on('turn.start', async ($, e, next) => (await bindLeanAgents($), next(e)))
 
 
   // One command, no wording needed: every run still going appears in the band.
@@ -948,7 +884,6 @@ export const register: Register = (on, options) => {
     const recognized = await recognize($, e.tool)
     if (recognized === null) return ran
     const { name, server } = recognized
-    if (!e.agentId) lastUsedServer = server
     await learnOrigin($, server, payloadOf(ran.result))
     const written = phaseOfWrite(name, e as unknown as Record<string, unknown>)
     if (written !== null) {

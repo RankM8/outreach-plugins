@@ -22,7 +22,7 @@ ping + list_campaigns -> Konfiguration prüfen (export_campaign_blueprint) -> li
 | `/outreach-pipeline 80` | Voller Lauf für Kampagne 80 (alle 3 Stufen) |
 | `/outreach-pipeline 80 --bis research` | Nur `stages: ["qualification","research"]` |
 | `/outreach-pipeline` | Kampagne via list_campaigns wählen |
-| `/outreach-pipeline 80 --abo` (oder „als Abo-Lauf“, „im Abo“, „ohne Server“) | Abo-Lauf: Qualifizierung → Recherche → Mail je Lead mit Subagents im Abo des Nutzers, siehe „Manuell-Modus“; keine OpenRouter-Kosten, belastet das Abo-Kontingent |
+| `/outreach-pipeline 80 --abo` (oder „als Abo-Lauf“, „im Abo“, „ohne Server“) | Abo-Lauf: Qualifizierung → Recherche → Mail je Lead mit einem Agenten im Abo des Nutzers, siehe „Abo-Lauf“; keine OpenRouter-Kosten, belastet das Abo-Kontingent |
 
 **Welcher Lauf?** Nennt der Nutzer weder Server noch Abo, kurz fragen: Server-Lauf (läuft im Hintergrund, kostet OpenRouter-Guthaben) oder Abo-Lauf (läuft in dieser Sitzung, nutzt das Claude- bzw. ChatGPT-Abo). Bei Abo-Lauf zusätzlich die Lead-Anzahl erfragen.
 
@@ -67,22 +67,24 @@ Hinweis zu den Zahlen: `not_qualified`-Leads und Leads mit blockierendem Kontakt
 
 Danach: "Nächster Schritt: /outreach-verify — Variablen prüfen und freigeben."
 
-## Manuell-Modus (Abo-Lauf mit Subagents)
+## Abo-Lauf (Subagents im Claude- bzw. ChatGPT-Abo)
 
-Soll der Client selbst denken (eigenes Modell/eigene Quellen, kein OpenRouter-Key, gezielte Einzelfälle): die Phasen-Skills `/outreach-qualify`, `/outreach-research`, `/outreach-generate` einzeln fahren. Regeln:
+Soll der Client selbst denken (eigenes Abo statt OpenRouter-Guthaben, kein OpenRouter-Key, gezielte Einzelfälle), bearbeitet je Lead EIN Agent alle Stufen: qualifizieren → bei `not_qualified` aufhören → recherchieren (eine vorhandene Recherche gilt kampagnenübergreifend und wird nur genutzt) → Mail-Variablen schreiben. So wird `get_lead_data` je Lead nur einmal gelesen, und die Mail entsteht mit dem, was der Agent selbst über den Lead gelernt hat.
 
-1. **Reihenfolge je Lead**: Qualifizierung → Recherche → Mail; Recherche nur nach einem Urteil außer `not_qualified`, Mail nur nach erfolgreicher Recherche. Ein Lead pro Agent und Stufe, Agent-Typ und Modell wie im Abschnitt „Abo-Lauf“ der Phasen-Skills (schlank → Plugin-Agent → `general-purpose` mit Sonnet).
-   - **Claude Code mit Workflow-Werkzeug (bevorzugt):** EIN Workflow mit `pipeline()` über die Leads, je Stufe ein `agent()` mit `agentType` (z. B. `outreach:qualifier-schlank`) bzw. `model: "sonnet"`. Prompts sind die Sub-Agent-Vorlagen aus `/outreach-qualify`, `/outreach-research` und `/outreach-generate` mit ersetzten Platzhaltern; beim Writer die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ aus `outreach-copy` anhängen. Leads laufen nebeneinander, jeder durch seine eigene Kette.
-   - **Ohne Workflow-Werkzeug:** Phasen nacheinander (erst alle Qualifizierungen, dann Recherche, dann Mail), innerhalb einer Phase bis zu 10 Agents parallel.
-   - **Fortschritt:** Vor dem Start alle drei Phasen mit `outreach_progress(action="start", …, total=<Leads>)` anmelden; das Band zählt mit und führt nicht qualifizierte Leads in Recherche und Mail als aussortiert.
-2. **Jede Phase folgt exakt ihrem Skill** — Prompts, Regeln und Fehlerbehandlung von dort übernehmen, keine abweichende Logik. Jede Phase läuft, bis ihre Queue leer ist.
-3. **Idempotenz nutzen**: Jede Phase zieht ihre Queue über die list_leads-Filter; bereits verarbeitete Leads tauchen nicht mehr auf. Ein abgebrochener Lauf kann jederzeit fortgesetzt werden.
-4. **Fehler blockieren nicht**: Fehlgeschlagene Leads bleiben in ihrer Phase-Queue und werden im Report ausgewiesen. Nur wenn ein KOMPLETTER Batch fehlschlägt: stoppen und User fragen.
-5. **not_qualified-Leads** verlassen die Pipeline nach der Qualifizierung automatisch (Research filtert fit_level="qualified").
-6. **Rennschutz**: Vorher ebenfalls `list_lead_runs(active_only=true)` prüfen (Regel 7 gilt auch hier); fällt ein Schreib-Tool mitten im Lauf mit `lead_run_active` aus, hat parallel jemand einen Server-Lauf gestartet — Phase pausieren, Terminal-Status abwarten, fortsetzen.
+1. **Vorprüfung** wie beim Server-Lauf (Regeln 0 und 1): Konto, Kampagne, Setup, kein aktiver Lauf.
+2. **Leads wählen:** `list_leads(campaign_id, fit_level="", research_status="", campaign_status="processing", qualification_status="pending", limit=<Anzahl>)`. Anzahl vorher erfragen; bei mehr als 50 Leads auf den Server-Lauf hinweisen (läuft im Hintergrund, belastet das Abo nicht).
+3. **Fortschritt anmelden** (wenn `outreach_progress` verfügbar): je einmal `outreach_progress(action="start", campaign_id, phase=…, total=<Anzahl>)` für `qualification`, `research` und `email`. Das Band zeigt den Lauf als eine Zeile; nicht qualifizierte Leads zählen als aussortiert, eine schon vorhandene Recherche als erledigt.
+4. **Agents starten:** je Lead genau ein Agent, höchstens 10 gleichzeitig (`run_in_background: true`, eine Welle je Message-Block).
+   - Claude Code und Cowork: `outreach:lead-agent` mit dem Auftrag „Kampagne <id>, Lead <id> (<Firma>)“; sind mehrere Outreach-Server verbunden, zusätzlich „Server: <name>“.
+   - Ohne diesen Agenten: `general-purpose` mit `model: "sonnet"`; Auftrag = die Sub-Agent-Vorlagen aus `/outreach-qualify`, `/outreach-research` und `/outreach-generate` nacheinander, mit ersetzten Platzhaltern, den Abschnitten „Anrede und Ansprache“ und „Intro-Regeln“ aus `outreach-copy` und dem Hinweis, bei `not_qualified` nach der Qualifizierung aufzuhören.
+   - Ohne Subagents (manche Clients): die Leads nacheinander mit denselben Schritten.
+5. **Bericht:** aus den Antwortzeilen der Agents (`OK lead=… fit=… recherche=… mail=…` bzw. `FEHLER …`): qualifiziert / aussortiert / Mails gespeichert / Fehler, je mit Lead. Nicht erneut per `list_leads` auflisten. Bleiben Leads wegen Fehlern offen, die angemeldeten Phasen mit `outreach_progress(action="end", …)` schließen.
+6. **Rennschutz:** Fällt ein Schreib-Tool mit `lead_run_active` aus, läuft parallel ein Server-Lauf – abwarten (`get_lead_run_status`), dann fortsetzen.
+
+Danach: `/outreach-verify` — Variablen prüfen und freigeben.
 
 ## Verwandt
 
-- Review: `/outreach-verify` · Manuell-Modus: `/outreach-qualify`, `/outreach-research`, `/outreach-generate`
+- Review: `/outreach-verify` · Einzelne Stufen im Abo: `/outreach-qualify`, `/outreach-research`, `/outreach-generate`
 - Vorbereitung: `/outreach-campaign`, `/outreach-import`, `/outreach-lists`
 - Copy-Fragen (Sequenz, Betreffzeilen, Offer, Prompts von `hallo`/`intro`, Prüfung der Mails) laufen über den Skill `outreach-copy`.

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.0
+
+**outreach** (Abo-Lauf vereinfacht: ein Agent je Lead für alle Stufen)
+- Neuer Plugin-Agent `outreach:lead-agent` (Sonnet, alle Werkzeuge): qualifiziert, hört bei `not_qualified` auf, recherchiert (vorhandene Recherche wird genutzt) und schreibt die Mail-Variablen – `get_lead_data` wird je Lead nur einmal gelesen, die Mail entsteht mit dem, was der Agent selbst über den Lead gelernt hat. Lädt den Copy-Skill selbst; nennt der Auftrag einen Server, nutzt er nur dessen Werkzeuge.
+- Entfernt: die Agenten `qualifier`, `researcher`, `writer` und die schlanken Mod-Agenten (`*-schlank`). Ihre Werkzeug-Einschränkung führte zu Abbrüchen (große `get_lead_data`-Antwort als Datei ohne Read, Werkzeugnamen je nach Servername).
+- `outreach-pipeline`: Abschnitt „Abo-Lauf“ – Leads wählen, Fortschritt anmelden, je Lead ein `lead-agent` (höchstens 10 gleichzeitig), Bericht aus den Antwortzeilen statt erneuter Lead-Liste. `outreach`: leitet „Abo-Lauf“, „im Abo“, „ohne Server“ an `outreach-pipeline --abo` weiter.
+- `outreach-qualify`, `outreach-research`, `outreach-generate`: einzelne Stufe im Abo über `lead-agent` mit „nur <Stufe>“.
+- Band: ein Abo-Lauf ist EINE Zeile („5 Leads · 3 fertig · 1 aussortiert · Qual 5/5 · Rech 4/4 · Mail 3/4 · im Abo“); eine schon vorhandene Recherche zählt als erledigt, sobald die Mail des Leads gespeichert ist.
+
 ## 2026-10-04 – outreach 0.2.1
 
 **outreach**
