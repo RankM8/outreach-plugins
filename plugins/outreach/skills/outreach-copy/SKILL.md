@@ -62,8 +62,10 @@ muss dieselben Pronomen tragen wie der gewählte Modus.
 - Wer wird in der Du-Form mit Vornamen angesprochen? Die Person, der die Versandadresse gehört.
   Bei generischen Adressen (info@, kontakt@, office@ …) der Vorname der Ansprechperson, die die
   Recherche als Entscheider nennt (Inhaber, Geschäftsführung, Verantwortliche), damit die Mail
-  dort ankommt bzw. weitergeleitet wird. Personenmarken immer mit Vornamen. Ist keine Person klar
-  erkennbar, steht nur „Hallo,“. Die Sie-Form geht analog mit Herr/Frau und Nachname, Fallback
+  dort ankommt bzw. weitergeleitet wird. Nennt die Recherche mehrere gleichrangige Inhaber oder
+  Geschäftsführer, gilt die Person, die sie als Ansprechpartner empfiehlt, sonst die erstgenannte
+  im Impressum. Personenmarken immer mit Vornamen. Ist keine Person klar erkennbar, steht nur
+  „Hallo,“. Die Sie-Form geht analog mit Herr/Frau und Nachname, Fallback
   „Guten Tag,“.
 - NIE „Hallo Herr/Frau Nachname,“ oder „Hallo <Firma> Team,“ zusammen mit Du-Text (`du`), nie
   „Hallo zusammen,“ vor einem Text mit „du“, nie „Hey …“, nie Sie und du gemischt.
@@ -180,6 +182,11 @@ MUSS:
 - Konkreter, verifizierbarer Bezug, den man nur kennt, wenn man wirklich auf
   Website/Shop/Bewertungen war. Angle-Reihenfolge: 1) Kundenbewertungen 2) Website-Feature/
   Spezialisierung 3) Stellenanzeige/Wachstum 4) Branche/Region (Fallback).
+- Ohne konkretes Kundenlob sind auch diese Aufhänger erlaubt, jeweils mit EINEM konkreten Detail:
+  ein Projekt, eine Referenz oder Spezialisierung, die Firmengeschichte oder das Gründungsjahr
+  (mit seinem Ereignis), Auszeichnungen und Siegel (ohne Altersgrenze), Lage und Ausstattung.
+  Eine Aufzählung von Leistungen („A, B und C“) ist kein Aufhänger. Gibt die Recherche nichts
+  Konkretes her, steht der Fallback-Satz der Kampagne, nicht eine Leistungsliste.
 - Bewertungsanker ist eine konkrete Paraphrase: was genau wird gelobt. Anzahl und Sternedurchschnitt
   nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt. Plural
   oder „immer wieder“ nur, wenn mindestens 2 Bewertungen dieses Lob tragen.

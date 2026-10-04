@@ -199,8 +199,13 @@ REGELN:
 - Schreibe der angesprochenen Person nichts zu, das einer anderen Person
   gehört (z. B. den Podcast des Inhabers in einer Mail an eine Mitarbeiterin);
   nenne die Person dann beim Namen
+- Ohne konkretes Kundenlob sind auch erlaubt: ein Projekt, eine Referenz
+  oder Spezialisierung mit EINEM konkreten Detail, Firmengeschichte oder
+  Gründungsjahr (mit seinem Ereignis), Auszeichnungen und Siegel (ohne
+  Altersgrenze), Lage und Ausstattung. Eine Aufzählung von Leistungen ist
+  kein Aufhänger.
 - Wenn du KEIN belastbares Detail findest: gib den Fallback-Satz zurück,
-  erfinde nichts und schreibe keine Floskel
+  erfinde nichts, schreibe keine Floskel und keine Leistungsliste
 
 FALLBACK (wenn keine konkrete Beobachtung möglich; er behauptet nichts
 Unbelegtes über den Lead, z. B. nicht "so gut bewertet"):
