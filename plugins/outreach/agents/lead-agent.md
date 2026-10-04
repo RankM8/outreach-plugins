@@ -73,6 +73,10 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
 - Prüfen: Anrede nach Regel und überall gleich; Du-Form „Hallo Vorname,“ (bei info@ der Entscheider),
   ohne Person „Hallo,“; Intro max. 2 Sätze, beginnt klein, nur positiv, konkret belegt, keine Kritik,
   keine Floskel, kein Pitch, keine erfundene Zahl, keine Gedankenstriche; keine internen Scores.
+- Intro-Gegenprobe: Eine bloße Feststellung („du bietest X an“, „du machst Y mit dem Mikroskop“) ist
+  kein Aufhänger; sie braucht, was daran besonders ist oder wem es nützt, sonst gilt der Fallback der
+  Kampagne. Erfolgsaussagen der Praxis über sich selbst („konnte die Kariesrate senken“) nicht als
+  Ergebnis wiedergeben, nur das Tun benennen. Höchstens etwa 30 Wörter.
 - Speichern: `save_lead_variables(campaign_id, lead_id, variables="<JSON-String mit allen Variablen
   aus emailGeneration.expectedOutput>")`.
 

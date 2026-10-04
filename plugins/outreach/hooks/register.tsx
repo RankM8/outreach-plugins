@@ -294,25 +294,23 @@ const usageNow = async ($: EngineInterface): Promise<Usage> => {
   }
 }
 
-const pct = (v: number) => `${v.toFixed(1).replace('.', ',').replace(/,0$/, '')} %`
-
 /**
- * The subscription windows as the run sees them: where each stands now, and – once it is
- * measurable (a tenth of a point) – how much it rose since the run began. The windows count the
- * whole account, so other sessions running at the same time show here too.
+ * What the run has used of the subscription windows: how far each rose since the run began, not
+ * where it stands. The engine reports whole percent, so a rise below one point reads as „< 1 %“.
+ * The windows count the whole account, so other sessions running at the same time show here too.
  */
 const usageText = (group: LocalRun[], now: Usage): string | null => {
   const part = (label: string, current: number | null, starts: (number | null)[]) => {
-    if (current === null) return null
     const known = starts.filter((v): v is number => v !== null)
-    const rose = known.length === 0 ? 0 : current - Math.min(...known)
-    return rose >= 0.1 ? `${label} ${pct(current)} (+${pct(rose).replace(' %', '')})` : `${label} ${pct(current)}`
+    if (current === null || known.length === 0) return null
+    const rose = Math.max(0, current - Math.min(...known))
+    return rose < 1 ? `${label} < 1 %` : `${label} ${Math.round(rose)} %`
   }
   const parts = [
     part('5 h', now.session, group.map(l => l.sessionStartPercent)),
     part('Woche', now.week, group.map(l => l.weekStartPercent)),
   ].filter((v): v is string => v !== null)
-  return parts.length === 0 ? null : parts.join(' · ')
+  return parts.length === 0 ? null : `verbraucht ${parts.join(' · ')}`
 }
 
 /** A local phase's campaign page: on the origin its server links to; null while that is unknown. */

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.7
+
+**outreach**
+- Band → Abo-Lauf: Die Zeile zeigt nur noch, wie viel dieser Lauf vom 5-Stunden- und Wochenfenster verbraucht hat („verbraucht 5 h 3 % · Woche < 1 %“), nicht mehr den Stand des Kontos. Die Werte kommen in ganzen Prozent, ein Anstieg unter einem Punkt erscheint als „< 1 %“.
+- `lead-agent` → Intro-Gegenprobe: Eine bloße Feststellung ohne das Besondere daran ist kein Aufhänger (dann gilt der Fallback der Kampagne), Erfolgsaussagen der Praxis über sich selbst werden nicht als Ergebnis wiedergegeben, das Intro bleibt bei etwa 30 Wörtern.
+
 ## 2026-10-04 – outreach 0.3.6
 
 **outreach** (Kontrolllauf über 12 Testkampagnen)
