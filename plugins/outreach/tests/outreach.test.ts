@@ -132,10 +132,11 @@ describe('which MCP server is ours', () => {
     on('tool.call', () => ({ result: RUN_STATUS }))
     on('mcp.call', ($, e) => {
       asked.push(String((e as { server: string }).server))
-      return { value: { content: [{ type: 'text', text: JSON.stringify(RUN_STATUS) }], isError: false } }
+      const body = (e as { tool: string }).tool === 'list_lead_runs' ? { runs: [RUN_STATUS], count: 1 } : RUN_STATUS
+      return { value: { content: [{ type: 'text', text: JSON.stringify(body) }], isError: false } }
     })
     await toolCall($, 'mcp__akquise__get_lead_run_status', { lead_run_id: 'run-1' })
-    await clock.advance(10_000)
+    await clock.advance(20_000)
     expect(asked).toEqual(['akquise'])
   })
 })
@@ -179,19 +180,20 @@ describe('run status', () => {
     await row.unmount()
   })
 
-  test('the band asks every 10 s until the run has ended, and says why it stopped', async ($, on) => {
+  test('the band asks every 20 s until the run has ended, and says why it stopped', async ($, on) => {
     engineDraws(on)
     const clock = mock.clock(on)
     const stopped = { ...RUN_STATUS, status: 'provider_exhausted', is_terminal: true, statusReason: 'OpenRouter rejected the API key' }
     let asked = 0
     on('tool.call', () => ({ result: RUN_STATUS }))
-    on('mcp.call', () => {
+    on('mcp.call', (_$, e) => {
       asked += 1
-      return { value: { content: [{ type: 'text', text: JSON.stringify(stopped) }], isError: false } }
+      const body = (e as { tool: string }).tool === 'list_lead_runs' ? { runs: [stopped], count: 1 } : stopped
+      return { value: { content: [{ type: 'text', text: JSON.stringify(body) }], isError: false } }
     })
     await toolCall($, 'mcp__akquise__get_lead_run_status', { lead_run_id: 'run-1' })
 
-    await clock.advance(10_000)
+    await clock.advance(20_000)
     expect(asked).toBe(1)
     const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: '· KI-Anbieter nicht verfügbar' })).toBeDefined()
@@ -199,6 +201,25 @@ describe('run status', () => {
 
     await clock.advance(30_000)
     expect(asked).toBe(1)
+    await band.unmount()
+  })
+
+  test('a server that never answers usably: after three rounds the band stops asking', async ($, on) => {
+    engineDraws(on)
+    const clock = mock.clock(on)
+    let asked = 0
+    on('tool.call', () => ({ result: RUN_STATUS }))
+    on('mcp.call', () => {
+      asked += 1
+      return { value: { content: [{ type: 'text', text: 'Task started in the background.' }], isError: false } }
+    })
+    await toolCall($, 'mcp__akquise__get_lead_run_status', { lead_run_id: 'run-1' })
+    for (let i = 0; i < 3; i++) await clock.advance(20_000)
+    const after = asked
+    await clock.advance(60_000)
+    expect(asked).toBeLessThanOrEqual(after + 2)
+    const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+    expect(await band.find({ text: /Stand unbekannt/ })).toBeDefined()
     await band.unmount()
   })
 
@@ -334,7 +355,7 @@ describe('run status', () => {
     await clock.advance(250)
     expect(await band.find({ text: '⠙' })).toBeDefined()
 
-    await clock.advance(10_000)
+    await clock.advance(20_000)
     expect(await band.find({ text: /[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏]/ })).toBeUndefined()
     await band.unmount()
   })
@@ -531,12 +552,12 @@ describe('imports', () => {
     expect(await queued.find({ text: 'wartet' })).toBeDefined()
     await queued.unmount()
 
-    await clock.advance(10_000)
+    await clock.advance(20_000)
     const working = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await working.find({ text: 'läuft' })).toBeDefined()
     await working.unmount()
 
-    await clock.advance(10_000)
+    await clock.advance(20_000)
     expect(asked.length).toBe(2)
     const done = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await done.find({ text: '480 importiert · 20 Duplikate' })).toBeDefined()
@@ -556,7 +577,7 @@ describe('imports', () => {
     mcpAnswers(on, [jobStatus('failed')])
     on('tool.call', () => ({ result: IMPORT_QUEUED }))
     await toolCall($, 'mcp__akquise__import_leads', { campaign_id: 12, leads: [] })
-    await clock.advance(10_000)
+    await clock.advance(20_000)
 
     const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
     expect(await band.find({ text: 'fehlgeschlagen · CSV-Zeile 3 ist kaputt' })).toBeDefined()

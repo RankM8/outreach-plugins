@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.3.2
+
+**outreach** (Live-Ansicht in Claude Code)
+- Band fragt laufende Server-Läufe mit EINEM `list_lead_runs` je Server und Runde ab statt einem `get_lead_run_status` je Lauf; einzeln nur, wer in der Liste fehlt. Abfrage alle 20 statt 10 Sekunden.
+- Antwortet ein ausgelasteter Server nur noch über eine Hintergrundaufgabe (der Mod sieht dann keinen Status), hört das Band nach drei Runden ohne verwertbare Antwort auf, den Lauf abzufragen, und zeigt „Stand unbekannt“; `/outreach-runs` lädt neu. Vorher fragte es fertige Läufe endlos weiter ab, und jede Antwort landete als Meldung im Chat.
+
 ## 2026-10-04 – outreach 0.3.1
 
 **outreach** (Live-Ansicht in Claude Code)

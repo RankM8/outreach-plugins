@@ -26,7 +26,9 @@ import {
  */
 
 const PREVIEW_ROWS = 6
-const POLL_MS = 10_000
+const POLL_MS = 20_000
+/** Rounds without a usable answer after which the band stops asking for a run. */
+const MAX_MISSES = 3
 /** How long a run that ended stays in the band. */
 const LINGER_MS = 120_000
 
@@ -38,6 +40,7 @@ const frame = atom({ plugin: 'outreach', key: 'frame' } as const, 0)
 const folded = atom({ plugin: 'outreach', key: 'folded' } as const, false)
 let configuredServer = 'akquise'
 let poller: { cancel: () => void } | null = null
+const missedRounds = new Map<string, number>()
 let spinner: { cancel: () => void } | null = null
 
 let base = 'https://outreach.akquise.de'
@@ -535,14 +538,61 @@ const tick = async ($: EngineInterface) => {
       // Not connected right now: the next tick tries again.
     }
   }
-  for (const run of Object.values(await read($, runs))) {
-    if (run.isTerminal) continue
+  // One list_lead_runs per server answers for all its runs at once; only a run that list leaves
+  // out (older than its newest 20) is asked for on its own. Fewer calls keep a busy server quiet.
+  const going = Object.values(await read($, runs)).filter(r => !r.isTerminal)
+  const byServer = new Map<string, RunView[]>()
+  for (const run of going) {
+    const server = run.server || configuredServer
+    byServer.set(server, [...(byServer.get(server) ?? []), run])
+  }
+  for (const [server, serverRuns] of byServer) {
+    const listed = new Set<string>()
+    const answered = new Set<string>()
     try {
-      const server = run.server || configuredServer
-      const status = await call($, server, 'get_lead_run_status', { lead_run_id: run.id })
-      if (status) await putRun($, status, server)
+      const answer = await call($, server, 'list_lead_runs', {})
+      for (const one of Array.isArray(answer?.runs) ? answer.runs : []) {
+        if (typeof one !== 'object' || one === null) continue
+        const row = one as Record<string, unknown>
+        const id = String(row.id ?? '')
+        if (!serverRuns.some(r => r.id === id)) continue
+        listed.add(id)
+        answered.add(id)
+        await putRun($, row, server)
+      }
     } catch {
       // Not connected right now: the next tick tries again.
+    }
+    for (const run of serverRuns) {
+      if (listed.has(run.id)) continue
+      try {
+        const status = await call($, server, 'get_lead_run_status', { lead_run_id: run.id })
+        if (status && String(status.id ?? status.lead_run_id ?? '') === run.id) {
+          answered.add(run.id)
+          await putRun($, status, server)
+        }
+      } catch {
+        // Not connected right now: the next tick tries again.
+      }
+    }
+    // A slow server answers through a background task the band never sees: without a check the band
+    // would ask forever and never learn the run ended. After MAX_MISSES rounds it stops asking.
+    for (const run of serverRuns) {
+      const misses = answered.has(run.id) ? 0 : (missedRounds.get(run.id) ?? 0) + 1
+      missedRounds.set(run.id, misses)
+      if (misses < MAX_MISSES) continue
+      await update($, runs, all => {
+        const current = all[run.id]
+        if (current === undefined || current.isTerminal) return all
+        const stale: RunView = {
+          ...current,
+          status: 'stand_unbekannt',
+          isTerminal: true,
+          finishedAt: Date.now(),
+          reason: 'Server antwortet nicht rechtzeitig – /outreach-runs lädt den Stand neu.',
+        }
+        return { ...all, [run.id]: stale }
+      })
     }
   }
   const now = Date.now()
@@ -808,6 +858,7 @@ export const register: Register = (on, options) => {
   knownServers = new Map()
   poller = null
   spinner = null
+  missedRounds.clear()
   base = String(options.appUrl ?? 'https://outreach.akquise.de')
 
   // A standalone tool row: our card in place of the engine's result block.
