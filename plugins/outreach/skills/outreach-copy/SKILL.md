@@ -91,12 +91,12 @@ Wahl dem Nutzer in einem Satz.
 |---|---|---|
 | A: Kostenlose Teildienstleistung | Standard, funktioniert in 80 % der Fälle. Im Zweifel diese. | „Genau deshalb bieten wir aktuell für [Anzahl] Unternehmen in [Region] ein kostenloses [Deliverable] an.“ |
 | B: Tester/Pilotprojekt | Neues Produkt, wenig Referenzen, Exklusivität als Narrativ | „Genau solche Unternehmen suchen wir gerade. Wir starten [Projekt] mit [Anzahl] Betrieben in [Region].“ |
-| C: Konkretes Deliverable (Reziprozität) | Kleine Zielgruppe, hohe Reply Rate nötig. Höchste Reply Rate, mehr Aufwand pro Lead. | „Deswegen war ich so frei und habe [Deliverable] für euch erstellt.“ |
+| C: Konkretes Deliverable (Reziprozität) | Kleine Zielgruppe, hohe Reply Rate nötig. Höchste Reply Rate, mehr Aufwand pro Lead. | „Deswegen war ich so frei und habe [Deliverable] für dich erstellt.“ |
 | D: Förder-Hook | Nutzer hat förderfähige Produkte | „Wusstest du, dass der Staat aktuell bis zu [Prozent] der [Kosten] übernimmt?“ |
-| E: Partner gesucht | Nischen-Anbieter, Kooperation auf Augenhöhe | „Genau solche [Branche] suchen wir als Partner. Wir haben regelmäßig [Anfragen] die zu euch passen würden.“ |
+| E: Partner gesucht | Nischen-Anbieter, Kooperation auf Augenhöhe | „Genau solche [Branche] suchen wir als Partner. Wir haben regelmäßig [Anfragen], die zu dir passen würden.“ |
 
 Die Klammern füllst du beim Schreiben der Sequenz aus den Angaben des Nutzers; im fertigen Text
-steht keine Klammer mehr. Pronomen (euch/dir/Ihnen) an die `salutation` anpassen.
+steht keine Klammer mehr. Pronomen an die `salutation` anpassen (Standard `du`: dir/dich/dein).
 
 Das Offer muss ALLE drei Punkte erfüllen, sonst umformulieren:
 
@@ -159,9 +159,9 @@ in Step 3. Über den Empfänger schreiben, nie über den Absender („Du bekomms
 bieten …“).
 
 Muster für Karte C, direkt nach dem Lob-Intro (Team-Form):
-„Deswegen war ich so frei und habe euch einen kompletten Webseitenentwurf inklusive
+„Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive
 Buchungssystem erstellt. Ich bin gerade noch an den letzten Feinheiten dran, vor allem der
-Optimierung für Google und KI-Suchmaschinen. Wäre es in Ordnung, wenn ich euch das morgen
+Optimierung für Google und KI-Suchmaschinen. Wäre es in Ordnung, wenn ich dir das morgen
 zusende?“
 
 **Signatur:** Name, Rolle und Firma des ABSENDERS als Klartext aus den Angaben des Nutzers, z. B.
@@ -225,7 +225,7 @@ NIEMALS:
 - Erfundene Fakten, Personen, Rollen oder Zahlen.
 - Sichtbare Platzhalter ([Branche], [Name]) oder M-Striche (—).
 
-Lieber Fallback als Floskel: Ein generischer Opener („eure Website macht einen professionellen
+Lieber Fallback als Floskel: Ein generischer Opener („deine Website macht einen professionellen
 Eindruck“) ist schlechter als der ehrliche Fallback-Satz.
 
 Hinweis: Der ListM8-Server legt beim Generieren zusätzlich eigene Intro-Regeln in den Prompt
@@ -306,7 +306,8 @@ Genau 5 Steps mit festen Rollen. `delayDays` ist die Wartezeit VOR dem Step (kum
 - Der CTA wird von Step zu Step weicher: Erlaubnis erbitten → nur anstoßen → offen anbieten →
   kurz abklären → Tür offen lassen.
 - Jedes Follow-up hat max. EINEN neuen Aspekt und beginnt mit einem ganzen, weichen Satz in der
-  gewählten Ansprache. Follow-ups laufen im selben Thread.
+  gewählten Ansprache. Das erste Wort nach `{{ai.hallo}}` (in jedem Step) schreibt man klein, weil
+  es auf „Hallo …,“ folgt: „du hast sicher …“, nicht „Du hast sicher …“; Substantive bleiben groß. Follow-ups laufen im selben Thread.
 - Nur wenn der Nutzer ausdrücklich eine kürzere Sequenz will, entfällt Step 5. Nie einen der
   Steps 1 bis 4.
 - Fehlt dem Nutzer ein echter Beleg für Step 3 oder ein echter Grund für Step 4: nachfragen,

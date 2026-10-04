@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.1.9
+
+**outreach**
+- `outreach-copy`: Musterbeispiele in Skill und `marketing-offer.md` auf die Du-Form umgestellt (vorher „für euch erstellt“, „euch das morgen zusende“ – Agenten übernahmen daraus die Ihr-Form).
+- `outreach-copy`: Das erste Wort nach `{{ai.hallo}}` schreibt man in jedem Step klein („du hast sicher …“).
+
 ## 2026-10-04 – outreach 0.1.8
 
 **outreach**

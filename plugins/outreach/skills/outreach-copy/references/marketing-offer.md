@@ -38,7 +38,7 @@ Ein Offer, das der Nutzer nicht liefern kann, wird nicht geschrieben. Auch das O
 | Neues Produkt, wenig Referenzen, Exklusivität als Narrativ | **B: Tester/Pilotprojekt** | „Wir suchen 3 Pilotunternehmen" |
 | Kleine Zielgruppe, hohe Reply Rate nötig | **C: Konkretes Deliverable (Reziprozität)** | Video mit 3 Hebeln, Ersteinschätzung |
 | Nutzer hat förderfähige Produkte | **D: Förder-Hook** | „Staat zahlt bis zu 100 % der Weiterbildung" |
-| Nischen-Anbieter, Kooperation auf Augenhöhe | **E: Partner gesucht** | „Wir haben Anfragen die zu euch passen" |
+| Nischen-Anbieter, Kooperation auf Augenhöhe | **E: Partner gesucht** | „Wir haben Anfragen, die zu dir passen" |
 
 **Faustregel:** Im Zweifel mit Karte A starten. Karte C hat die höchsten Reply Rates, braucht aber mehr Aufwand pro Lead. Wähle GENAU EINE Karte und begründe die Wahl dem Nutzer in einem Satz.
 
@@ -77,7 +77,7 @@ Die rechte Spalte ist die Sprache für Offer und Mail. Die linke steht auf seine
 
 ## Reziprozitäts-Upgrade (optional, verdoppelt Reply Rate)
 
-Statt „Darf ich dir etwas anbieten?" sagen wir „Wir haben schon etwas für euch gemacht, darf ich es zusenden?"
+Statt „Darf ich dir etwas anbieten?" sagen wir „Ich habe schon etwas für dich gemacht, darf ich es dir zusenden?"
 
 Beispiele:
 
@@ -103,7 +103,7 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 | **Betreffzeile** | „Meeting {{lead.company}} & [Absender-Vorname]" |
 | **Überleitung + Offer** | „Genau deshalb bieten wir aktuell für [Anzahl] Unternehmen in [Region] ein kostenloses [konkretes Deliverable] an." |
 | **Feinheiten-Satz (Pflicht)** | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]." |
-| **CTA** | „Wenn das für euch spannend klingt, antworte mir einfach kurz." |
+| **CTA** | „Wenn das für dich spannend klingt, antworte mir einfach kurz." |
 
 **Typischer Fehler:** „Kostenlose Beratung" statt „Kostenloses Google Ads Setup". Beratung = Sales Call in Verkleidung.
 
@@ -118,7 +118,7 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 | **Betreffzeile** | „Anfrage für {{lead.company}}" / „kurze Frage" |
 | **Überleitung + Offer** | „Genau solche Unternehmen suchen wir gerade. Wir starten [Projekt] mit [Anzahl] Betrieben in [Region]." |
 | **Feinheiten-Satz** | optional |
-| **CTA** | „Falls ihr dazugehören wollt, antworte mir einfach kurz." |
+| **CTA** | „Falls du dazugehören willst, antworte mir einfach kurz." |
 
 ### Karte C: Konkretes Deliverable (Reziprozität)
 
@@ -129,14 +129,14 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 | Baustein | Vorlage |
 |:---------|:--------|
 | **Betreffzeile** | „kurze Frage" |
-| **Überleitung + Offer** | „Deswegen war ich so frei und habe [Deliverable] für euch erstellt." |
+| **Überleitung + Offer** | „Deswegen war ich so frei und habe [Deliverable] für dich erstellt." |
 | **Feinheiten-Satz (Pflicht)** | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]." |
 | **CTA** | „Wäre es in Ordnung, wenn ich es dir morgen zusende?" |
 
 **Wichtig:** Der Feinheiten-Satz gehört bei Karte C zur Pflicht. Fertiggestellt wird nach der Antwort, 5-10 Min. Aufwand.
 
 Muster, direkt nach dem Lob-Intro:
-„Deswegen war ich so frei und habe euch einen kompletten Webseitenentwurf inklusive Buchungssystem erstellt. Ich bin gerade noch an den letzten Feinheiten dran, vor allem der Optimierung für Google und KI-Suchmaschinen. Wäre es in Ordnung, wenn ich euch das morgen zusende?"
+„Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive Buchungssystem erstellt. Ich bin gerade noch an den letzten Feinheiten dran, vor allem der Optimierung für Google und KI-Suchmaschinen. Wäre es in Ordnung, wenn ich dir das morgen zusende?"
 
 ### Karte D: Förder-Hook
 
@@ -145,7 +145,7 @@ Muster, direkt nach dem Lob-Intro:
 | Baustein | Vorlage |
 |:---------|:--------|
 | **Betreffzeile** | „Deine Förderung" |
-| **Überleitung + Offer** | „Wusstest du, dass der Staat aktuell bis zu [Prozent] der [Kosten] übernimmt? Ich hab mal gecheckt, was für euch drin wäre." |
+| **Überleitung + Offer** | „Wusstest du, dass der Staat aktuell bis zu [Prozent] der [Kosten] übernimmt? Ich hab mal gecheckt, was für dich drin wäre." |
 | **Feinheiten-Satz** | entfällt |
 | **CTA** | „Darf ich dir die Einschätzung zusenden?" |
 
@@ -157,12 +157,12 @@ Quoten immer als Spanne nennen („bis zu 100 %"), nie als Zusage - die Förderh
 
 **Wann:** Nischen-Anbieter mit starker Positionierung, wo Partnerschaft auf Augenhöhe Sinn macht.
 
-**Mechanik:** Kein Verkauf, sondern Kooperation. „Wir haben Kunden die zu euch passen." Das ist Augenhöhe.
+**Mechanik:** Kein Verkauf, sondern Kooperation. „Wir haben Kunden, die zu dir passen." Das ist Augenhöhe.
 
 | Baustein | Vorlage |
 |:---------|:--------|
 | **Betreffzeile** | „Partnerschaft {{lead.company}}?" |
-| **Überleitung + Offer** | „Genau solche [Branche] suchen wir als Partner. Wir haben regelmäßig [Anfragen] die zu euch passen würden." |
+| **Überleitung + Offer** | „Genau solche [Branche] suchen wir als Partner. Wir haben regelmäßig [Anfragen], die zu dir passen würden." |
 | **Feinheiten-Satz** | entfällt |
 | **CTA** | „Wäre das grundsätzlich interessant? Antworte mir einfach kurz." |
 
