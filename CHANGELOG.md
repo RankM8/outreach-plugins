@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.2.1
+
+**outreach**
+- `outreach-pipeline`: Abo-Lauf ist direkt aufrufbar (`/outreach-pipeline 80 --abo`, „im Abo“, „ohne Server“) und steht in der Aufruf-Tabelle; ohne Angabe fragt der Skill, ob Server- oder Abo-Lauf.
+
 ## 2026-10-04 – outreach 0.2.0
 
 **outreach** (Abo-Läufe: Leads im Claude- bzw. ChatGPT-Abo statt auf dem Server verarbeiten)

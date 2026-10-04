@@ -1,6 +1,6 @@
 ---
 name: outreach-pipeline
-description: Use when user says "outreach:pipeline", "mcp:pipeline", "kompletter mcp durchlauf", "leads komplett verarbeiten", "lead lauf starten", "qualify research generate", "alles in einem lauf mcp", "full pipeline", or triggers /mcp:pipeline.
+description: Use when user says "outreach:pipeline", "mcp:pipeline", "kompletter mcp durchlauf", "leads komplett verarbeiten", "lead lauf starten", "qualify research generate", "alles in einem lauf mcp", "full pipeline", "abo-lauf", "im abo", "lauf im abo", "mit subagents", "ohne server", "ohne openrouter", "lokal durchlaufen lassen", or triggers /mcp:pipeline. Server-Lauf (start_lead_run, kostet OpenRouter) oder Abo-Lauf (Subagents im Claude- bzw. ChatGPT-Abo, keine Server-Kosten).
 ---
 
 # MCP Pipeline — serverseitiger Lead-Lauf (start_lead_run)
@@ -22,6 +22,9 @@ ping + list_campaigns -> Konfiguration prüfen (export_campaign_blueprint) -> li
 | `/outreach-pipeline 80` | Voller Lauf für Kampagne 80 (alle 3 Stufen) |
 | `/outreach-pipeline 80 --bis research` | Nur `stages: ["qualification","research"]` |
 | `/outreach-pipeline` | Kampagne via list_campaigns wählen |
+| `/outreach-pipeline 80 --abo` (oder „als Abo-Lauf“, „im Abo“, „ohne Server“) | Abo-Lauf: Qualifizierung → Recherche → Mail je Lead mit Subagents im Abo des Nutzers, siehe „Manuell-Modus“; keine OpenRouter-Kosten, belastet das Abo-Kontingent |
+
+**Welcher Lauf?** Nennt der Nutzer weder Server noch Abo, kurz fragen: Server-Lauf (läuft im Hintergrund, kostet OpenRouter-Guthaben) oder Abo-Lauf (läuft in dieser Sitzung, nutzt das Claude- bzw. ChatGPT-Abo). Bei Abo-Lauf zusätzlich die Lead-Anzahl erfragen.
 
 **Vorab abfragen:** Stufen (Default: alle 3 — Teilmengen und Lücken erlaubt, z.B. nur `["email"]`; bereits erfüllte Stufen werden pro Lead übersprungen) und optional ein `budget_usd` (bei größeren Läufen empfehlen). Review/Approve gehört bewusst NICHT in die Pipeline (Vier-Augen-Prinzip via /outreach-verify).
 
