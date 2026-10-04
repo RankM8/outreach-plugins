@@ -153,7 +153,10 @@ export function importFrom(p: Obj, previous?: ImportView): ImportView | null {
     received: num(p.received, previous?.received ?? num(result?.total)),
     campaignId: typeof p.campaign_id === 'number' ? p.campaign_id : (previous?.campaignId ?? null),
     imported: typeof result?.imported === 'number' ? result.imported : (previous?.imported ?? null),
-    duplicates: typeof result?.duplicates === 'number' ? result.duplicates : (previous?.duplicates ?? null),
+    // The server lists the duplicate rows; older answers gave a count.
+    duplicates: Array.isArray(result?.duplicates)
+      ? result.duplicates.length
+      : typeof result?.duplicates === 'number' ? result.duplicates : (previous?.duplicates ?? null),
     isTerminal,
     isDemo: previous?.isDemo ?? false,
     finishedAt: previous?.finishedAt ?? null,

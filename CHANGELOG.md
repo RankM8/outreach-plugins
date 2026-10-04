@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-04 – outreach 0.1.5
+
+**outreach** (Live-Ansicht in Claude Code)
+- Import-Ergebnis zählt Duplikate wieder: Der Server liefert sie als Liste der betroffenen Zeilen, nicht als Zahl; vorher fiel die Angabe weg.
+
 ## 2026-10-04 – outreach 0.1.4
 
 **outreach** (Live-Ansicht in Claude Code)

@@ -448,7 +448,7 @@ describe('imports', () => {
     })
     const asked = mcpAnswers(on, [
       jobStatus('processing'),
-      jobStatus('completed', { status: 'success', imported: 480, total: 500, duplicates: 20 }),
+      jobStatus('completed', { status: 'success', imported: 480, total: 500, duplicates: Array.from({ length: 20 }, (_, i) => ({ row: i })) }),
     ])
     on('tool.call', () => ({ result: IMPORT_QUEUED }))
     await toolCall($, 'mcp__akquise__import_leads', { campaign_id: 12, leads: [] })
