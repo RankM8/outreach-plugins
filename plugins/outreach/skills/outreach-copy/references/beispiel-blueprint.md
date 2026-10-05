@@ -17,11 +17,11 @@ eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und ab Step 2 l
 |---|---|---|
 | Offer-Karte | C: Konkretes Deliverable (Reziprozität) | kleine Zielgruppe, hohe Reply Rate nötig |
 | Marketing-Offer | fertiger Entwurf der neuen Startseite inklusive Online-Terminbuchungs-Flow | Deliverable, kein Gespräch; vom Nutzer lieferbar |
-| Feinheiten-Satz | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem daran, die Behandlungsseiten gleich für Google und KI-Suchmaschinen mitzudenken.“ | Pflicht bei Karte C, genau ein On-Top-Detail |
+| Feinheiten-Satz | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem daran, die Behandlungsseiten gleich für Google und KI-Suchmaschinen mitzudenken, und werde morgen mit dem Entwurf fertig.“ | Pflicht bei Karte C, eigener Absatz, genau ein On-Top-Detail |
 | Ansprache | `salutation: "du"`: „Hallo Vorname,“ (Person der Versandadresse, bei info@ o. Ä. der Inhaber aus der Recherche), Fallback „Hallo,“, durchgehend du/dir/dein | Du-Form, eine Person (Inhaberin/Inhaber) |
 | Betreffs | Step 1 „kurze Frage“, Step 3 „kurzes Update“, Step 2 und 4 leer | Entwurfs-Angebot (Karte C): Frage statt Ankündigung; Step 2 antwortet im Thread von Mail 1, Step 3 öffnet einen neuen Thread, Step 4 antwortet darin |
 | Sequenz | 4 Steps, `delayDays` 0/3/5/7 | Standard; Step 3 ist der neue Winkel mit Social Proof, Step 4 der Abschied mit Routing-Hinweis; ohne echten Zeit- oder Kapazitätsgrund des Nutzers keine Dringlichkeits-Mail |
-| Wörter (fester Text ohne Signatur) | 49 / 23 / 72 / 55 | Step 1 mit Anrede und Bezug (bis 2 Sätze) etwa 75-85, unter 120 |
+| Wörter (fester Text ohne Signatur) | 57 / 23 / 72 / 55 | Step 1 mit Anrede und Bezug (bis 2 Sätze) etwa 85-95, unter 120 |
 
 ## Blueprint
 
@@ -67,7 +67,7 @@ eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und ab Step 2 l
           "status": "confirmed"
         },
         "cta": {
-          "value": "Wäre es in Ordnung, wenn ich dir das morgen zusende?",
+          "value": "Wäre es in Ordnung, wenn ich dir das zusende? Völlig unverbindlich natürlich.",
           "source": "answer",
           "status": "confirmed"
         }
@@ -108,7 +108,7 @@ eindeutig, Prompt ≥ 10 Zeichen, `subject` in Step 1 nicht leer und ab Step 2 l
       {
         "stepNumber": 1,
         "subject": "kurze Frage",
-        "body": "{{ai.hallo}}\n\n{{ai.intro}}\n\nDeswegen war ich so frei und habe dir einen kompletten Entwurf für eine neue Startseite erstellt, inklusive eingebautem Online-Terminbuchungs-Flow.\n\nIch bin gerade noch an den letzten Feinheiten dran, vor allem daran, die Behandlungsseiten gleich für Google und KI-Suchmaschinen mitzudenken.\n\nWäre es in Ordnung, wenn ich dir das morgen zusende?\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
+        "body": "{{ai.hallo}}\n\n{{ai.intro}}\n\nDeswegen war ich so frei und habe dir einen kompletten Entwurf für eine neue Startseite erstellt, inklusive eingebautem Online-Terminbuchungs-Flow.\n\nIch bin gerade noch an den letzten Feinheiten dran, vor allem daran, die Behandlungsseiten gleich für Google und KI-Suchmaschinen mitzudenken, und werde morgen mit dem Entwurf fertig.\n\nWäre es in Ordnung, wenn ich dir das zusende? Völlig unverbindlich natürlich.\n\nViele Grüße\nJonas Weber\nInhaber - Weber Webdesign",
         "delayDays": 0,
         "delayUnit": "days"
       },
@@ -149,7 +149,7 @@ Pronomen im festen Sequenztext (inklusive `offer_contract.cta` und der Pronomen-
 
 | `salutation` | `hallo`-Regel im Prompt | fester Text, Beispiel Step 1 |
 |---|---|---|
-| `sie` | „Hallo Frau <Nachname>,“ / „Hallo Herr <Nachname>,“, Titel nur wenn belegt; Fallback „Guten Tag,“ | „Deswegen war ich so frei und habe Ihnen einen kompletten Entwurf … erstellt …“ / „Wäre es in Ordnung, wenn ich Ihnen das morgen zusende?“ |
+| `sie` | „Hallo Frau <Nachname>,“ / „Hallo Herr <Nachname>,“, Titel nur wenn belegt; Fallback „Guten Tag,“ | „Deswegen war ich so frei und habe Ihnen einen kompletten Entwurf … erstellt …“ / „Wäre es in Ordnung, wenn ich Ihnen das zusende? Völlig unverbindlich natürlich.“ |
 
 Nie „Hallo Herr/Frau …“ zusammen mit Du-Text.
 

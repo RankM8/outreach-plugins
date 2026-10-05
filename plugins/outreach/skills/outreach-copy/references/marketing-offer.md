@@ -86,7 +86,7 @@ Beispiele:
 - „Ich habe mir deinen Shop angeschaut und ein kurzes Video mit 3 Hebeln aufgenommen. Darf ich es dir zusenden?"
 - „Wir haben eine kurze Ersteinschätzung deiner Fördermöglichkeiten vorbereitet. Darf ich sie dir schicken?"
 
-**Wichtig:** In der Mail steht das Deliverable als bereits erledigte Arbeit („war so frei und habe … erstellt"), nie als Absicht. Reziprozität wirkt erst, wenn das Geschenk schon existiert. Dazu gehört der Feinheiten-Satz: „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]." mit genau einem konkreten, lieferbaren Detail. Genau der macht die Fertigstellung nach der Antwort ehrlich, denn der eigentliche Aufwand (5-10 Min.) fällt erst an, wenn jemand antwortet.
+**Wichtig:** In der Mail steht das Deliverable als bereits erledigte Arbeit („war so frei und habe … erstellt"), nie als Absicht. Reziprozität wirkt erst, wenn das Geschenk schon existiert. Dazu gehört der Feinheiten-Satz als eigener Absatz: „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […], und werde morgen mit […] fertig." mit genau einem konkreten, lieferbaren Detail. Genau der macht die Fertigstellung nach der Antwort ehrlich, denn der eigentliche Aufwand (5-10 Min.) fällt erst an, wenn jemand antwortet.
 
 **Wann nutzen:** Wenn die Zielgruppe kleiner ist und man höhere Reply Rates braucht. NICHT bei Massenkampagnen (zu viel Aufwand pro Reply).
 
@@ -104,7 +104,7 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 |:---------|:--------|
 | **Betreffzeile** | „Meeting {{ai.firma}} & [Absender-Vorname]" (ohne `firma`: „kurze Frage") |
 | **Überleitung + Offer** | „Genau deshalb bieten wir aktuell für [Anzahl] Unternehmen in [Region] ein kostenloses [konkretes Deliverable] an." |
-| **Feinheiten-Satz (Pflicht)** | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]." |
+| **Feinheiten-Satz (Pflicht, eigener Absatz)** | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […], und werde morgen mit […] fertig." |
 | **CTA** | „Wenn das für dich spannend klingt, antworte mir einfach kurz." |
 
 **Typischer Fehler:** „Kostenlose Beratung" statt „Kostenloses Google Ads Setup". Beratung = Sales Call in Verkleidung.
@@ -132,13 +132,19 @@ Die Überleitung ist statisch und für alle Leads gleich; sie folgt direkt auf d
 |:---------|:--------|
 | **Betreffzeile** | „kurze Frage" (nie eine Ankündigung wie „Website für …"; ist das Buchungssystem der Kern: „Frage zur Terminbuchung") |
 | **Überleitung + Offer** | „Deswegen war ich so frei und habe [Deliverable] für dich erstellt." |
-| **Feinheiten-Satz (Pflicht)** | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]." |
-| **CTA** | „Wäre es in Ordnung, wenn ich es dir morgen zusende?" |
+| **Feinheiten-Satz (Pflicht, eigener Absatz)** | „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […], und werde morgen mit […] fertig." |
+| **CTA** | „Wäre es in Ordnung, wenn ich es dir zusende? Völlig unverbindlich natürlich." |
 
 **Wichtig:** Der Feinheiten-Satz gehört bei Karte C zur Pflicht. Fertiggestellt wird nach der Antwort, 5-10 Min. Aufwand.
 
 Muster, direkt nach dem Lob-Intro:
-„Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive Buchungssystem erstellt. Ich bin gerade noch an den letzten Feinheiten dran, vor allem der Optimierung für Google und KI-Suchmaschinen. Wäre es in Ordnung, wenn ich dir das morgen zusende?"
+```
+Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive Buchungssystem erstellt.
+
+Ich bin gerade noch an den letzten Feinheiten dran, vor allem an der Optimierung für Google und KI-Suchmaschinen, und werde morgen mit dem Entwurf fertig.
+
+Wäre es in Ordnung, wenn ich dir das zusende? Völlig unverbindlich natürlich.
+```
 
 ### Karte D: Förder-Hook
 
@@ -167,6 +173,39 @@ Quoten immer als Spanne nennen („bis zu 100 %"), nie als Zusage - die Förderh
 | **Überleitung + Offer** | „Genau solche [Branche] suchen wir als Partner. Wir haben regelmäßig [Anfragen], die zu dir passen würden." |
 | **Feinheiten-Satz** | entfällt |
 | **CTA** | „Wäre das grundsätzlich interessant? Antworte mir einfach kurz." |
+
+## Bewährte Formulierungen je Leistung (Offer-Bibliothek)
+
+Quelle: Kurs Outbound 3.0, Lektion 2.5 „Die Offer-Bibliothek“. Alle folgen der Master-Formel (Lob →
+„Deswegen …“ → Offer → „… und werde morgen mit [dem Deliverable] fertig.“ → „Wäre es in Ordnung, wenn ich dir das
+zusende? Völlig unverbindlich natürlich.“). Nur das Offer wechselt. Die Formulierungen sind Vorlagen
+für die Überleitung in Mail 1, Pronomen an die `salutation` der Kampagne anpassen (Standard: du,
+Singular).
+
+| Leistung | Offer-Formulierung |
+|---|---|
+| Website | „… habe dir einen kompletten Website-Entwurf erstellt, inklusive Optimierung für Google und KI-Suchmaschinen.“ |
+| Meta Ads, Creatives | „… habe mir deine Anzeigen angeschaut und ein komplett neues Ad Set mit neun Bildanzeigen erstellt, das du sofort testen kannst.“ |
+| Meta Ads, Marktrecherche zum Mitmachen | „… erstelle dir fürs Mitmachen kostenlos drei Werbeanzeigen.“ |
+| CRM | „… habe dir unser CRM-Setup eingerichtet, weil es genau zu deinem Ablauf passt.“ (ein Satz Case Study kann folgen) |
+| Voice Agent | „… habe dir eine Version unseres Voice Agents erstellt, die du direkt heute testen kannst.“ |
+| Automatisierung | „… habe dir unser System, das [Ergebnis], zusammengestellt; du kannst es direkt testen und durchklicken.“ |
+| Software-Testzugang | „… habe dir einen Account mit passendem Demo-Content zum Rumklicken eingerichtet.“ Dazu nennen, welches Problem die Software löst. „Zum Rumklicken“ wirkt besonders beim 30-Tage-Zugang. |
+| Outreach- bzw. Lead-System | „… habe dir unser Outreach-System eingerichtet, das in Minuten schon zehn passende Leads gefunden hat und schnell Hunderte finden könnte.“ Das System framen, nicht „ich schicke dir zehn Leads“. |
+| Recruiting-Kampagne | „… habe gesehen, dass du offene Stellen hast, und dir deswegen eine komplette Recruiting-Kampagne aufgesetzt.“ |
+| Recruiting, Bewerber | „… habe schon einen passenden Bewerber für deine offene Stelle gefunden, der so schnell wie möglich starten will.“ Konkrete Person statt abstrakter Strategie; eigene Lektion 2.5b. |
+| Chatbot | „… habe dir einen Chatbot gebaut, der auf deine Daten trainiert ist.“ |
+| Rechnungs- und Angebotswesen | „… habe dir das komplette Rechnungs- und Angebotswesen automatisiert.“ |
+
+Detailregeln:
+
+- **KI-skeptische Zielgruppen** (Ärzte, Old Economy, ältere Inhaber): „KI“ gar nicht erwähnen, nur das
+  gelöste Problem nennen, z. B. „ein automatisiertes Termin- und Anfragesystem“ statt „Chatbot“.
+  Das gilt auch für „KI-Suchmaschinen“ im Website-Offer: dort ggf. nur „Google“.
+- **Kein Erfinden:** Ein Offer aus der Tabelle steht nur, wenn der Nutzer genau diese Leistung liefern
+  kann. Zahlen (neun Anzeigen, zehn Leads) nur, wenn sie zu seiner Lieferung passen.
+- **Vorleistung erst nach der Antwort:** Das Offer muss vor dem Versand nicht fertig sein. Es wird nach
+  einem Ja erstellt (Kurs Lektion 2.6), deshalb „werde morgen mit … fertig“.
 
 ## Follow-Ups rund um das Offer
 

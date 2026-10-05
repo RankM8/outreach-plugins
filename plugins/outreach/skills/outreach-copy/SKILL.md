@@ -147,29 +147,46 @@ Regeln:
 {{ai.intro}}                     2. Lob / positiver Bezug (Intro-Regeln)
 Feste Überleitung + Offer        3. statisch, benennt KEIN lead-spezifisches Problem;
                                     bei A und C als erledigte Arbeit
-Feinheiten-Satz                  4. Pflicht bei A und C, optional bei B, entfällt bei D und E
+Feinheiten-Satz                  4. eigener Absatz; Pflicht bei A und C, optional bei B,
+                                    entfällt bei D und E
 EIN Frage-CTA                    5. niedrige Hürde
 Signatur im Klartext             6. Grußformel, Name, „Rolle - Firma“
 ```
 
 **Feinheiten-Satz (Value Stacking), wörtlich:** „Ich bin gerade noch an den letzten Feinheiten
-dran, vor allem […].“ In die Klammer kommt genau EIN konkretes On-Top-Detail aus den Angaben des
-Nutzers, das wirklich lieferbar ist. Nichts erfinden. Er ist KEIN zweites Offer und KEIN zweiter
-CTA. Nicht „Feinschliff“, nicht umformulieren.
+dran, vor allem […], und werde morgen mit […] fertig.“ In die erste Klammer kommt genau EIN konkretes
+On-Top-Detail aus den Angaben des Nutzers, das wirklich lieferbar ist, in die zweite das Deliverable
+(„dem Entwurf“, „dem Setup“, „den Anzeigen“). Nichts erfinden. Er steht als eigener Absatz zwischen
+Offer und CTA, ist KEIN zweites Offer und KEIN zweiter CTA. Nicht „Feinschliff“, nicht
+umformulieren. Den Halbsatz „und werde morgen … fertig“ nur, wenn der Nutzer das Deliverable nach der
+Antwort wirklich bis zum nächsten Tag liefern kann; sonst endet der Satz nach dem On-Top-Detail.
 
-**CTA:** Genau einer, nie zwei Optionen. Beispiele: „Wäre es in Ordnung, wenn ich dir das morgen
-zusende?“, „Darf ich es dir zusenden?“, „Antworte mir einfach kurz.“, „Wäre das grundsätzlich
-interessant?“. Kein Terminvorschlag und kein Link in Mail 1.
+**CTA:** Genau einer, nie zwei Optionen. Standard bei Karte A und C ist der CTA der Master-Formel
+(Kurs Outbound 3.0, Lektion 2.4): „Wäre es in Ordnung, wenn ich dir das zusende? Völlig
+unverbindlich natürlich.“ Der Zusatz „Völlig unverbindlich natürlich.“ senkt die Hürde und ist kein
+zweiter CTA. Weitere Beispiele: „Darf ich es dir zusenden?“, „Antworte mir einfach kurz.“, „Wäre das
+grundsätzlich interessant?“. Kein Terminvorschlag und kein Link in Mail 1.
+
+Die Master-Formel in fünf Bausteinen: Lob → „Deswegen …“ → konkretes Offer → Fertigstellung
+(„… und werde morgen mit dem Entwurf fertig.“, hier im Feinheiten-Satz) → CTA mit wenig Verpflichtung.
+„Werde morgen fertig“ wirkt stärker als „bin fertig“: Der Lead sieht, dass gerade noch für ihn
+gearbeitet wird.
 
 **Kein Pitch, keine Selbstvorstellung im Body.** Authority und Proof gehören in die Signatur bzw.
 in Step 3. Über den Empfänger schreiben, nie über den Absender („Du bekommst …“, nicht „Wir
 bieten …“).
 
-Muster für Karte C, direkt nach dem Lob-Intro:
-„Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive
-Buchungssystem erstellt. Ich bin gerade noch an den letzten Feinheiten dran, vor allem der
-Optimierung für Google und KI-Suchmaschinen. Wäre es in Ordnung, wenn ich dir das morgen
-zusende?“
+Muster für Karte C, direkt nach dem Lob-Intro, jeder Baustein ein eigener Absatz:
+
+```
+Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive
+Buchungssystem erstellt.
+
+Ich bin gerade noch an den letzten Feinheiten dran, vor allem an der Optimierung für Google
+und KI-Suchmaschinen, und werde morgen mit dem Entwurf fertig.
+
+Wäre es in Ordnung, wenn ich dir das zusende? Völlig unverbindlich natürlich.
+```
 
 **Signatur:** Name, Rolle und Firma des ABSENDERS als Klartext aus den Angaben des Nutzers, z. B.
 „Viele Grüße\nAngela Selbert\nGeschäftsführerin - njoy online marketing GmbH“. Nie
@@ -320,7 +337,7 @@ bleibt er leer.
 
 | Step | Rolle | `delayDays` | Wörter max. | Betreff | Inhalt |
 |---|---|---|---|---|---|
-| 1 | Entry Mail | 0 | 120 (Ziel 50-90) | eigener, neuer Thread | `{{ai.hallo}}` + `{{ai.intro}}` + feste Überleitung mit Offer + Feinheiten-Satz (A/C) + EIN CTA + Signatur |
+| 1 | Entry Mail | 0 | 120 (Ziel 50-90) | eigener, neuer Thread | `{{ai.hallo}}` + `{{ai.intro}}` + feste Überleitung mit Offer + Feinheiten-Satz als eigener Absatz (A/C) + EIN CTA + Signatur |
 | 2 | Erinnerung | 3 | 50 | leer, Thread von Mail 1 | `{{ai.hallo}}` + nur nachhaken, weich wie eine schnell getippte Nachricht („du hast sicher viel um die Ohren, ich wollte nur sichergehen, dass meine Mail angekommen ist“). Kein Doppelpunkt-Opener, kein Offer, kein neuer Aspekt, kein `{{ai.intro}}` |
 | 3 | Neuer Winkel (Mehrwert + Social Proof) | 5 | 80 | eigener kurzer Betreff, NEUER Thread (z. B. „kurzes Update“) | `{{ai.hallo}}` + EIN Beleg: eine Case Story, eine Zahl, ein Ergebnis. HIER steht der Social Proof. Die Mail muss ohne den Verlauf von Mail 1 verständlich sein: höchstens ein Halbsatz Bezug auf das Angebot, kein neues Offer, kein `{{ai.intro}}` |
 | 4 | Abschied mit Routing-Hinweis | 7 | 60 | leer, Thread von Mail 3 | `{{ai.hallo}}` + Tür offen lassen, ohne Druck und ohne Vorwurf + Routing-Hinweis („sag mir gern kurz Bescheid, falls ich mich damit besser bei jemand anderem im Team melden sollte“). Kein Offer |
@@ -398,8 +415,8 @@ Im Body jeder Mail:
 „garantiert“, „Garantie“, „jetzt zugreifen“, „jetzt handeln“, „begrenztes Angebot“, „nur heute“,
 „exklusives Angebot“, „hier klicken“, „Rabatt“, „Sonderpreis“, „Gewinner“, „Sie haben gewonnen“,
 „dringend“, „risikofrei“, „ohne Risiko“, „Geld verdienen“.
-„unverbindlich“ ist kein Spam-Wort (abweichend von akquise-ai) – trotzdem trägt die Frage-Form
-des CTA die Unverbindlichkeit, das Wort ist also selten nötig.
+„unverbindlich“ ist kein Spam-Wort (abweichend von akquise-ai); der Standard-CTA endet mit
+„Völlig unverbindlich natürlich.“
 
 **Verbotene Offer-Begriffe:** „kostenlose Analyse“, „kostenlose Beratung“, „kostenloses
 Erstgespräch“, „unverbindliches Audit“, „Potenzial-Check“, „Strategiegespräch“ (und allgemein

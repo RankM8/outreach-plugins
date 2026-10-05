@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-05 – outreach 0.3.20
+
+**outreach** (Abgleich mit dem Kurs Outbound 3.0, Lektionen 2.4 und 2.5)
+- `outreach-copy` → Entry-Mail nach der Master-Formel: Lob → „Deswegen …“ → Offer → Feinheiten-Satz als eigener Absatz mit Fertigstellung („Ich bin gerade noch an den letzten Feinheiten dran, vor allem […], und werde morgen mit […] fertig.“) → CTA „Wäre es in Ordnung, wenn ich dir das zusende? Völlig unverbindlich natürlich.“ Vorher stand der Feinheiten-Satz im selben Absatz wie das Offer, die Fertigstellung fehlte und der CTA trug das „morgen“.
+- `marketing-offer.md` → neue Offer-Bibliothek mit den bewährten Formulierungen je Leistung (Website, Meta Ads, CRM, Voice Agent, Automatisierung, Software-Testzugang, Lead-System, Recruiting, Chatbot, Rechnungswesen) und den Detailregeln (KI bei skeptischen Zielgruppen nicht erwähnen, System framen statt Leads schicken).
+- `copy-lehre.md`, `beispiel-blueprint.md`: Beispiele und CTA an den Aufbau angeglichen.
+
 ## 2026-10-05 – outreach 0.3.19
 
 **outreach** (freigegebener Staging-Lead mit „die Preise sind fair“ im Opener)

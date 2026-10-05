@@ -263,14 +263,14 @@ ANSPRACHE  →  INDIVIDUELLER BEZUG  →  ÜBERLEITUNG + OFFER  →  CTA
 {{ai.hallo}}   {{ai.intro}}          fester Text             fester Text
 ```
 
-Bei Karte A und C kommt zwischen Offer und CTA der Feinheiten-Satz (siehe unten).
+Bei Karte A und C kommt zwischen Offer und CTA der Feinheiten-Satz als eigener Absatz (siehe unten).
 
 | Baustein | Was er macht | Beispiel |
 |:---------|:-------------|:---------|
 | **Ansprache** | Tür aufmachen | „Hallo Max," |
 | **Individueller Bezug** | Zeigen: ich hab mich mit dir beschäftigt | „ich war gerade auf deinem Shop und habe mir die Bewertungen angeschaut. Einer deiner Kunden schreibt, deine Lieferung sei schneller als bei Amazon." |
 | **Überleitung + Offer** | Nahtloser Brücken-Satz zum Angebot. KEIN Pitch. | „Deswegen war ich so frei und habe ein kurzes Video mit drei konkreten Hebeln für dich aufgenommen." |
-| **CTA** | EINE Handlung. Nicht zwei | „Wäre es in Ordnung, wenn ich es dir morgen zusende?" |
+| **CTA** | EINE Handlung. Nicht zwei | „Wäre es in Ordnung, wenn ich es dir zusende? Völlig unverbindlich natürlich." |
 
 **Die Mail soll klingen wie eine WhatsApp von einem Freund, nicht wie eine Agentur-Website.**
 
@@ -324,9 +324,15 @@ Bei Karte A und C steht das Deliverable als bereits erledigte bzw. laufende Arbe
 
 Bei den Offer-Typen Teildienstleistung (A) und Reziprozität (C) folgt nach dem Marketing-Offer ein zweiter Satz, der den Wert stapelt, ohne ein zweites Offer zu werden: Die Arbeit ist schon (fast) erledigt, und es kommt noch etwas on top. Bei B ist er optional, bei D und E entfällt er.
 
-Wortlaut: „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […]."
+Wortlaut: „Ich bin gerade noch an den letzten Feinheiten dran, vor allem […], und werde morgen mit […] fertig." Er steht als eigener Absatz zwischen Offer und CTA.
 
-„Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive Buchungssystem erstellt. Ich bin gerade noch an den letzten Feinheiten dran, vor allem der Optimierung für Google und KI-Suchmaschinen. Wäre es in Ordnung, wenn ich dir das morgen zusende?"
+```
+Deswegen war ich so frei und habe dir einen kompletten Webseitenentwurf inklusive Buchungssystem erstellt.
+
+Ich bin gerade noch an den letzten Feinheiten dran, vor allem an der Optimierung für Google und KI-Suchmaschinen, und werde morgen mit dem Entwurf fertig.
+
+Wäre es in Ordnung, wenn ich dir das zusende? Völlig unverbindlich natürlich.
+```
 
 Die Regeln:
 
@@ -342,7 +348,7 @@ Genau EIN CTA pro Mail. Nie zwei Optionen.
 |:----|:------|
 | „Antworte mir einfach kurz." | Niedrigste Hürde, die es gibt |
 | „Darf ich es dir zusenden?" | Ja/Nein-Frage, eine Sekunde Aufwand |
-| „Wäre es in Ordnung, wenn ich es dir morgen zusende?" | Reziprozität plus Ja/Nein |
+| „Wäre es in Ordnung, wenn ich es dir zusende? Völlig unverbindlich natürlich." (nach „werde morgen … fertig“) | Reziprozität plus Ja/Nein |
 | „Wäre das grundsätzlich interessant?" | Verpflichtet zu nichts |
 
 Kein „Lass uns mal sprechen" ohne vorbereiteten Mehrwert. Kein Terminvorschlag in Mail 1. Kein Link in Mail 1 - der CTA ist die Antwort, nicht der Klick.
@@ -434,9 +440,12 @@ ich war gerade auf deiner Website: Du reinigst ausschließlich
 Industrieanlagen und nennst dafür sogar die Zertifikate deines Teams.
 
 Genau deshalb bereiten wir aktuell für zwei Unternehmen in der Region
-München ein kostenloses Google Ads Setup vor. Ich bin gerade noch an
-den letzten Feinheiten dran, vor allem an den Suchbegriffen für dein
-Gewerk. Wenn das für dich spannend klingt, antworte mir einfach kurz.
+München ein kostenloses Google Ads Setup vor.
+
+Ich bin gerade noch an den letzten Feinheiten dran, vor allem an den
+Suchbegriffen für dein Gewerk, und werde morgen mit dem Setup fertig.
+
+Wenn das für dich spannend klingt, antworte mir einfach kurz.
 
 Viele Grüße
 Julia Weinmann
@@ -455,9 +464,12 @@ Einer deiner Kunden schreibt, dass deine Lieferung schneller war als bei
 Amazon.
 
 Deswegen war ich so frei und habe ein kurzes Video mit drei konkreten
-Hebeln für deinen Shop aufgenommen. Ich bin gerade noch an den letzten
-Feinheiten dran, vor allem an den Beispielen aus deinem Sortiment. Wäre
-es in Ordnung, wenn ich es dir morgen zusende?
+Hebeln für deinen Shop aufgenommen.
+
+Ich bin gerade noch an den letzten Feinheiten dran, vor allem an den
+Beispielen aus deinem Sortiment, und werde morgen mit dem Video fertig.
+
+Wäre es in Ordnung, wenn ich es dir zusende? Völlig unverbindlich natürlich.
 
 Viele Grüße
 Angela Selbert
@@ -636,7 +648,7 @@ WARUM SCHLECHT:
 
 **So geht's besser:**
 
-„ich war gerade auf deinem Shop und habe mir die Bewertungen angeschaut. Einer deiner Kunden schreibt, dass deine Lieferung schneller war als bei Amazon. Deswegen war ich so frei und habe ein kurzes Video mit drei konkreten Hebeln zu deinem Online-Auftritt aufgenommen. Ich bin gerade noch an den letzten Feinheiten dran, vor allem an den Beispielen für deine Startseite. Wäre es in Ordnung, wenn ich es dir morgen zusende?"
+„ich war gerade auf deinem Shop und habe mir die Bewertungen angeschaut. Einer deiner Kunden schreibt, dass deine Lieferung schneller war als bei Amazon. Deswegen war ich so frei und habe ein kurzes Video mit drei konkreten Hebeln zu deinem Online-Auftritt aufgenommen. / Ich bin gerade noch an den letzten Feinheiten dran, vor allem an den Beispielen für deine Startseite, und werde morgen mit dem Video fertig. / Wäre es in Ordnung, wenn ich es dir zusende? Völlig unverbindlich natürlich." (/ = neuer Absatz)
 
 Kein Pitch. Vom Bezug direkt zum Offer. Fertig.
 
