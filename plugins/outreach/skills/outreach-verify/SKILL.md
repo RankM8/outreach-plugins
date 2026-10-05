@@ -7,7 +7,7 @@ description: Use when user says "outreach:verify", "mcp:verify", "verify emails"
 
 > **Live-Ansicht (Claude Code mit Plugin `outreach`):** Ergebnisse von `list_leads`, `import_leads`/`get_job_status` und Lead-Runs erscheinen dort als Karte bzw. im Band über dem Prompt. Dann die Liste **nicht noch einmal als Tabelle** wiederholen – nur kurz zusammenfassen, was der Nutzer wissen oder entscheiden muss. In anderen Umgebungen (Claude-Chat, ChatGPT, Codex) wie gewohnt als kurze Liste ausgeben.
 
-Dieser Skill orchestriert den automatischen Review von AI-generierten Variablen via MCP Business Tools. Claude reviewt jede Variable, gibt qualifizierte Variablen frei (`approve_lead_variables`) oder lehnt unbrauchbare ab (`reject_lead_variables`).
+Dieser Skill orchestriert den automatischen Review von AI-generierten Variablen via MCP Business Tools. Claude reviewt jede Variable, gibt qualifizierte Variablen frei (`approve_lead_variables`) oder lehnt unbrauchbare ab (`reject_lead_variables`). Behebbare Fehler werden dabei direkt nachgebessert und gegengeprüft, statt sie dem Nutzer vorzulegen.
 
 > **Hinweis zur Parallelisierung:** Wenn dein Client parallele Subagents unterstützt (z.B. Claude Code), spawne pro Lead einen Subagent wie beschrieben. Andernfalls arbeite die Leads **sequentiell** mit exakt denselben Schritten ab — das Ergebnis ist identisch, nur langsamer.
 
@@ -26,14 +26,17 @@ nur wenige Einzelfälle. Darum:
 - **Vollprüfung nur auf ausdrücklichen Wunsch** des Nutzers (z. B. für eine besonders wertvolle Liste).
 - Export und Push nehmen nur freigegebene Leads (`approved`). Nach bestandener Stichprobe den Rest nur
   auf ausdrückliche Bestätigung freigeben: gesammelt in der App oder mit `approve_lead_variables` je Lead
-  aus der Hauptsitzung, ohne Prüf-Agenten. Leads mit offenem Hinweis bleiben draußen.
+  aus der Hauptsitzung, ohne Prüf-Agenten. Leads mit offenem Hinweis (`fit`, `recht` oder nach dem
+  Nachbessern noch offen) bleiben draußen.
 
 ## Mit dem verify-agent (Claude Code, Cowork)
 
 Steht der Agent `outreach:verify-agent` zur Verfügung, prüft je Lead genau EIN solcher Agent (Sonnet).
 Er schreibt nie Texte, liest `get_lead_variables` und `export_campaign_blueprint`, prüft Fakten gegen
 die Recherche, Person, Kampagnenregeln, Copy und Versandhinweise und antwortet mit einer Zeile
-`URTEIL lead=… ergebnis=<freigeben|ablehnen|hinweis> geschrieben=… grund=…`.
+`URTEIL lead=… ergebnis=<freigeben|ablehnen|hinweis> art=<text|recherche|adresse|fit|recht|-> geschrieben=… grund=…`.
+Die Art sagt, wer einen Befund behebt: `text`, `recherche` und `adresse` werden nachgebessert (Schritt 4),
+`fit` und `recht` entscheidet der Nutzer.
 
 1. Kampagnenprüfung (Copy-Prüfung unten) einmal vorab, nicht je Lead. Gibt es `outreach_progress`, die
    Phase mit `outreach_progress(action="start", campaign_id, phase="verify", total=<Leads>)` anmelden; jeder
@@ -43,9 +46,27 @@ die Recherche, Person, Kampagnenregeln, Copy und Versandhinweise und antwortet m
    „Kampagne <id>, Lead <id> (<Firma>). Server: <name>. Modus: nur Urteil“ bzw. „Modus: entscheiden“.
    Höchstens 10 gleichzeitig (`run_in_background: true`), bei vielen Leads als Workflow mit
    `agentType: "outreach:verify-agent"`.
-3. **Erste Läufe einer Kampagne im Modus „nur Urteil“:** Bericht nach Ergebnis (freigeben / ablehnen
-   mit Grund / hinweis), der Nutzer sieht sich Ablehnungen und Hinweise an. Erst danach „entscheiden“,
-   dann setzt der Agent `approved` bzw. `rejected`; `hinweis` bleibt immer beim Nutzer.
+3. **Erste Läufe einer Kampagne im Modus „nur Urteil“:** Die Prüf-Agents setzen keinen Status. Erst wenn der
+   Nutzer die Urteile gesehen hat, „entscheiden“; dann setzt der Agent `approved` bzw. `rejected`.
+4. **Nachbessern (Standard, ohne Rückfrage):** Kleine Fehler werden behoben, nicht dem Nutzer vorgelegt.
+   - Für jedes Urteil `ablehnen` oder `hinweis` mit `art=text|recherche|adresse` je Lead ein
+     `outreach:lead-agent` (Abo, keine Server-Kosten) mit dem Auftrag
+     „Kampagne <id>, Lead <id> (<Firma>). Server: <name>. Nachbessern: art=<art>, Befund: <grund>“.
+     Er schreibt eine neue Version (`save_lead_variables`), recherchiert bei `recherche` gezielt nach und
+     stellt bei `adresse` die Versandadresse auf die belegte um. Höchstens 10 gleichzeitig. Gibt es
+     `outreach_progress`, die Phase mit `phase="email"` und `total=<Anzahl>` anmelden.
+   - **Gegenprüfung:** Je nachgebessertem Lead (`NACHGEBESSERT …`) ein NEUER `verify-agent` im selben Modus
+     wie der Lauf. Wer geschrieben hat, prüft und gibt nie selbst frei, auch nicht die Hauptsitzung.
+   - Höchstens eine Runde je Lead. Besteht die Gegenprüfung nicht oder meldet der Lead-Agent
+     `UNVERÄNDERT`, geht der Lead mit Grund an den Nutzer.
+   - Ist derselbe Befund bei drei oder mehr Leads aufgetreten, ist er systematisch: nicht einzeln
+     nachbessern, sondern die Ursache beheben (Variablen-Prompt über `/outreach-campaign`) und die
+     betroffenen Leads neu generieren (siehe Stichprobe oben).
+   - Ohne Subagents bessert die Hauptsitzung selbst nach (gleiche Regeln, Skill `outreach-copy`), gibt die
+     Leads aber nicht frei, sondern legt sie dem Nutzer zur Freigabe vor.
+5. **An den Nutzer gehen nur `fit` und `recht`** sowie Leads, die nach einer Runde Nachbessern noch offen
+   sind, jeweils mit einer Empfehlung. Im Bericht steht je nachgebessertem Lead kurz, was geändert wurde
+   (alter und neuer Anker, umgestellte Adresse).
 
 Ohne diesen Agenten gilt der Ablauf unten mit der Sub-Agent-Vorlage.
 
@@ -355,5 +376,5 @@ Success-Response:
 2. **{batch_size}er-Batches** — {batch_size} Leads pro Batch (vom User gewählt, Default 10, Maximum 200).
 3. **Parallel** — Alle Agents eines Batches gleichzeitig spawnen (ein Message-Block).
 4. **Idempotent** — Freigegebene/abgelehnte Leads tauchen nicht mehr in list_leads(`pending_review`) auf.
-5. **Binäre Entscheidung** — Approve oder Reject. Keine Inline-Korrektur. Für Korrekturen: re-generate via `/outreach-generate` oder `save_lead_variables`.
+5. **Prüfen und Schreiben getrennt** — Der Prüf-Agent urteilt nur (Approve oder Reject im Modus „entscheiden“). Behebbare Befunde (`text`, `recherche`, `adresse`) bessert ein Lead-Agent mit einer vollständigen neuen Version nach (`save_lead_variables`), danach prüft ein neuer Prüf-Agent (siehe „Mit dem verify-agent“, Schritt 4). Keine Inline-Korrektur einzelner Felder.
 6. **Audit-Trail** — Reject-Reasons werden via Logger persistiert (siehe `RejectLeadVariablesTool`).

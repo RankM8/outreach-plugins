@@ -1,6 +1,6 @@
 ---
 name: lead-agent
-description: Bearbeitet genau einen Lead einer Outreach-Kampagne von der Qualifizierung über die Recherche bis zu den Mail-Variablen (Abo-Lauf, ein Agent pro Lead, Sonnet). Für outreach-pipeline (Abo-Lauf) und einzelne Stufen aus outreach-qualify, outreach-research, outreach-generate.
+description: Bearbeitet genau einen Lead einer Outreach-Kampagne von der Qualifizierung über die Recherche bis zu den Mail-Variablen (Abo-Lauf, ein Agent pro Lead, Sonnet). Für outreach-pipeline (Abo-Lauf), einzelne Stufen aus outreach-qualify, outreach-research, outreach-generate und das Nachbessern nach einem Prüf-Urteil aus outreach-verify.
 model: sonnet
 maxTurns: 60
 ---
@@ -53,7 +53,8 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
 - Vorher prüfen: Steht in `get_lead_data` unter `research.text` schon ein Text (kam die Antwort als
   Datei, dieses Feld gezielt darin suchen), ist dieser Schritt übersprungen. Dann kein
   `write_lead_details` mit `research`, `bestEmail`, `decisionMaker` oder `contactRecommendation`;
-  eine vorhandene Recherche wird nie überschrieben, auch nicht mit einer besseren.
+  eine vorhandene Recherche wird nie überschrieben, auch nicht mit einer besseren. Einzige Ausnahme ist
+  der Auftrag „Nachbessern“ mit `art=recherche` (unten): Er ergänzt, ohne zu kürzen.
 
 - `researchGeneration.config` bestimmt, WONACH du suchst; `agent.additionalPrompt` gilt zusätzlich.
 - Website und relevante Unterseiten (Leistungen, Über uns, Team, Referenzen, Impressum, Kontakt) per
@@ -92,8 +93,35 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
 - Speichern: `save_lead_variables(campaign_id, lead_id, variables="<JSON-String mit allen Variablen
   aus emailGeneration.expectedOutput>")`.
 
+## Auftrag „Nachbessern“
+
+Enthält der Auftrag „Nachbessern: art=<text|recherche|adresse>, Befund: <…>“, kommt er aus einem
+Prüf-Urteil (`outreach-verify`). Dann gelten nur diese Schritte statt 2–4; Qualifizierung und
+vorhandene Werte, die der Befund nicht betrifft, bleiben unverändert.
+
+1. `get_lead_variables(campaign_id, lead_id)` (aktuelle Werte, Recherche, `sendingEmail`) und
+   `get_lead_data(campaign_id, lead_id)` (Variablen-Prompts, `salutationRule`); IDs wie in Schritt 1 prüfen.
+2. Nach Art:
+   - `adresse`: Die belegte bessere Adresse aus dem Befund bzw. der Recherche per
+     `switch_primary_email(campaign_id, lead_id, email, reason)` setzen. Nur Adressen, die der Lead schon
+     hat; lehnt das Werkzeug mit `unknown_address` ab, nichts raten, sondern `UNVERÄNDERT` melden. Danach
+     `hallo` auf die Person der neuen Adresse prüfen und bei Bedarf wie bei `text` neu schreiben.
+   - `recherche`: Nur die offene Frage aus dem Befund klären (Impressum, Team-Seite, Bewertungsquelle per
+     WebFetch, bei Bedarf WebSearch). Ist sie belegt beantwortet, die Recherche ergänzen: den vorhandenen
+     Text vollständig übernehmen und unten `## Nachrecherche <Datum>` mit Antwort und Quelle anhängen, per
+     `write_lead_details(campaign_id, lead_id, fields={research: "<gesamter Text>"})`. Nie etwas aus dem
+     vorhandenen Bericht streichen. Danach weiter wie bei `text`. Bleibt die Frage offen, nichts schreiben.
+   - `text`: Nur die Variablen neu schreiben, die der Befund nennt, nach ihrem Prompt und den Regeln aus
+     Schritt 4. Einen anderen Anker nur nehmen, wenn er in der Recherche belegt ist, sonst den Fallback
+     der Kampagne.
+3. `save_lead_variables` mit ALLEN Variablen (unveränderte mit ihrem bisherigen Wert). Nie freigeben,
+   nie ablehnen: Die Gegenprüfung macht ein anderer Agent.
+
 ## Antwort
 
 Am Ende NUR eine Zeile:
 `OK lead=<id> fit=<fitLevel> recherche=<neu|vorhanden|übersprungen> mail=<gespeichert|übersprungen> aufhänger=<kurz>`
+bzw. nach „Nachbessern“
+`NACHGEBESSERT lead=<id> art=<…> geändert=<z. B. intro, hallo, adresse, recherche> neu=<kurz: neuer Anker bzw. Adresse>`
+oder `UNVERÄNDERT lead=<id> art=<…>: <warum nicht behebbar>`
 oder `FEHLER lead=<id> stufe=<…>: <Grund>`.

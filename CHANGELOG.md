@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-05 – outreach 0.3.16
+
+**outreach** (Verify über 26 Leads auf drei Staging-Kampagnen: 18 frei, 7 Hinweise, 1 Ablehnung; sechs der acht Befunde waren ohne Nutzer behebbar)
+- `outreach-verify` → neue Phase „Nachbessern“: Ablehnungen und Hinweise der Art `text`, `recherche` oder `adresse` gehen nicht mehr an den Nutzer, sondern an je einen `lead-agent` im Abo. Er schreibt eine neue Version, recherchiert die offene Frage gezielt nach oder stellt die Versandadresse auf die belegte um. Danach prüft ein neuer `verify-agent` gegen; wer schreibt, gibt nie selbst frei. Eine Runde je Lead, systematische Befunde (ab drei Leads) werden weiter an der Ursache behoben. An den Nutzer gehen nur `fit` und `recht` und was nach einer Runde offen bleibt.
+- `verify-agent` → jedes Urteil nennt die Art des Befunds (`art=text|recherche|adresse|fit|recht`), bei `recherche` die offene Frage, bei `adresse` die belegte bessere Adresse.
+- `lead-agent` → Auftrag „Nachbessern: art=…, Befund: …“ ändert nur die betroffenen Variablen, ergänzt die Recherche um einen Abschnitt „Nachrecherche“, ohne etwas zu streichen, und stellt die Versandadresse per `switch_primary_email` um. Neue Antwortzeilen `NACHGEBESSERT` und `UNVERÄNDERT`.
+
 ## 2026-10-04 – outreach 0.3.15
 
 **outreach** (Verify-Lauf über 49 Leads auf 1081)
