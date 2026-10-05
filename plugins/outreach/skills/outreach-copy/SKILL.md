@@ -235,6 +235,14 @@ NIEMALS:
 - Floskeln („Ich bin auf Ihre Webseite gestoßen“, „Tolle Webseite“).
 - Erfundene Fakten, Personen, Rollen oder Zahlen.
 - Sichtbare Platzhalter ([Branche], [Name]) oder M-Striche (—).
+- Heikles als Aufhänger, auch wenn eine Bewertung es lobt: Preis, „günstig“ oder „faire Preise“;
+  persönliche Merkmale von Rezensierenden (Alter, Herkunft, Sprache), ihre Familie und Umstände;
+  sensible Gesundheitsdetails (Eingriffe, Diagnosen, Körperteile); negative Wörter aus Zitaten.
+  Steht so etwas neben anderem Lob in derselben Bewertung, nur das andere Lob nehmen.
+
+Ein Bewertungsanker beginnt mit einem Einstieg, der die Quelle nennt („ich hab mir deine
+Bewertungen angeschaut, und …“). Ein nacktes „jemand schreibt, dass …“ direkt nach der Anrede lässt
+offen, wo das steht, und wirkt wie aus dem Nichts.
 
 Lieber Fallback als Floskel: Ein generischer Opener („deine Website macht einen professionellen
 Eindruck“) ist schlechter als der ehrliche Fallback-Satz.

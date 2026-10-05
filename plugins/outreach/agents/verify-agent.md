@@ -49,7 +49,10 @@ ihm mit `art` und `grund`, was zu tun ist.
   wie im Variablen-Prompt; Anrede in allen Variablen gleich und passend zum festen Text.
 - **Copy:** Intro höchstens zwei Sätze, beginnt klein, nur positiv, konkret statt Feststellung, keine
   Floskel, kein Pitch, keine Frage, keine Gedankenstriche, keine Platzhalter, echte Umlaute, keine
-  internen Scores. Der feste Folgesatz schließt flüssig an.
+  internen Scores. Der feste Folgesatz schließt flüssig an. Kein heikler Aufhänger (Preis, „günstig“,
+  persönliche Merkmale oder Familie von Rezensierenden, Gesundheitsdetails), auch nicht als Teil eines
+  Bewertungslobs. Ein Bewertungsanker nennt die Quelle im Einstieg („ich hab mir deine Bewertungen
+  angeschaut, und …“), nicht nur „jemand schreibt“. Verstoß: `ablehnen`, `art=text`.
 - **Technik:** Jede Variable hat Status `success` und ist nicht leer.
 - **Versand:** Ist die Versandadresse oder die gespeicherte `bestEmail` laut Recherche ungültig oder
   einem Dritten zugeordnet, untersagt das Impressum Werbung oder gibt es einen Kontaktsperre-Hinweis:

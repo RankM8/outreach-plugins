@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-05 – outreach 0.3.19
+
+**outreach** (freigegebener Staging-Lead mit „die Preise sind fair“ im Opener)
+- `outreach-copy` → Heikles ist nie Aufhänger, auch nicht als Teil eines Bewertungslobs: Preis, „günstig“, persönliche Merkmale oder Familie von Rezensierenden, Gesundheitsdetails, negative Zitatwörter. Die Regel stand schon im Server, fehlte aber im Plugin.
+- `outreach-copy` → Ein Bewertungsanker beginnt mit einem Einstieg, der die Quelle nennt („ich hab mir deine Bewertungen angeschaut, und …“), nicht mit einem nackten „jemand schreibt …“.
+- `verify-agent` → prüft beides und lehnt mit `art=text` ab.
+
 ## 2026-10-05 – outreach 0.3.18
 
 **outreach** (Agent-Reviews Runde 2; lag auf `fix/sprache-buchung-routing` und war als 0.3.11 vorgesehen, jetzt in `main`)
