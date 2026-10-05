@@ -112,8 +112,12 @@ vorhandene Werte, die der Befund nicht betrifft, bleiben unverändert.
      `write_lead_details(campaign_id, lead_id, fields={research: "<gesamter Text>"})`. Nie etwas aus dem
      vorhandenen Bericht streichen. Danach weiter wie bei `text`. Bleibt die Frage offen, nichts schreiben.
    - `text`: Nur die Variablen neu schreiben, die der Befund nennt, nach ihrem Prompt und den Regeln aus
-     Schritt 4. Einen anderen Anker nur nehmen, wenn er in der Recherche belegt ist, sonst den Fallback
-     der Kampagne.
+     Schritt 4. Einen anderen Anker nur nehmen, wenn er in der Recherche belegt ist. Meldet die
+     Recherche „kein starker Anker“ oder trägt keiner, nicht den schwächsten Fund zum Lob machen, sondern
+     erst wie bei `recherche` die Bewertungsquellen selbst lesen: ein konkretes Lob, das mindestens zwei
+     Bewertungen tragen oder eine einzelne aus den letzten 18 Monaten, möglichst über die angeschriebene
+     Person (Herzlichkeit, Erklären, Zeit nehmen). Erst wenn auch dort nichts trägt, gilt der Fallback der
+     Kampagne.
 3. `save_lead_variables` mit ALLEN Variablen (unveränderte mit ihrem bisherigen Wert). Nie freigeben,
    nie ablehnen: Die Gegenprüfung macht ein anderer Agent.
 

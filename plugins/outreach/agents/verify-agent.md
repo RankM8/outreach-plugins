@@ -38,7 +38,10 @@ ihm mit `art` und `grund`, was zu tun ist.
 
 - **Fakten:** Jede Aussage im Intro steht so in der Recherche oder an der genannten Quelle. Nichts
   erfunden, nichts zugespitzt („immer wieder“ nur bei mindestens zwei Belegen), nichts einer anderen
-  Person zugeschrieben, keine Erfolgszahl aus Selbstangaben.
+  Person zugeschrieben, keine Erfolgszahl aus Selbstangaben. Lob für eine andere Person ist erlaubt,
+  wenn das Intro sie beim Namen nennt („jemand schreibt, dass Markus …“); ein Fehler ist es, wenn es
+  der angeschriebenen Person gilt („bei dir“) oder eine Person ohne Namen meint, obwohl der Betrieb
+  mehrere davon hat.
 - **Person:** Der Vorname in `hallo` gehört belegt zur Versandadresse (`sendingEmail`) bzw., wenn der
   Variablen-Prompt das erlaubt, zum Entscheider hinter einer Sammeladresse. Routing-Namen stehen mit
   aktueller Rolle in der Recherche, nie der Empfänger.

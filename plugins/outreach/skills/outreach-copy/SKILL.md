@@ -212,7 +212,9 @@ MUSS:
   stehen).
 - Zuschreibung stimmt: Der angeschriebenen Person nie etwas zuschreiben, das einer anderen
   gehört (der Podcast der Inhaberin bei einer Mail an eine Mitarbeiterin). Die Person beim
-  Namen nennen oder einen Anker wählen, der zur angeschriebenen Person gehört.
+  Namen nennen oder einen Anker wählen, der zur angeschriebenen Person gehört. Meint eine
+  Bewertung jemanden ohne Namen („die Zahnärztin“) und hat der Betrieb mehrere davon, das Lob
+  dem Betrieb zuschreiben („in deiner Praxis nimmt man sich Zeit“), nie „bei dir“.
 - Maximal 2 Sätze.
 - Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,“). Nur der erste Buchstabe ist klein,
   jeder weitere Satz beginnt groß. Substantive und Namen bleiben auch am Anfang groß („Kunden

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-05 – outreach 0.3.17
+
+**outreach** (Gegenprüfung nach dem Nachbessern auf drei Staging-Kampagnen)
+- `outreach-copy`, `verify-agent` → Zuschreibung einheitlich mit den Server-Regeln: Lob für eine andere Person ist erlaubt, wenn das Intro sie beim Namen nennt. Ein Fehler ist es, wenn es der angeschriebenen Person gilt oder eine Bewertung jemanden ohne Namen meint („die Zahnärztin“), obwohl der Betrieb mehrere hat; dann gilt das Lob dem Betrieb („in deiner Praxis“). Der `verify-agent` hatte vorher auch namentlich genanntes Lob abgelehnt.
+- `lead-agent` → Nachbessern bei schwacher Recherche: Meldet die Recherche „kein starker Anker“, liest er erst die Bewertungsquellen selbst und sucht ein konkretes Lob (zwei Bewertungen oder eine aktuelle), bevor er den Fallback nimmt. Im Lauf hatten drei nachgebesserte Intros einen schwachen Fund zum Lob gemacht und die Gegenprüfung nicht bestanden; die Nachrecherche in den Bewertungen fand dann wärmere, belegte Anker.
+
 ## 2026-10-05 – outreach 0.3.16
 
 **outreach** (Verify über 26 Leads auf drei Staging-Kampagnen: 18 frei, 7 Hinweise, 1 Ablehnung; sechs der acht Befunde waren ohne Nutzer behebbar)
