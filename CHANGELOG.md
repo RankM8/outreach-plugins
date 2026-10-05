@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-05 – outreach 0.3.18
+
+**outreach** (Agent-Reviews Runde 2; lag auf `fix/sprache-buchung-routing` und war als 0.3.11 vorgesehen, jetzt in `main`)
+- `outreach-campaign` → Qualifizierung: Der Ausschlussgrund „Online-Terminbuchung schon vorhanden“ ist jetzt prüfbar formuliert (eigene Website bindet ein oder verlinkt direkt; Verzeichnisprofil allein zählt nicht). Unprüfbare Zusätze wie „bei sonst modernem Auftritt“ entfallen; im Testfeld wurde der Grund dadurch je Lead gegensätzlich ausgelegt.
+- `outreach-campaign` → Qualifizierung: Neue Regel zur Sprache. Bei deutscher Mail und Schweizer Leads gehört „Website ausschließlich französisch- oder italienischsprachig“ in die Ausschlussgründe; „DACH“ allein schließt die Westschweiz nicht aus.
+- `routing-baustein.md`: Vermerkt die Recherche „Routing nicht sinnvoll“, gilt Fall C.
+- `beispiel-blueprint.md` an beide Regeln angeglichen.
+
 ## 2026-10-05 – outreach 0.3.17
 
 **outreach** (Gegenprüfung nach dem Nachbessern auf drei Staging-Kampagnen)

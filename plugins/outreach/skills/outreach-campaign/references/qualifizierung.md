@@ -27,9 +27,14 @@
   - der Bedarf, den das Angebot löst: Kein Ausschlussgrund schließt ihn aus („Praxis ohne
     Website“ bei einem Website-Angebot);
   Umgekehrt gehört hinein, wenn der Betrieb schon hat, was das Angebot liefert: Enthält das Angebot
-  eine Online-Terminbuchung, ist „bereits eingebundene Online-Terminbuchung (eigenes Tool oder
-  Anbieter wie Doctolib, Treatwell) bei sonst modernem Auftritt“ ein Ausschlussgrund. Sonst bekommt
-  ein Betrieb mit funktionierender Buchung genau diese als Neuheit angeboten.
+  eine Online-Terminbuchung, ist „eigene Website bindet bereits eine Online-Terminbuchung ein oder
+  verlinkt direkt darauf (eigenes Tool oder Anbieter wie Doctolib, OneDoc, Treatwell); ein bloßes
+  Verzeichnisprofil zählt nicht“ ein Ausschlussgrund. Nur prüfbare Merkmale: Zusätze wie „bei sonst
+  modernem Auftritt“ kann kein Agent entscheiden. Sonst bekommt ein Betrieb mit funktionierender
+  Buchung genau diese als Neuheit angeboten.
+- **Sprache:** Ist die Mail deutsch und enthält die Liste Schweizer Betriebe, gehört „Website
+  ausschließlich französisch- oder italienischsprachig (Romandie, Tessin)“ in die Ausschlussgründe.
+  „DACH“ allein schließt die Westschweiz nicht aus.
   - ein Merkmal, dessen Fehlen nur fehlende Information wäre: „Selbstzahlerleistung erkennbar“
     ist ein Fit-Kriterium (erkennbar: höherer Fit, sonst mid), kein Ausschlussgrund.
 - **Faustregel für die Erwartung:** In einer halbwegs sauberen Liste sollten grob 60–80 % durch
