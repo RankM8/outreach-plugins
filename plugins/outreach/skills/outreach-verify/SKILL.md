@@ -44,13 +44,14 @@ Die Art sagt, wer einen Befund behebt: `text`, `recherche` und `adresse` werden 
    Nach dem Bericht die Phase mit `action="end"` schließen.
 2. Leads wie in Phase 2 laden, dann je Lead ein Agent mit dem Auftrag
    „Kampagne <id>, Lead <id> (<Firma>). Server: <name>. Modus: nur Urteil“ bzw. „Modus: entscheiden“.
-   Höchstens 10 gleichzeitig (`run_in_background: true`), bei vielen Leads als Workflow mit
-   `agentType: "outreach:verify-agent"`.
+   In Claude Code als Workflow nach `outreach-abo-lauf` mit `nur_pruefen: true` und den ausgewählten
+   Leads (gleiche Kette: prüfen → nachbessern → gegenprüfen, Modus „nur Urteil“). Ohne Workflow höchstens
+   10 gleichzeitig (`run_in_background: true`).
 3. **Erste Läufe einer Kampagne im Modus „nur Urteil“:** Die Prüf-Agents setzen keinen Status. Erst wenn der
    Nutzer die Urteile gesehen hat, „entscheiden“; dann setzt der Agent `approved` bzw. `rejected`.
 4. **Nachbessern (Standard, ohne Rückfrage):** Kleine Fehler werden behoben, nicht dem Nutzer vorgelegt.
    - Für jedes Urteil `ablehnen` oder `hinweis` mit `art=text|recherche|adresse` je Lead ein
-     `outreach:lead-agent` (Abo, keine Server-Kosten) mit dem Auftrag
+     `outreach:lead-agent` (Haiku, Abo, keine Server-Kosten) mit dem Auftrag
      „Kampagne <id>, Lead <id> (<Firma>). Server: <name>. Nachbessern: art=<art>, Befund: <grund>“.
      Er schreibt eine neue Version (`save_lead_variables`), recherchiert bei `recherche` gezielt nach und
      stellt bei `adresse` die Versandadresse auf die belegte um. Höchstens 10 gleichzeitig. Gibt es

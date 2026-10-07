@@ -899,7 +899,7 @@ const registerProgressTool = async ($: EngineInterface) => {
   await $.tool.register({
     name: 'outreach_progress',
     description:
-      'Zeigt den Fortschritt eines Abo-Laufs (Leads, die du selbst mit Subagents bearbeitest: outreach-pipeline --abo, ' +
+      'Zeigt den Fortschritt eines Abo-Laufs (Leads, die du selbst mit Subagents bearbeitest: outreach-abo-lauf, outreach-pipeline --abo, ' +
       'outreach-qualify, outreach-research, outreach-generate) als eine Zeile im Outreach-Band über dem Prompt. Zu Beginn jeder Phase ' +
       'einmal mit action=start, campaign_id, phase (qualification|research|email|verify) und total (Anzahl Leads der Phase) aufrufen. ' +
       'Gezählt wird danach automatisch: jeder erfolgreiche write_lead_details- bzw. save_lead_variables-Aufruf für einen ' +

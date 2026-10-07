@@ -11,9 +11,9 @@ Dieser Skill orchestriert das Lead-Research via MCP Business Tools. Claude-Subag
 
 > **Abo-Lauf (Subagents im Claude- bzw. ChatGPT-Abo):**
 > - **Ein Lead pro Agent, immer.** Nie mehrere Leads in einen Agenten geben – Modelle verwechseln sonst Leads.
-> - **Agent:** In Claude Code und Cowork `outreach:lead-agent` (Plugin-Agent, Sonnet) mit dem Auftrag „Kampagne <id>, Lead <id>, nur Recherche“; sind mehrere Outreach-Server verbunden, zusätzlich „Server: <name>“. Fehlt der Agent, `general-purpose` mit `model: "sonnet"` und der Vorlage unten. Nie das Modell der Sitzung erben lassen: Opus verbraucht das Abo-Kontingent um ein Vielfaches. Andere Clients: das günstigste Modell mit Web-Zugriff; ohne Subagents die Leads **sequentiell** mit denselben Schritten.
+> - **Agent:** In Claude Code und Cowork `outreach:lead-agent` (Plugin-Agent, Haiku) mit dem Auftrag „Kampagne <id>, Lead <id>, nur Recherche“; sind mehrere Outreach-Server verbunden, zusätzlich „Server: <name>“. Fehlt der Agent, `general-purpose` mit `model: "sonnet"` und der Vorlage unten. Nie das Modell der Sitzung erben lassen: Opus verbraucht das Abo-Kontingent um ein Vielfaches. Andere Clients: das günstigste Modell mit Web-Zugriff; ohne Subagents die Leads **sequentiell** mit denselben Schritten.
 > - **Ganzer Lauf** (Qualifizierung → Recherche → Mail in einem): `/outreach-pipeline <id> --abo`.
-> - **Parallelität:** höchstens 10 Agents gleichzeitig.
+> - **Parallelität:** höchstens 10 Agents gleichzeitig. Mehr als eine Handvoll Leads in Claude Code: als Workflow nach `outreach-abo-lauf` mit `stufen: "nur Recherche"` – die Sitzung liest dann ein Ergebnis statt jeder einzelnen Agent-Meldung und verbraucht so ein Vielfaches weniger.
 > - **Fortschritt:** Gibt es das Werkzeug `outreach_progress` (Claude Code mit Plugin `outreach`), zu Beginn einmal `outreach_progress(action="start", campaign_id, phase="research", total=<Leads>)` aufrufen; gezählt wird automatisch, auch jeder Schreibaufruf der Subagents. Den Stand danach aus den Agenten-Antworten berichten, nicht per `list_leads` erneut auflisten, und die Phase mit `outreach_progress(action="end", …)` schließen, damit Leads ohne Schreibaufruf nicht offen im Band hängen.
 
 ## Websitehinweise und gespeicherte Sperren getrennt halten

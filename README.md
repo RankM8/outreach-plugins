@@ -71,7 +71,8 @@ plugins/
       outreach-research   Leads recherchieren
       outreach-generate   Mail-Variablen erzeugen
       outreach-verify     Review (approve/reject)
-      outreach-pipeline   voller serverseitiger Durchlauf
+      outreach-pipeline   voller Durchlauf, Einstieg für Server-Lauf und Abo-Lauf
+      outreach-abo-lauf   Abo-Lauf als Workflow (Haiku baut, Sonnet prüft, nachbessern)
       outreach-launch     Domains, Postfächer, Warm-up, Instantly, Auswertung, Optimierung
   datenbeschaffung/
     .claude-plugin/plugin.json  plugin.json

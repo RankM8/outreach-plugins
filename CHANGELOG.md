@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-07 – outreach 0.3.21
+
+**outreach** (Messung 07.10.: 30 Leads im Abo-Lauf, Einzel-Agents gegen Workflow)
+- Neuer Skill `outreach-abo-lauf`: Der Abo-Lauf läuft in Claude Code als ein Workflow. Je Lead baut der `lead-agent` (Haiku), eine Stichprobe prüft der `verify-agent` (Sonnet), Befunde zu Text, Recherche und Adresse werden in derselben Kette nachgebessert und gegengeprüft. Die Sitzung liest nur noch das Ergebnis statt jeder Agent-Meldung; die Steuerung kostete dadurch rund 90 % weniger. Dazu Fortsetzen nach Abbruch, `nur_pruefen` für bereits generierte Leads und Ausweichwege ohne Workflow bzw. ohne Subagents.
+- `outreach-pipeline` ist der gemeinsame Einstieg für Server-Lauf und Abo-Lauf: gleiche Vorprüfung, Lead- und Stufenwahl, gleicher Bericht und gleicher nächster Schritt; die Laufarten unterscheiden sich nur in Tempo (Server) und Kosten (Abo). Bei `run_not_startable`, `budget_exhausted` und `provider_exhausted` wird der Abo-Lauf als Ausweg angeboten.
+- `lead-agent` läuft standardmäßig auf Haiku (vorher Sonnet) und fragt nie zurück; ein Agent hatte im Workflow statt zu arbeiten nachgefragt.
+- `outreach-verify`, `outreach-qualify`, `outreach-research`, `outreach-generate` und der Einstieg `outreach` verweisen für größere Mengen auf den Workflow aus `outreach-abo-lauf`.
+
 ## 2026-10-05 – outreach 0.3.20
 
 **outreach** (Abgleich mit dem Kurs Outbound 3.0, Lektionen 2.4 und 2.5)

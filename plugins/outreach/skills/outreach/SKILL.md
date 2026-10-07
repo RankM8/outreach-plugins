@@ -26,8 +26,8 @@ und lade dann genau den passenden Skill.
 | Leads recherchieren | `outreach-research` |
 | Mail-Variablen generieren | `outreach-generate` |
 | generierte Mails prüfen und freigeben | `outreach-verify` |
-| alles in einem serverseitigen Lauf (qualifizieren → recherchieren → generieren) | `outreach-pipeline` |
-| alles in einem Lauf im eigenen Abo („Abo-Lauf“, „im Abo“, „ohne Server“, „mit Subagents“) | `outreach-pipeline` mit `--abo` |
+| alles in einem Lauf (qualifizieren → recherchieren → generieren), auf dem Server oder im eigenen Abo | `outreach-pipeline` (fragt nach der Laufart) |
+| einen Abo-Lauf direkt ausführen oder fortsetzen („Abo-Lauf“, „im Abo“, „ohne Server“, „als Workflow“) | `outreach-abo-lauf` |
 | Versand vorbereiten: Domains, Postfächer, Warm-up, Instantly, Auswertung | `outreach-launch` |
 | neue Leads beschaffen (Apify, Outscraper) | `datenbeschaffung` – gehört zum Plugin **datenbeschaffung**; ist es nicht installiert, auf `outreach-setup` verweisen |
 | Plugin aktualisieren | `outreach-update` |
