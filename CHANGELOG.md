@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-07 – outreach 0.3.21, datenbeschaffung 0.1.3
+
+**outreach**, **datenbeschaffung** (ListM8: versendete Leads ohne Reaktion können erneut durch die Pipeline)
+- `datenbeschaffung-referenzen` → `listm8-mcp.md`: `mark_leads_contacted` setzt mit `status="not_contacted"` nur noch kontaktierte Leads ohne Reaktion und mit beendeter Instantly-Sequenz zurück. Die übrigen bleiben unverändert und stehen je Grund in `reset_blocked`. Ein zurückgesetzter Lead bekommt beim nächsten Lauf neue Recherche und neue E-Mail und geht nur in eine andere Instantly-Kampagne.
+- `outreach-launch` → Phase 6: Weg für die neue Ansprache versendeter Leads (Pop-up im KI-Lauf, per MCP Reset plus `start_lead_run`) und die Grenzen des Resets.
+
 ## 2026-10-05 – outreach 0.3.20
 
 **outreach** (Abgleich mit dem Kurs Outbound 3.0, Lektionen 2.4 und 2.5)

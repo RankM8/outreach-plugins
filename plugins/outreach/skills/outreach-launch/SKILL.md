@@ -115,6 +115,13 @@ Instantly samt dort angelegter Varianten.
   `mark_leads_contacted(emails=[…], status="do_not_contact" | "contacted" | "replied" | "opportunity")`.
   Status werden nie herabgestuft; ein Zurücksetzen auf `not_contacted` nur auf ausdrücklichen
   Wunsch und nie für gesperrte Leads.
+- Neue Ansprache versendeter Leads ohne Reaktion (etwa über eine neue Domain): In ListM8 fragt der
+  KI-Lauf beim Start, ob sie neu bearbeitet werden sollen. Per MCP erst
+  `mark_leads_contacted(status="not_contacted", confirm_reset=true)`, dann `start_lead_run`. Der
+  Server setzt nur kontaktierte Leads ohne Reaktion und mit beendeter Instantly-Sequenz zurück und
+  meldet den Rest in `reset_blocked`. Neu generierte Mails brauchen eine neue Freigabe und gehen
+  nur in eine andere Instantly-Kampagne als die bisherige; liegt der Lead noch in der verknüpften,
+  hält ListM8 ihn zurück.
 - Die nächste Liste entsteht, während die Kampagne läuft (`datenbeschaffung`); der Bestandsabgleich
   dort berücksichtigt den Kontaktstatus.
 
