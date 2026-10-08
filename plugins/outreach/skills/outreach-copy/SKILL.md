@@ -232,10 +232,11 @@ MUSS:
   Prompts nie als Muster stehen lassen: Modelle kopieren Beispiele.
 - Anker-Rangfolge: 1) Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder“ nur, wenn
   mindestens 2 Bewertungen es tragen) 2) abhebendes Detail von der Website, auch Wachstum oder
-  Stellenanzeige als Erkenntnis 3) Anzahl und Schnitt der Bewertungen als eigener Anker, ohne
-  Mindestanzahl, nur bei einem Schnitt ab 4,5; Zahl gerundet („über 200“), Schnitt mit Komma
+  Stellenanzeige als Erkenntnis 3) Anzahl und Schnitt der Bewertungen als eigener Anker, nur bei
+  mindestens 30 Bewertungen und einem Schnitt ab 4,5; Zahl gerundet („über 200“), Schnitt mit Komma
   („4,8“); Werte aus dem Import (Google-Profil) gelten als Quelle, bei widersprüchlichen Quellen
-  der kleinere Wert; unter 4,5 keine Bewertungszahlen 4) Fallback der Kampagne. Die Reihenfolge
+  der kleinere Wert; unter 30 Bewertungen oder unter 4,5 keine Bewertungszahlen 4) Fallback der
+  Kampagne. Die Reihenfolge
   der Kampagne hat Vorrang, wo sie etwas anderes festlegt.
 - Einstiege abwechseln, keiner ist Standard: nach der letzten Ziffer der Lead-ID 0-2 „mir ist
   aufgefallen, dass …“, 3-5 „ich hab mir … angeschaut“, 6-7 „beim Stöbern auf deiner Website …“,
@@ -327,8 +328,8 @@ Der `intro`-Prompt MUSS enthalten:
 - die Sperrliste der Kampagne (dieselbe wie in `researchAgentConfig.additionalPrompt`);
 - die Anker-Rangfolge (Lob aus Bewertungstexten > abhebendes Website-Detail, auch Stellenanzeige
   als Erkenntnis statt „du suchst“ > Anzahl und Schnitt > Fallback) samt Sterne-Regel: Zahlen
-  nur bei einem Schnitt ab 4,5, gerundet, mit Komma, Import-Werte als Quelle, bei Widerspruch der
-  kleinere Wert;
+  nur bei mindestens 30 Bewertungen und einem Schnitt ab 4,5, gerundet, mit Komma, Import-Werte
+  als Quelle, bei Widerspruch der kleinere Wert;
 - den positiven Schluss mit seinen Leitplanken (nichts erfinden, keine Floskel, kein Superlativ,
   keine feste Wendung), ohne ausformulierte Beispiel-Schlüsse;
 - den Einstiegswechsel nach der letzten Ziffer der Lead-ID, mit Quelle im Einstieg bei

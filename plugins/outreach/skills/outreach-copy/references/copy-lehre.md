@@ -110,7 +110,7 @@ Nach der Beobachtung folgt ein kurzer positiver Halbsatz, der sagt, was daran gu
 
 1. Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder“ nur, wenn mindestens 2 Bewertungen es tragen).
 2. Abhebendes Detail von der Website, auch Wachstum oder eine Stellenanzeige als Erkenntnis über den Betrieb.
-3. Anzahl und Schnitt der Bewertungen als eigener Anker: ohne Mindestanzahl, aber nur bei gutem Schnitt (ab 4,5). Zahl gerundet („über 200“), Schnitt mit Komma („4,8“). Werte aus dem Import (Google-Profil in den Lead-Attributen) gelten als Quelle; widersprechen sich Quellen, gilt der kleinere Wert. Unter 4,5 nennt der Opener keine Bewertungszahlen.
+3. Anzahl und Schnitt der Bewertungen als eigener Anker: erst ab mindestens 30 Bewertungen und nur bei gutem Schnitt (ab 4,5). Zahl gerundet („über 200“), Schnitt mit Komma („4,8“). Werte aus dem Import (Google-Profil in den Lead-Attributen) gelten als Quelle; widersprechen sich Quellen, gilt der kleinere Wert. Unter 30 Bewertungen oder unter 4,5 nennt der Opener keine Bewertungszahlen; dann gilt der nächste Anker bzw. der Fallback (Messrunde 08.10.2026: Sterne-Anker mit 9 bis 40 Bewertungen trugen nicht).
 4. Fallback der Kampagne.
 
 Die Reihenfolge der Kampagne hat Vorrang, wo eine Kampagne etwas anderes festlegt. Jeder Anker muss den Austauschtest bestehen, sonst gilt der nächste. Bewertungen werden deshalb zuerst recherchiert, nicht erst, wenn die Website wenig hergibt.
@@ -170,7 +170,7 @@ Die Rangfolge aus „Bewertungen: Rangfolge der Anker“ im Detail. Jeder Angle 
 
 ### Angle 3: Anzahl und Schnitt der Bewertungen
 
-**Wann:** Kein Lob aus Bewertungstexten und kein abhebendes Website-Detail, aber ein Schnitt ab 4,5. Eine Mindestanzahl gibt es nicht; unter 4,5 keine Bewertungszahlen.
+**Wann:** Kein Lob aus Bewertungstexten und kein abhebendes Website-Detail, aber mindestens 30 Bewertungen mit einem Schnitt ab 4,5. Unter 30 Bewertungen oder unter 4,5 keine Bewertungszahlen.
 **Anker:** Zahl gerundet, Schnitt mit Komma, Quelle im Einstieg. Werte aus dem Import (Google-Profil) gelten als Quelle; widersprechen sich Quellen, gilt der kleinere Wert.
 
 | Vorlage | Echtes Beispiel |
@@ -204,7 +204,7 @@ Einstiege: keiner ist Standard. Die letzte Ziffer der Lead-ID entscheidet, ein B
 - Abhebung statt Leistungsnennung: Der Opener besteht den Austauschtest und nennt kein Thema von der Sperrliste der Kampagne (außer als Lob aus Bewertungstexten). Ein Nutzen rettet keine Standardleistung
 - Nach der Beobachtung ein kurzer positiver Schluss, was daran gut ist oder wem es nützt, aus dem konkreten Detail gebildet (Leitplanken unter „Positiver Schluss“); der Fallback-Satz bleibt ohne Schluss
 - Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail. Austauschbare Bewertungsfloskeln und Superlative („das spricht für sich", „das sieht man selten", „das sieht man nicht immer", „finde ich stark", „finde ich spannend", „Hammer", „beeindruckend", auch umgestellt wie „ich finde spannend, dass …") sind verboten (ListM8-Regel), und zwar auch als Beispielsatz: Modelle kopieren Beispiele
-- Anker in der Rangfolge: Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder" nur, wenn mindestens 2 Bewertungen dieses Lob tragen), dann abhebendes Website-Detail, dann Anzahl und Schnitt als eigener Anker (nur ab 4,5, Zahl gerundet, Schnitt mit Komma, bei widersprüchlichen Quellen der kleinere Wert), dann der Fallback
+- Anker in der Rangfolge: Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder" nur, wenn mindestens 2 Bewertungen dieses Lob tragen), dann abhebendes Website-Detail, dann Anzahl und Schnitt als eigener Anker (nur ab 30 Bewertungen und 4,5, Zahl gerundet, Schnitt mit Komma, bei widersprüchlichen Quellen der kleinere Wert), dann der Fallback
 - Stellenanzeige: die Erkenntnis über den Betrieb nutzen (Wachstum, Spezialisierung, Projekt), ohne anzukündigen, dass der Betrieb sucht oder einstellt
 - Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was der feste Text danach sagt. Beginnt der feste Text mit „Das hat mich neugierig gemacht.", darf kein Intro-Satz mit dieser Aussage davor stehen
 - Zuschreibung stimmt: Der angeschriebenen Person nie etwas zuschreiben, das einer anderen gehört (etwa den Podcast der Inhaberin in einer Mail an eine Mitarbeiterin). Die Person beim Namen nennen oder einen Anker wählen, der zur angeschriebenen Person gehört
@@ -270,10 +270,12 @@ ANKER-REIHENFOLGE (nimm den ersten, der den Austauschtest besteht):
    Stellenanzeige als Erkenntnis über den Betrieb (Wachstum,
    Spezialisierung, Projekt). Kündige nie an, dass der Betrieb sucht oder
    einstellt.
-3. Anzahl und Schnitt der Bewertungen als eigener Anker, nur bei einem
-   Schnitt ab 4,5: Zahl gerundet ("über 200"), Schnitt mit Komma ("4,8").
-   Werte aus dem Import (Google-Profil) gelten als Quelle; widersprechen
-   sich Quellen, nimm den kleineren Wert. Unter 4,5 keine Bewertungszahlen.
+3. Anzahl und Schnitt der Bewertungen als eigener Anker, nur bei
+   mindestens 30 Bewertungen und einem Schnitt ab 4,5: Zahl gerundet
+   ("über 200"), Schnitt mit Komma ("4,8"). Werte aus dem Import
+   (Google-Profil) gelten als Quelle; widersprechen sich Quellen, nimm den
+   kleineren Wert. Unter 30 Bewertungen oder unter 4,5 keine
+   Bewertungszahlen.
 4. FALLBACK.
 
 POSITIVER SCHLUSS: Nach der Beobachtung folgt ein kurzer Halbsatz, was
@@ -355,7 +357,7 @@ Vor dem Export immer mindestens 10 Leads im Review (`outreach-verify`, `get_lead
 | Austauschtest | Würde genauso auf zehn andere Betriebe derselben Branche in der Stadt passen, nennt eine Standardleistung (auch mit Nutzen), oder das Lob besteht nur aus einem Adjektiv ohne Inhalt |
 | Sperrliste | Der Anker steht auf der Sperrliste der Kampagne und ist kein Lob aus Bewertungstexten |
 | Positiver Schluss | Fehlt, ist eine Floskel oder ein Superlativ, behauptet etwas, das nicht direkt aus dem Detail folgt, oder hängt am Fallback-Satz |
-| Bewertungsanker | Zahlen bei einem Schnitt unter 4,5, ungerundete Zahl, Schnitt mit Punkt, der größere von zwei widersprüchlichen Werten, nur Zahlen, obwohl ein Lob aus Bewertungstexten belegt ist; „mehrere“/„immer wieder“ ohne mindestens 2 Bewertungen; Einstieg ohne Quelle |
+| Bewertungsanker | Zahlen bei weniger als 30 Bewertungen oder einem Schnitt unter 4,5, ungerundete Zahl, Schnitt mit Punkt, der größere von zwei widersprüchlichen Werten, nur Zahlen, obwohl ein Lob aus Bewertungstexten belegt ist; „mehrere“/„immer wieder“ ohne mindestens 2 Bewertungen; Einstieg ohne Quelle |
 | Zuschreibung | Schreibt der angesprochenen Person etwas zu, das einer anderen gehört |
 | Wahrheit | Enthält Zahl, Name oder Fakt, der nicht aus dem Research kommt |
 | Form | Enthält Fragezeichen, Ausrufezeichen, Link oder M-Strich |
@@ -902,7 +904,7 @@ Vor dem Anlegen bzw. vor dem Export jede Mail mit dieser Liste prüfen.
 **Inhalt:**
 
 - [ ] Schreibe ich über den EMPFÄNGER oder über uns?
-- [ ] Besteht der individuelle Bezug den Austauschtest (passt nicht auf zehn andere Betriebe der Branche, nichts von der Sperrliste außer als Bewertungslob), mit kurzem positivem Schluss aus dem Detail und ohne Lobadjektiv ohne Inhalt? Bewertungszahlen nur ab einem Schnitt von 4,5?
+- [ ] Besteht der individuelle Bezug den Austauschtest (passt nicht auf zehn andere Betriebe der Branche, nichts von der Sperrliste außer als Bewertungslob), mit kurzem positivem Schluss aus dem Detail und ohne Lobadjektiv ohne Inhalt? Bewertungszahlen nur ab 30 Bewertungen und einem Schnitt von 4,5?
 - [ ] Stimmt die Anrede (Du-Form: Vorname der Person, der die Adresse gehört, bei generischen Adressen der Entscheider; sonst „Hallo,“)?
 - [ ] Ist das Offer konkret genug? (Würde ICH antworten?)
 - [ ] Kommt Social Proof erst im FUP2 (Step 3, neuer Thread), NICHT in der Entry Mail?

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-08 – outreach 0.3.25
+
+**outreach** (Messrunde 30 Leads Dental: Sterne-Anker mit 9 bis 40 Bewertungen trugen nicht, sie bekamen nur Note 2 bis 3)
+- Anzahl und Schnitt der Bewertungen sind als eigener Anker erst ab mindestens 30 Bewertungen UND einem Schnitt ab 4,5 erlaubt (vorher ohne Mindestanzahl, ab 4,5). Darunter gilt der nächste Anker bzw. der Fallback der Kampagne.
+- Angeglichen in `copy-lehre.md` (Rangfolge, Angle 3, Prompt-Vorlage, Prüftabelle, Checkliste), `outreach-copy`, `lead-agent` (Intro-Gegenprobe und Nachbesserung), `verify-agent` (Prüfblock Opener), `outreach-verify`, `outreach-generate`, `research.md` und `beispiel-blueprint.md`. Gleichstand mit den Server-Regeln.
+
 ## 2026-10-08 – outreach 0.3.24
 
 **outreach** (Gleichstand mit den Server-Regeln zu Anrede und Zuschreibung)

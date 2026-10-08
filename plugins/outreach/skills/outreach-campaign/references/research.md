@@ -15,7 +15,8 @@ Maßgeblich ist der Abschnitt „Abhebung und Austauschtest“ in `outreach-copy
    Zahl, eigenes Verfahren, seltene Spezialisierung, Auszeichnung. Auch Stellenanzeigen/Wachstum:
    festhalten, was die Anzeige über den Betrieb verrät (Wachstum, Spezialisierung, Projekt), nicht
    nur dass gesucht wird.
-3. **Anzahl und Schnitt der Bewertungen** als eigener Anker, nur bei einem Schnitt ab 4,5. Werte aus
+3. **Anzahl und Schnitt der Bewertungen** als eigener Anker, nur bei mindestens 30 Bewertungen und
+   einem Schnitt ab 4,5; darunter trägt die Zahl keinen Anker. Werte aus
    dem Import (Google-Profil in den Lead-Attributen) gelten als Quelle; widersprechen sich Quellen,
    den kleineren Wert notieren.
 4. **Fallback der Kampagne** (Branche/Region): steht im `intro`-Prompt, nicht in der Recherche.

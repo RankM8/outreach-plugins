@@ -59,7 +59,8 @@ ihm mit `art` und `grund`, was zu tun ist.
     „Hammer“, „das sieht man selten“, „beeindruckend“, „das spricht für sich“), oder er behauptet
     etwas, das nicht direkt aus dem Detail folgt („deine Patienten lieben das“). Der Fallback-Satz der
     Kampagne steht wörtlich und ohne Schluss.
-  - Sterne: Anzahl oder Schnitt bei einem Schnitt unter 4,5, ungerundete Zahl, Schnitt ohne Komma, der
+  - Sterne: Anzahl oder Schnitt bei weniger als 30 Bewertungen oder einem Schnitt unter 4,5, ungerundete
+    Zahl, Schnitt ohne Komma, der
     größere von zwei widersprüchlichen Werten, oder nur Zahlen, obwohl die Recherche ein Lob aus
     Bewertungstexten oder ein abhebendes Website-Detail belegt.
   Verstoß: `ablehnen`, `art=text`.

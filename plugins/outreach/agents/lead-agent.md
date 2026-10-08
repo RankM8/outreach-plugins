@@ -116,8 +116,9 @@ gelten immer.
     Aufhänger: nächster Anker, zuletzt der Fallback. Ein Nutzen rettet keine Standardleistung.
   - Sperrliste: Steht der Anker auf der Sperrliste der Kampagne, trägt er nur als Lob aus
     Bewertungstexten, sonst nächster Anker.
-  - Sterne: Anzahl und Schnitt nur bei einem Schnitt ab 4,5, Zahl gerundet („über 200“), Schnitt mit
-    Komma („4,8“), bei widersprüchlichen Quellen der kleinere Wert. Unter 4,5 keine Bewertungszahlen.
+  - Sterne: Anzahl und Schnitt nur bei mindestens 30 Bewertungen und einem Schnitt ab 4,5, Zahl
+    gerundet („über 200“), Schnitt mit Komma („4,8“), bei widersprüchlichen Quellen der kleinere Wert.
+    Unter 30 Bewertungen oder unter 4,5 keine Bewertungszahlen: nächster Anker bzw. Fallback.
   - Positiver Schluss: Nach der Beobachtung ein kurzer Halbsatz, was daran gut ist oder wem es nützt,
     aus diesem Detail gebildet. Nichts erfinden, keine Floskel, kein Superlativ, keine Wendung aus
     Beispielen. Gilt auch bei Bewertungsankern; der Fallback-Satz bleibt wörtlich und ohne Schluss.
@@ -154,7 +155,7 @@ vorhandene Werte, die der Befund nicht betrifft, bleiben unverändert.
      keiner, nicht den schwächsten Fund zum Lob machen, sondern erst wie bei `recherche` die
      Bewertungsportale selbst lesen: ein konkretes Lob, das mindestens zwei Bewertungen tragen oder eine
      einzelne aus den letzten 18 Monaten, möglichst über die angeschriebene Person. Trägt dort kein Lob,
-     gilt ein abhebendes Website-Detail, dann Anzahl und Schnitt (nur ab 4,5), erst danach der Fallback
+     gilt ein abhebendes Website-Detail, dann Anzahl und Schnitt (nur ab 30 Bewertungen und 4,5), erst danach der Fallback
      der Kampagne.
 3. `save_lead_variables` mit ALLEN Variablen (unveränderte mit ihrem bisherigen Wert). Nie freigeben,
    nie ablehnen: Die Gegenprüfung macht ein anderer Agent.
