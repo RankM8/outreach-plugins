@@ -6,7 +6,9 @@
 > Empfänger ankommen. In der Sequenz steht die Anrede-Zeile als `{{ai.hallo}}` und der
 > individuelle Bezug der Entry Mail als `{{ai.intro}}`; der Rest ist fester Text. Die Beispiele
 > sprechen die Person und ihren Betrieb durchgehend im Singular mit „du“ an („dein Team“, „deine
-> Praxis“). Es gibt keine Ihr- und keine Team-Form. In ListM8 legt `emailAgentConfig.salutation`
+> Praxis“). Die Person wird nie mit ihr/euch angesprochen; Tatsachen über einen Betrieb mit mehreren
+> Personen dürfen mit ihr/euer stehen („dass ihr nach ISO 9001 zertifiziert seid“), Details in
+> `outreach-copy` unter „Anrede und Ansprache“. In ListM8 legt `emailAgentConfig.salutation`
 > die Pronomen für die ganze Mail fest (`du`: nur du/dir/dein, Standard; `sie`: Sie/Ihnen/Ihre, nur
 > wenn der Nutzer es für die Kampagne wählt). Den festen Text beim Übernehmen bei `sie` umschreiben.
 

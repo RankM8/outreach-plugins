@@ -196,7 +196,7 @@ Grundlage sind die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ 
 - [ ] Keine M-dashes? (nur normale Bindestriche -)
 
 ### Copy-Regeln (outreach-copy)
-- [ ] hallo: nur die Begrüßungszeile mit Komma. Gibt der Variablen-Prompt der Kampagne eine eigene Form vor (z. B. Team-Anrede mit ihr/euch), gilt diese; sonst Format passend zur Ansprache (Du: „Hallo Vorname,“ der Person der Versandadresse, bei generischen Adressen des Entscheiders aus der Recherche, Fallback „Hallo,“ (dann Text im Singular, „dein Team“); Sie: „Hallo Frau/Herr Nachname,“ bzw. „Guten Tag,“)? Nie „Hallo Herr/Frau …“, „Hallo <Firma> Team,“ oder „Hallo zusammen,“, keine Ihr-Form, kein erfundener Name oder Titel?
+- [ ] hallo: nur die Begrüßungszeile mit Komma. Gibt der Variablen-Prompt der Kampagne eine eigene Form vor, gilt diese; sonst Format passend zur Ansprache (Du: „Hallo Vorname,“ der Person der Versandadresse, bei generischen Adressen des Entscheiders aus der Recherche, Fallback „Hallo,“ (dann Text im Singular, „dein Team“); Sie: „Hallo Frau/Herr Nachname,“ bzw. „Guten Tag,“)? Nie „Hallo Herr/Frau …“, „Hallo <Firma> Team,“ oder „Hallo zusammen,“, keine Anrede mit ihr/euch, kein erfundener Name oder Titel? Tatsachen über einen Betrieb mit mehreren Personen mit ihr/euer („dass ihr … habt“) sind KEIN Fehler, ein du/ihr-Wechsel im selben Satz schon; Firmenleistungen nie als „du hast …“ an eine Person, die sie nicht selbst erbracht hat.
 - [ ] intro: max. 2 Sätze, erster Buchstabe klein, weitere Sätze groß?
 - [ ] intro: ausschließlich positiv (Lob/anerkennende Beobachtung), über den Empfänger, kein Problem benannt?
 - [ ] intro: keine verbotenen Wörter/Formen („Lücke", „Hürde", „Problem", „leider", „schade", „noch nicht", „fehlt", „begrenzt", „veraltet", „ausbaufähig", „verschenkt Potenzial", Konjunktiv-Wunsch, Ratschlag, Selbstvorstellung/Pitch, Floskel wie „bin auf eure Webseite gestoßen")?
@@ -225,7 +225,7 @@ Grundlage sind die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ 
   - Interne Metriken im Text (Score-Werte, Fit-Level etc.)
   - Erfundene Findings, die nicht in der Research stehen
   - Anrede-Mix oder andere Style-Bruch
-  - Verstoß gegen die Copy-Regeln aus outreach-copy (Kritik-Opener, mehr als 2 Sätze, Großbuchstabe am Anfang, „Hallo Herr/Frau …" oder „Hallo zusammen," oder Ihr-Form)
+  - Verstoß gegen die Copy-Regeln aus outreach-copy (Kritik-Opener, mehr als 2 Sätze, Großbuchstabe am Anfang, „Hallo Herr/Frau …" oder „Hallo zusammen," oder Anrede mit ihr/euch; ihr/euer für Tatsachen über den Betrieb ist erlaubt)
   - Falsche HTTPS/SSL-Behauptungen
 
 `reason` muss konkret sein (nennt die problematische Variable + den Defekt). Er steht nur im Audit-Log: Beim manuellen Re-Generate via `/outreach-generate` oder `save_lead_variables` den Grund selbst mitgeben; der Server-Lauf liest ihn nicht.

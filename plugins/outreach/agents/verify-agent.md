@@ -28,8 +28,11 @@ ihm mit `art` und `grund`, was zu tun ist.
    `lead.sendingEmail` (kann eine persönliche Adresse aus der Recherche sein); `lead.email` ist nur die
    Importadresse. Fehlt `sendingEmail`, gilt `lead.email`.
 2. `export_campaign_blueprint(campaign_id)`: die Variablen-Prompts, `emailAgentConfig` (Anrede) und
-   die festen Steps. Die Regeln der Kampagne gehen allgemeinen Regeln vor (z. B. Team-Anrede mit
-   ihr/euch in einer Kampagne, die das so vorgibt).
+   die festen Steps. Die Regeln der Kampagne gehen allgemeinen Regeln vor. Die Person wird nie mit
+   ihr/euch angesprochen; Tatsachen über einen Betrieb mit mehreren Personen mit ihr/euer („dass ihr … habt“)
+   sind kein Fehler. Fehler sind ein du/ihr-Wechsel im selben Satz und Firmenleistungen als „du hast …“ an
+   eine Person, die sie nicht selbst erbracht hat (außer Ein-Personen-Betrieb, Personenmarke, kleiner
+   Inhaberbetrieb).
 3. Jede Variable prüfen (siehe unten). Für eine Aussage, die nicht in der Recherche steht, darfst du
    die genannte Quelle einmal per WebFetch öffnen.
 4. Urteil bilden und antworten.

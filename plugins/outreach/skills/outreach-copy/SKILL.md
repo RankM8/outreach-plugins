@@ -55,17 +55,16 @@ muss dieselben Pronomen tragen wie der gewählte Modus.
 
 | `salutation` | Pronomen im ganzen Text | `hallo` | Fallback ohne benennbare Person |
 |---|---|---|---|
-| `du` (Standard, Singular) | du/dich/dir/dein, nie ihr/euch | „Hallo Vorname,“ | „Hallo,“ |
+| `du` (Standard) | Person: du/dich/dir/dein, nie ihr/euch als Anrede; Tatsachen über den Betrieb auch ihr/euer (siehe unten) | „Hallo Vorname,“ | „Hallo,“ |
 | `sie` (Ausnahme) | Sie/Ihnen/Ihre | „Hallo Frau Nachname,“ / „Hallo Herr Nachname,“ | „Guten Tag,“ |
 
 **Standard ist immer `du`, Singular** – auch bei Praxen, Kanzleien, Finanz und generischen Adressen:
-Die Mail richtet sich an den Ansprechpartner bzw. Entscheider, nicht an den Betrieb. Es gibt keine
-Ihr- und keine Team-Form, auch nicht im Gruß. Ohne benennbaren Ansprechpartner lautet der Gruß
+Die Mail richtet sich an den Ansprechpartner bzw. Entscheider, nicht an den Betrieb. Die Person wird nie mit ihr/euch angesprochen (keine Ihr- und keine Team-Form, auch nicht im Gruß). Tatsachen über einen Betrieb mit mehr als einer Person dürfen aber mit ihr/euer stehen („dass ihr nach ISO 9001 zertifiziert seid“, „auf eurer Website“) oder mit „dein Team“/„deine Firma“, je nachdem, was natürlicher klingt. Firmenleistungen (Projekte, Anlagen, Produkte, Zertifikate, Auszeichnungen) gehören dem Betrieb: nie „du hast die Anlage gebaut“ an eine Geschäftsführerin oder einen Vertriebsleiter; „du hast …“ nur, wenn die Person es nachweislich selbst getan hat, oder bei Ein-Personen-Betrieben, Personenmarken und kleinen Inhaberbetrieben, die sie verkörpert. Innerhalb eines Satzes nicht zwischen du und ihr wechseln („deine Bewertungen …, dass ihr …“ ist falsch). Ein „nie ihr/euch“ im Prompt einer Variable meint die Anrede der Person, nicht diese Tatsachen. Ohne benennbaren Ansprechpartner lautet der Gruß
 „Hallo,“ und der Text bleibt im Singular („dein Team“, „dein Betrieb“, „deine Praxis“). `sie` gilt nur,
 wenn der Nutzer es für die Kampagne wählt (Kampagnen, die gezielt sehr große Unternehmen
 ansprechen), nie automatisch je Lead. Dass eine alte Vorlage, eine Bestandskampagne oder die Branche
-siezt bzw. „ihr“ schreibt, ist KEIN Grund für eine Abweichung. Keine Mischform: „Hallo Max,“
-vor „für euch“ ist ein Fehler. Den Wert `team`, den der Server noch annimmt, setzt dieser Skill nie.
+siezt bzw. „ihr“ schreibt, ist KEIN Grund für eine Abweichung. Keine Mischform in der Anrede: „Hallo Max,“
+vor „ich hab was für euch“ ist ein Fehler. Den Wert `team`, den der Server noch annimmt, setzt dieser Skill nie.
 
 Der feste Text nennt den Empfänger nur mit einer Bezeichnung, die auf jeden Lead der Liste passt.
 Mischt die Zielgruppe Firmen und Einzelpersonen (Agenturen und Freelancer, Praxen und
@@ -73,11 +72,17 @@ Einzelbehandler), schreibt er „dein Business“, „deine Kunden“ oder „f�
 bzw. „deine Praxis“.
 
 - Wer wird in der Du-Form mit Vornamen angesprochen? Die Person, der die Versandadresse gehört.
-  Bei generischen Adressen (info@, kontakt@, office@ …) der Vorname der Ansprechperson, die die
+  Trägt die Adresse nur einen Nachnamen (instagram.leitner@, leitner.coaching@), die Person mit diesem
+  Namen, sobald Lead-Name oder Recherche sie eindeutig benennen.
+  Bei allgemeinen Adressen (info@, kontakt@, office@, team@, hallo@, hello@, mail@, contact@,
+  partnership@, business@, kooperation@, support@, Filialpostfach) der Vorname der Ansprechperson, die die
   Recherche als Entscheider nennt (Inhaber, Geschäftsführung, Verantwortliche), damit die Mail
   dort ankommt bzw. weitergeleitet wird. Nennt die Recherche mehrere gleichrangige Inhaber oder
   Geschäftsführer, gilt die Person, die sie als Ansprechpartner empfiehlt, sonst die erstgenannte
-  im Impressum. Personenmarken immer mit Vornamen. Ist keine Person klar erkennbar, steht nur
+  im Impressum. Personenmarken und Ein-Personen-Betriebe (Creator, Coach, Freelancer,
+  Solo-Selbstständige) immer mit Vornamen, auch hinter hello@, info@ oder partnership@ ihrer Marke;
+  trägt der Lead selbst den Namen einer Person, ist sie gemeint, auch wenn die Recherche den
+  Geschäftsführer einer Firma als Entscheider nennt. Ist keine Person klar erkennbar, steht nur
   „Hallo,“. Die Sie-Form geht analog mit Herr/Frau und Nachname, Fallback
   „Guten Tag,“.
 - NIE „Hallo Herr/Frau Nachname,“ zusammen mit Du-Text (`du`), nie „Hallo <Firma> Team,“ oder
@@ -477,7 +482,7 @@ oder Werte speicherst. Nach jeder Korrektur von vorne beginnen: Kürzungen erzeu
     Sterne-Regel, positiven Schluss, Einstiegswechsel, die Verbote UND einen Fallback-Satz, der
     keine unbelegte Tatsache behauptet? Steht dieselbe Sperrliste in den Research-Vorgaben?
 12. Passen `salutation`, `hallo`-Prompt und die Pronomen des festen Texts zusammen (kein
-    „Hallo Herr/Frau …“, „… Team,“ oder „Hallo zusammen,“ mit Du-Text, kein du/euch-Mix, auch
+    „Hallo Herr/Frau …“, „… Team,“ oder „Hallo zusammen,“ mit Du-Text, kein du/ihr-Wechsel in einem Satz und keine Anrede mit ihr/euch, auch
     nicht ohne Ansprechpartner: „Hallo,“ und „dein Team“)?
 13. Zeigst du dem Nutzer Beispielwerte für `hallo`/`intro`: fertiger Klartext ohne
     `{{…}}`-Platzhalter, Namen und Firmen erkennbar fiktiv, Angle-Reihenfolge und Verbote

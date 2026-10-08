@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-08 – outreach 0.3.24
+
+**outreach** (Gleichstand mit den Server-Regeln zu Anrede und Zuschreibung)
+- `outreach-copy`, `copy-lehre`, `outreach-verify`, `verify-agent`: Die Person wird nie mit ihr/euch angesprochen, Tatsachen über einen Betrieb mit mehreren Personen dürfen aber mit ihr/euer stehen („dass ihr nach ISO 9001 zertifiziert seid“). Firmenleistungen gehören dem Betrieb, „du hast …“ nur bei eigener Leistung, Ein-Personen-Betrieb oder Personenmarke; kein du/ihr-Wechsel im selben Satz. Verify wertet „dass ihr … habt“ nicht mehr als Fehler.
+- `outreach-copy`: Anrede bei Adressen nur mit Nachnamen (instagram.leitner@) und bei weiteren allgemeinen Adressen (hello@, partnership@, business@, kooperation@ u. a.); Personenmarken und Ein-Personen-Betriebe immer mit Vornamen, auch hinter einer allgemeinen Adresse.
+
 ## 2026-10-08 – outreach 0.3.23
 
 **outreach** (Server ist die eine Quelle der Opener-Regeln)
