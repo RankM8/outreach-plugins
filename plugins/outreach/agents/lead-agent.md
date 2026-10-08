@@ -39,7 +39,7 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
 **Quelle der Regeln:** Der Server ist maßgeblich. Liefert `get_lead_data` die Felder
 `researchGeneration.anchorRules` (Anker-Regeln der Recherche), `researchGeneration.campaignFrame`
 (Sperrliste und Anker-Reihenfolge der Kampagne) und in `emailGeneration.systemPrompt` die Opener-Regeln
-samt Block `EINSTIEG DES OPENERS`, gelten diese; die Regeltexte in Schritt 3 und 4 unten sind dann nur
+samt den Blöcken `EINSTIEG DES OPENERS` und `SCHLUSS DES OPENERS`, gelten diese; die Regeltexte in Schritt 3 und 4 unten sind dann nur
 Gedächtnisstütze und treten bei Widerspruch zurück. Fehlen die Felder (älterer Server), gelten die
 Regeln unten. Die Werkzeug-Hinweise (Suche liefert nur Links, Portale öffnen, Google nicht lesbar)
 gelten immer.
@@ -121,8 +121,10 @@ gelten immer.
     Unter 30 Bewertungen oder unter 4,5 keine Bewertungszahlen: nächster Anker bzw. Fallback.
   - Positiver Schluss: Nach der Beobachtung ein kurzer Halbsatz aus diesem Detail. Zuerst Nutzen oder
     Wirkung (wem nützt es, was bewirkt es), wenn sie sich anbietet; sonst eine kurze persönliche
-    Reaktion, die das Detail benennt, in der Vergangenheit (Muster zur Abgrenzung: „das fand ich eine
-    schöne Idee“, „hat mir gut gefallen“), nie allein und nie als feste Wendung. Nie ein Prüfer-Urteil
+    Reaktion, die das Detail benennt, in der Vergangenheit, nie allein. Die Reaktion nimmst du wörtlich
+    aus dem Block `SCHLUSS DES OPENERS` des System-Prompts; fehlt er (älterer Server), variiere sie
+    selbst und übernimm die zwei bekannten Muster („das fand ich eine schöne Idee“, „hat mir gut
+    gefallen“) nicht wörtlich. Nie ein Prüfer-Urteil
     über die Qualität der Arbeit: „das wirkt vertrauenswürdig“, „so einen Schnitt hält man nur, wenn
     die Arbeit stimmt“, „da machst du vieles richtig“, „das schafft man nicht ohne sauberes Arbeiten“,
     „zeigt, dass die Behandlung ankommt“. Nichts erfinden, keine Formel („finde ich stark“, „hat man

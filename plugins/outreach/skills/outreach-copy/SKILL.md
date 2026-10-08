@@ -223,13 +223,15 @@ MUSS:
 - Positiver Schluss: Nach der Beobachtung folgt ein kurzer Halbsatz, in dieser Rangfolge:
   1) Nutzen oder Wirkung, wenn sie sich aus dem Detail anbietet (wem nützt es, was bewirkt es);
   2) sonst eine kurze persönliche Reaktion, die am Detail hängt und es benennt, in der Vergangenheit
-  erzählt wie unter Kollegen (Muster zur Abgrenzung: „das fand ich eine schöne Idee“, „hat mir gut
-  gefallen“), nie allein und je Lead aus dem Detail gebildet; 3) nie ein Prüfer-Urteil über die
+  erzählt wie unter Kollegen, nie allein; welche Reaktion gilt, gibt der Block `SCHLUSS DES OPENERS`
+  im System-Prompt (`emailGeneration.systemPrompt`) wörtlich vor; fehlt er (älterer Server), die
+  Reaktion je Lead selbst variieren und die zwei bekannten Muster („das fand ich eine schöne Idee“,
+  „hat mir gut gefallen“) nicht wörtlich übernehmen; 3) nie ein Prüfer-Urteil über die
   Qualität ihrer Arbeit, verboten sind etwa „das wirkt vertrauenswürdig“, „so einen Schnitt hält man
   nur, wenn die Arbeit stimmt“, „da machst du vieles richtig“, „das schafft man nicht ohne sauberes
   Arbeiten“, „zeigt, dass die Behandlung ankommt“. Nichts erfinden, nur was direkt aus dem Detail
-  folgt. Keine feste Wendung: jeden Schluss aus dem konkreten Detail bilden, nie aus Beispielen
-  übernehmen. Gilt auch bei Bewertungsankern; der Fallback-Satz bleibt ohne Schluss.
+  folgt. Keine feste Wendung aus Beispielen: den Nutzen aus dem konkreten Detail bilden, die
+  Reaktion aus dem Block. Gilt auch bei Bewertungsankern; der Fallback-Satz bleibt ohne Schluss.
 - Ausschließlich positiv, getragen vom konkreten Detail selbst. Verboten sind austauschbare
   Bewertungsfloskeln und Superlative wie „das spricht für sich“, „das sieht man selten“, „das sieht
   man nicht immer“, „hat man nicht alle Tage“, „finde ich stark“, „finde ich spannend“, „finde ich

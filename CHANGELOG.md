@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-08 – outreach 0.3.27
+
+**outreach** (Messrunde: die Reaktion im positiven Schluss wurde wörtlich aus den zwei Mustern kopiert, 7 von 17 Schlüssen „das hat mir gut gefallen“ / „das fand ich eine schöne Idee“)
+- Die Reaktion kommt jetzt wörtlich aus dem Block `SCHLUSS DES OPENERS` im System-Prompt; der Server wählt je Lead eine von acht Formen über die Lead-ID (wie den Einstieg im Block `EINSTIEG DES OPENERS`). Bietet sich ein Nutzen an, bleibt der Nutzen vorn.
+- Fehlt der Block (älterer Server), variiert der Agent die Reaktion selbst und übernimmt die zwei bekannten Muster nicht wörtlich.
+- Angeglichen in `lead-agent` und `outreach-copy`.
+
 ## 2026-10-08 – outreach 0.3.26
 
 **outreach** (Messrunde 30 Leads Dental: ein Drittel der neuen Schlüsse urteilte über die Qualität der Arbeit und klang wie die Begutachtung durch einen Fremden)
