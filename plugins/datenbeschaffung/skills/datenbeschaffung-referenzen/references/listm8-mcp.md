@@ -186,6 +186,13 @@ Antwort: `job_id`, `appUrl`, `type`, `status` (`pending`, `processing`, `complet
   `exported_to_instantly` setzt nur der Instantly-Push. Nicht gefundene Einträge stehen in
   `unmatched_emails` beziehungsweise `unmatched_lead_ids`. Dient dazu, extern kontaktierte Leads
   abzugleichen, damit niemand doppelt angeschrieben wird.
+  Zurückgesetzt werden nur kontaktierte Leads ohne Reaktion (keine Antwort, kein Interesse, keine
+  Abmeldung, kein Bounce) und mit beendeter Instantly-Sequenz. Ein zurückgesetzter Lead bekommt
+  beim nächsten `start_lead_run` neue Recherche und neue E-Mail, braucht eine neue Freigabe und
+  lässt sich danach nur in eine andere Instantly-Kampagne übertragen. Alle anderen bleiben
+  unverändert und stehen je Grund in `reset_blocked`: `replied`, `opportunity`, `do_not_contact`,
+  `exported` (hochgeladen, noch nicht angeschrieben), `reaction`, `sequence_active` (Sequenz läuft
+  noch), `not_synced` (noch nicht mit Instantly abgeglichen).
 
 ## Aufräumen
 
