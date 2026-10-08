@@ -89,11 +89,18 @@ Gegensatzpaare (die Spalte „besteht“ zeigt den Fund, nicht den fertigen Satz
 
 ### Positiver Schluss
 
-Nach der Beobachtung folgt ein kurzer positiver Halbsatz, der sagt, was daran gut ist oder wem es nützt: eine Wirkung, eine Zielgruppe oder eine Schlussfolgerung aus dem Detail. Leitplanken:
+Nach der Beobachtung folgt ein kurzer positiver Halbsatz, in dieser Rangfolge:
+
+1. **Nutzen oder Wirkung**, wenn sie sich aus dem Detail anbietet (wem nützt es, was bewirkt es): „…, so passt ein Termin auch nach der Arbeit.“
+2. **Sonst eine kurze persönliche Reaktion**, die am Detail hängt und es benennt, in der Vergangenheit erzählt wie unter Kollegen: „…, das fand ich eine schöne Idee.“, „…, hat mir gut gefallen.“ Sie steht neben dem Detail, nie allein, und wird je Lead aus dem Detail gebildet, nie als feste Wendung.
+3. **Nie ein Prüfer-Urteil über die Qualität ihrer Arbeit.** Es klingt wie die Begutachtung durch einen Fremden: „das wirkt vertrauenswürdig“, „so einen Schnitt hält man nur, wenn die Arbeit stimmt“, „da machst du vieles richtig“, „das schafft man nicht ohne sauberes Arbeiten“, „zeigt, dass die Behandlung ankommt“. (Messrunde 08.10.2026: ein Drittel der neuen Schlüsse waren solche Urteile.)
+
+Leitplanken:
 
 - nichts erfinden, nur was direkt aus dem Detail folgt (nie „deine Patienten lieben das“, nie „alle positiv“);
-- keine Floskel und kein Superlativ („finde ich stark“, „Hammer“, „das sieht man selten“, „das sieht man nicht immer“, „beeindruckend“, „das spricht für sich“);
-- keine feste Wendung: jeden Schluss aus dem konkreten Detail bilden, nie aus Beispielen übernehmen;
+- keine inhaltsleere Formel und kein Vergleich oder Superlativ („finde ich stark/spannend/bemerkenswert“, „Hammer“, „beeindruckend“, „das sieht man selten“, „das sieht man nicht immer“, „hat man nicht alle Tage“, „das spricht für sich“);
+- Abgrenzung: „das fand ich eine schöne Idee“ ist eine Reaktion auf ein benanntes Detail und erlaubt; „finde ich stark“ ist eine Formel, ein gegenwärtiges Urteil ohne Inhalt, und verboten;
+- keine feste Wendung: jeden Schluss aus dem konkreten Detail bilden, nie aus Beispielen übernehmen; taucht dieselbe Reaktion bei mehreren Leads einer Kampagne auf, meldet die Prüfung das als systematischen Befund;
 - gilt auch bei Bewertungsankern; insgesamt weiter höchstens 2 Sätze, etwa 30 Wörter, ohne Gedankenstrich (Komma statt Strich);
 - der Fallback-Satz der Kampagne bleibt wörtlich, ohne angehängten Schluss.
 
@@ -105,6 +112,7 @@ Nach der Beobachtung folgt ein kurzer positiver Halbsatz, der sagt, was daran gu
 | Ungewöhnliche Zeit (Dental) | „mir ist aufgefallen, dass deine Praxis donnerstags bis 20 Uhr Termine hat, da kommt man auch nach einem vollen Arbeitstag noch dran.“ |
 | Eigenes Konzept (Dental) | „beim Stöbern auf deiner Website hab ich ‚Krone To Go‘ entdeckt, die Krone am selben Termin. Das erspart deinen Patienten den zweiten Termin und die Zeit mit Provisorium.“ |
 | Lob aus Bewertungen (Dental) | „ich hab mir deine Bewertungen angeschaut, und mehrere Patienten schreiben, dass du jeden Schritt vorher erklärst. So weiß man im Stuhl immer, was als Nächstes kommt.“ |
+| Eigenname (Café), Reaktion statt Nutzen | „mir ist aufgefallen, dass jede Torte bei dir nach einem Stammgast benannt ist, über die Torte ‚Herr Albers‘ hab ich mich beim Lesen gefreut.“ |
 
 ### Bewertungen: Rangfolge der Anker
 
@@ -202,8 +210,8 @@ Einstiege: keiner ist Standard. Die letzte Ziffer der Lead-ID entscheidet, ein B
 **MUSS:**
 
 - Abhebung statt Leistungsnennung: Der Opener besteht den Austauschtest und nennt kein Thema von der Sperrliste der Kampagne (außer als Lob aus Bewertungstexten). Ein Nutzen rettet keine Standardleistung
-- Nach der Beobachtung ein kurzer positiver Schluss, was daran gut ist oder wem es nützt, aus dem konkreten Detail gebildet (Leitplanken unter „Positiver Schluss“); der Fallback-Satz bleibt ohne Schluss
-- Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail. Austauschbare Bewertungsfloskeln und Superlative („das spricht für sich", „das sieht man selten", „das sieht man nicht immer", „finde ich stark", „finde ich spannend", „Hammer", „beeindruckend", auch umgestellt wie „ich finde spannend, dass …") sind verboten (ListM8-Regel), und zwar auch als Beispielsatz: Modelle kopieren Beispiele
+- Nach der Beobachtung ein kurzer positiver Schluss aus dem konkreten Detail: Nutzen oder Wirkung, sonst eine kurze Reaktion am benannten Detail, nie ein Prüfer-Urteil über die Qualität der Arbeit (Rangfolge und Leitplanken unter „Positiver Schluss“); der Fallback-Satz bleibt ohne Schluss
+- Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail. Austauschbare Bewertungsfloskeln und Superlative („das spricht für sich", „das sieht man selten", „das sieht man nicht immer", „hat man nicht alle Tage", „finde ich stark", „finde ich spannend", „Hammer", „beeindruckend", auch umgestellt wie „ich finde spannend, dass …") sind verboten (ListM8-Regel), und zwar auch als Beispielsatz: Modelle kopieren Beispiele
 - Anker in der Rangfolge: Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder" nur, wenn mindestens 2 Bewertungen dieses Lob tragen), dann abhebendes Website-Detail, dann Anzahl und Schnitt als eigener Anker (nur ab 30 Bewertungen und 4,5, Zahl gerundet, Schnitt mit Komma, bei widersprüchlichen Quellen der kleinere Wert), dann der Fallback
 - Stellenanzeige: die Erkenntnis über den Betrieb nutzen (Wachstum, Spezialisierung, Projekt), ohne anzukündigen, dass der Betrieb sucht oder einstellt
 - Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was der feste Text danach sagt. Beginnt der feste Text mit „Das hat mich neugierig gemacht.", darf kein Intro-Satz mit dieser Aussage davor stehen
@@ -242,7 +250,8 @@ ich so frei ...]" beginnt.
 Aufgabe:
 Schreibe 1-2 Sätze, insgesamt etwa 30 Wörter: eine Beobachtung, die diesen
 Betrieb von anderen seiner Branche abhebt, und danach einen kurzen
-positiven Halbsatz, was daran gut ist oder wem es nützt. Der Opener muss
+positiven Halbsatz: Nutzen oder Wirkung, sonst eine kurze Reaktion am
+Detail. Der Opener muss
 natürlich in das Marketing Offer überleiten.
 
 Was abhebt: ein Eigenname oder eigenes Konzept, eine ungewöhnliche Zeit
@@ -278,14 +287,21 @@ ANKER-REIHENFOLGE (nimm den ersten, der den Austauschtest besteht):
    Bewertungszahlen.
 4. FALLBACK.
 
-POSITIVER SCHLUSS: Nach der Beobachtung folgt ein kurzer Halbsatz, was
-daran gut ist oder wem es nützt (Wirkung, Zielgruppe oder eine
-Schlussfolgerung aus dem Detail). Nichts erfinden, nur was direkt aus dem
-Detail folgt (nie "deine Kunden lieben das", nie "alle positiv"). Keine
-Floskel und kein Superlativ ("finde ich stark", "Hammer", "das sieht man
-selten", "das sieht man nicht immer", "beeindruckend", "das spricht für
-sich"). Keine feste Wendung: bilde jeden Schluss aus dem konkreten Detail.
-Gilt auch bei Bewertungsankern, nicht beim FALLBACK.
+POSITIVER SCHLUSS: Nach der Beobachtung folgt ein kurzer Halbsatz. Zuerst
+Nutzen oder Wirkung, wenn sie sich aus dem Detail anbietet (wem nützt es,
+was bewirkt es). Sonst eine kurze persönliche Reaktion, die am Detail hängt
+und es benennt, in der Vergangenheit erzählt (Muster: "das fand ich eine
+schöne Idee", "hat mir gut gefallen"; nie allein und nie als feste
+Wendung). Nie ein Prüfer-Urteil über die Qualität der Arbeit ("das wirkt
+vertrauenswürdig", "so einen Schnitt hält man nur, wenn die Arbeit
+stimmt", "da machst du vieles richtig", "das schafft man nicht ohne
+sauberes Arbeiten", "zeigt, dass die Behandlung ankommt"). Nichts
+erfinden, nur was direkt aus dem Detail folgt (nie "deine Kunden lieben
+das", nie "alle positiv"). Keine inhaltsleere Formel und kein Superlativ
+("finde ich stark", "Hammer", "das sieht man selten", "das sieht man nicht
+immer", "hat man nicht alle Tage", "beeindruckend", "das spricht für
+sich"). Bilde jeden Schluss aus dem konkreten Detail. Gilt auch bei
+Bewertungsankern, nicht beim FALLBACK.
 
 EINSTIEG: Kein Einstieg ist Standard. Wähle ihn nach der letzten Ziffer
 der Lead-ID: 0-2 "mir ist aufgefallen, dass ...", 3-5 "ich hab mir ...
@@ -356,7 +372,7 @@ Vor dem Export immer mindestens 10 Leads im Review (`outreach-verify`, `get_lead
 | Tonalität | Enthält Kritik, Mangel, Konjunktiv-Wunsch oder einen Ratschlag |
 | Austauschtest | Würde genauso auf zehn andere Betriebe derselben Branche in der Stadt passen, nennt eine Standardleistung (auch mit Nutzen), oder das Lob besteht nur aus einem Adjektiv ohne Inhalt |
 | Sperrliste | Der Anker steht auf der Sperrliste der Kampagne und ist kein Lob aus Bewertungstexten |
-| Positiver Schluss | Fehlt, ist eine Floskel oder ein Superlativ, behauptet etwas, das nicht direkt aus dem Detail folgt, oder hängt am Fallback-Satz |
+| Positiver Schluss | Fehlt, ist eine Floskel oder ein Superlativ, ist ein Prüfer-Urteil über die Qualität der Arbeit („das wirkt vertrauenswürdig“, „da machst du vieles richtig“), ist eine Reaktion ohne benanntes Detail, behauptet etwas, das nicht direkt aus dem Detail folgt, oder hängt am Fallback-Satz. Dieselbe Reaktion bei mehreren Leads einer Kampagne ist ein systematischer Befund |
 | Bewertungsanker | Zahlen bei weniger als 30 Bewertungen oder einem Schnitt unter 4,5, ungerundete Zahl, Schnitt mit Punkt, der größere von zwei widersprüchlichen Werten, nur Zahlen, obwohl ein Lob aus Bewertungstexten belegt ist; „mehrere“/„immer wieder“ ohne mindestens 2 Bewertungen; Einstieg ohne Quelle |
 | Zuschreibung | Schreibt der angesprochenen Person etwas zu, das einer anderen gehört |
 | Wahrheit | Enthält Zahl, Name oder Fakt, der nicht aus dem Research kommt |
@@ -904,7 +920,7 @@ Vor dem Anlegen bzw. vor dem Export jede Mail mit dieser Liste prüfen.
 **Inhalt:**
 
 - [ ] Schreibe ich über den EMPFÄNGER oder über uns?
-- [ ] Besteht der individuelle Bezug den Austauschtest (passt nicht auf zehn andere Betriebe der Branche, nichts von der Sperrliste außer als Bewertungslob), mit kurzem positivem Schluss aus dem Detail und ohne Lobadjektiv ohne Inhalt? Bewertungszahlen nur ab 30 Bewertungen und einem Schnitt von 4,5?
+- [ ] Besteht der individuelle Bezug den Austauschtest (passt nicht auf zehn andere Betriebe der Branche, nichts von der Sperrliste außer als Bewertungslob), mit kurzem positivem Schluss aus dem Detail (Nutzen oder Reaktion am Detail, kein Prüfer-Urteil) und ohne Lobadjektiv ohne Inhalt? Bewertungszahlen nur ab 30 Bewertungen und einem Schnitt von 4,5?
 - [ ] Stimmt die Anrede (Du-Form: Vorname der Person, der die Adresse gehört, bei generischen Adressen der Entscheider; sonst „Hallo,“)?
 - [ ] Ist das Offer konkret genug? (Würde ICH antworten?)
 - [ ] Kommt Social Proof erst im FUP2 (Step 3, neuer Thread), NICHT in der Entry Mail?

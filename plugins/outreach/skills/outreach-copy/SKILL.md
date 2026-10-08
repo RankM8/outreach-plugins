@@ -220,16 +220,24 @@ MUSS:
   „jedes Bad vorab als begehbarer 3D-Rundgang“ besteht.
 - Sperrliste der Kampagne: Was in den Research-Vorgaben oder im `intro`-Prompt als branchenübliche
   Leistung gesperrt ist, trägt kein Intro, außer als Lob aus Bewertungstexten.
-- Positiver Schluss: Nach der Beobachtung folgt ein kurzer Halbsatz, was daran gut ist oder wem es
-  nützt (Wirkung, Zielgruppe oder eine Schlussfolgerung aus dem Detail). Nichts erfinden, nur was
-  direkt aus dem Detail folgt. Keine Floskel, kein Superlativ, keine feste Wendung: jeden Schluss
-  aus dem konkreten Detail bilden, nie aus Beispielen übernehmen. Gilt auch bei Bewertungsankern;
-  der Fallback-Satz bleibt ohne Schluss.
+- Positiver Schluss: Nach der Beobachtung folgt ein kurzer Halbsatz, in dieser Rangfolge:
+  1) Nutzen oder Wirkung, wenn sie sich aus dem Detail anbietet (wem nützt es, was bewirkt es);
+  2) sonst eine kurze persönliche Reaktion, die am Detail hängt und es benennt, in der Vergangenheit
+  erzählt wie unter Kollegen (Muster zur Abgrenzung: „das fand ich eine schöne Idee“, „hat mir gut
+  gefallen“), nie allein und je Lead aus dem Detail gebildet; 3) nie ein Prüfer-Urteil über die
+  Qualität ihrer Arbeit, verboten sind etwa „das wirkt vertrauenswürdig“, „so einen Schnitt hält man
+  nur, wenn die Arbeit stimmt“, „da machst du vieles richtig“, „das schafft man nicht ohne sauberes
+  Arbeiten“, „zeigt, dass die Behandlung ankommt“. Nichts erfinden, nur was direkt aus dem Detail
+  folgt. Keine feste Wendung: jeden Schluss aus dem konkreten Detail bilden, nie aus Beispielen
+  übernehmen. Gilt auch bei Bewertungsankern; der Fallback-Satz bleibt ohne Schluss.
 - Ausschließlich positiv, getragen vom konkreten Detail selbst. Verboten sind austauschbare
   Bewertungsfloskeln und Superlative wie „das spricht für sich“, „das sieht man selten“, „das sieht
-  man nicht immer“, „finde ich stark“, „finde ich spannend“, „Hammer“, „beeindruckend“. Sie machen
-  alle Opener gleich (ListM8-Regel, gilt zusätzlich zu den Akquise-Regeln). Auch in Beispielen und
-  Prompts nie als Muster stehen lassen: Modelle kopieren Beispiele.
+  man nicht immer“, „hat man nicht alle Tage“, „finde ich stark“, „finde ich spannend“, „finde ich
+  bemerkenswert“, „Hammer“, „beeindruckend“. Abgrenzung: „finde ich stark“ ist eine Formel, ein
+  gegenwärtiges Urteil ohne Inhalt; eine Reaktion in der Vergangenheit am benannten Detail ist
+  erlaubt (siehe Positiver Schluss). Die Formeln machen alle Opener gleich (ListM8-Regel, gilt
+  zusätzlich zu den Akquise-Regeln). Auch in Beispielen und Prompts nie als Muster stehen lassen:
+  Modelle kopieren Beispiele.
 - Anker-Rangfolge: 1) Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder“ nur, wenn
   mindestens 2 Bewertungen es tragen) 2) abhebendes Detail von der Website, auch Wachstum oder
   Stellenanzeige als Erkenntnis 3) Anzahl und Schnitt der Bewertungen als eigener Anker, nur bei
@@ -330,8 +338,9 @@ Der `intro`-Prompt MUSS enthalten:
   als Erkenntnis statt „du suchst“ > Anzahl und Schnitt > Fallback) samt Sterne-Regel: Zahlen
   nur bei mindestens 30 Bewertungen und einem Schnitt ab 4,5, gerundet, mit Komma, Import-Werte
   als Quelle, bei Widerspruch der kleinere Wert;
-- den positiven Schluss mit seinen Leitplanken (nichts erfinden, keine Floskel, kein Superlativ,
-  keine feste Wendung), ohne ausformulierte Beispiel-Schlüsse;
+- den positiven Schluss mit Rangfolge (Nutzen oder Wirkung, sonst kurze Reaktion am benannten
+  Detail, nie ein Prüfer-Urteil über die Qualität der Arbeit) und Leitplanken (nichts erfinden,
+  keine Floskel, kein Superlativ, keine feste Wendung), ohne ausformulierte Beispiel-Schlüsse;
 - den Einstiegswechsel nach der letzten Ziffer der Lead-ID, mit Quelle im Einstieg bei
   Bewertungsankern;
 - die Verbotsliste aus den Intro-Regeln, einschließlich der Floskeln „finde ich spannend/stark“;

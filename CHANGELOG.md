@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-08 – outreach 0.3.26
+
+**outreach** (Messrunde 30 Leads Dental: ein Drittel der neuen Schlüsse urteilte über die Qualität der Arbeit und klang wie die Begutachtung durch einen Fremden)
+- Positiver Schluss mit Rangfolge: 1) Nutzen oder Wirkung, wenn sie sich aus dem Detail anbietet; 2) sonst eine kurze persönliche Reaktion, die am Detail hängt und es benennt, in der Vergangenheit erzählt („das fand ich eine schöne Idee“, „hat mir gut gefallen“), nie allein und nie als feste Wendung; 3) nie ein Prüfer-Urteil über die Qualität der Arbeit („das wirkt vertrauenswürdig“, „so einen Schnitt hält man nur, wenn die Arbeit stimmt“, „da machst du vieles richtig“ u. a.).
+- Inhaltsleere Formeln bleiben verboten, ergänzt um „hat man nicht alle Tage“. Abgrenzung: „finde ich stark“ ist eine Formel, die Reaktion am benannten Detail ist erlaubt.
+- Angeglichen in `copy-lehre.md` (Abschnitt „Positiver Schluss“, Beispiel mit Reaktion, Prompt-Vorlage, Prüftabelle, Checkliste), `outreach-copy`, `lead-agent`, `verify-agent`, `outreach-verify`, `outreach-generate` und `beispiel-blueprint.md`. `verify-agent` nennt eine Reaktion wörtlich in `grund`, damit der Bericht dieselbe Reaktion bei mehreren Leads als systematischen Befund meldet. Gleichstand mit den Server-Regeln.
+
 ## 2026-10-08 – outreach 0.3.25
 
 **outreach** (Messrunde 30 Leads Dental: Sterne-Anker mit 9 bis 40 Bewertungen trugen nicht, sie bekamen nur Note 2 bis 3)

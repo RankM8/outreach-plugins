@@ -119,9 +119,15 @@ gelten immer.
   - Sterne: Anzahl und Schnitt nur bei mindestens 30 Bewertungen und einem Schnitt ab 4,5, Zahl
     gerundet („über 200“), Schnitt mit Komma („4,8“), bei widersprüchlichen Quellen der kleinere Wert.
     Unter 30 Bewertungen oder unter 4,5 keine Bewertungszahlen: nächster Anker bzw. Fallback.
-  - Positiver Schluss: Nach der Beobachtung ein kurzer Halbsatz, was daran gut ist oder wem es nützt,
-    aus diesem Detail gebildet. Nichts erfinden, keine Floskel, kein Superlativ, keine Wendung aus
-    Beispielen. Gilt auch bei Bewertungsankern; der Fallback-Satz bleibt wörtlich und ohne Schluss.
+  - Positiver Schluss: Nach der Beobachtung ein kurzer Halbsatz aus diesem Detail. Zuerst Nutzen oder
+    Wirkung (wem nützt es, was bewirkt es), wenn sie sich anbietet; sonst eine kurze persönliche
+    Reaktion, die das Detail benennt, in der Vergangenheit (Muster zur Abgrenzung: „das fand ich eine
+    schöne Idee“, „hat mir gut gefallen“), nie allein und nie als feste Wendung. Nie ein Prüfer-Urteil
+    über die Qualität der Arbeit: „das wirkt vertrauenswürdig“, „so einen Schnitt hält man nur, wenn
+    die Arbeit stimmt“, „da machst du vieles richtig“, „das schafft man nicht ohne sauberes Arbeiten“,
+    „zeigt, dass die Behandlung ankommt“. Nichts erfinden, keine Formel („finde ich stark“, „hat man
+    nicht alle Tage“), kein Superlativ, keine Wendung aus Beispielen. Gilt auch bei Bewertungsankern;
+    der Fallback-Satz bleibt wörtlich und ohne Schluss.
   - Einstieg: wie im Block `EINSTIEG DES OPENERS` des System-Prompts; fehlt er, nach der letzten Ziffer deiner Lead-ID: 0-2 „mir ist aufgefallen, dass …“, 3-5 „ich hab
     mir … angeschaut“, 6-7 „beim Stöbern auf deiner Website …“, 8-9 direkt mit dem Detail. Ein
     Bewertungsanker nennt immer die Quelle im Einstieg („ich hab mir deine Bewertungen angeschaut,
