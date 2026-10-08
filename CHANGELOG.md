@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-08 – outreach 0.3.21
+
+**outreach** (Abo-Prompt aus dem Startdialog der App, MCP 2.1.0)
+- `outreach-pipeline` → Abo-Lauf übernimmt eine vorgegebene Auswahl: Enthält der Auftrag einen `list_leads`-Aufruf (Listen-Modus mit `run_stages`, so kopiert ihn der Startdialog „KI-Verarbeitung starten“) oder Lead-IDs, gilt genau diese Auswahl mit den genannten Stufen. Der Aufruf läuft einmal unverändert, die Leads kommen aus `lead_ids` und werden vor dem ersten Agenten festgehalten (kein Blättern mit `offset`: bearbeitete Leads fallen aus der Auswahl). Fehlt `applied_filters`, sind Server oder Verbindung zu alt: abbrechen statt mit der Standardauswahl weiterzumachen. Keine Rückfrage nach Laufart oder Anzahl mehr, wenn die Auswahl feststeht; Fortschritt nur für die Stufen des Laufs; der Agent bekommt die Stufen im Auftrag.
+- `outreach-pipeline` → Server-Lauf: `select_by_filter` kennt nur die Basisfilter, eine Auswahl mit den Listenfiltern geht über `list_leads` und `lead_ids`.
+- `outreach-qualify`, `outreach-research`, `outreach-generate` → eine vorgegebene Auswahl gilt statt der Warteschlange der Phase; `outreach-generate` erwähnt den Listen-Modus bei den Parametern von `list_leads`.
+
 ## 2026-10-05 – outreach 0.3.20
 
 **outreach** (Abgleich mit dem Kurs Outbound 3.0, Lektionen 2.4 und 2.5)
