@@ -200,8 +200,9 @@ Grundlage sind die Abschnitte „Anrede und Ansprache“ und „Intro-Regeln“ 
 - [ ] intro: max. 2 Sätze, erster Buchstabe klein, weitere Sätze groß?
 - [ ] intro: ausschließlich positiv (Lob/anerkennende Beobachtung), über den Empfänger, kein Problem benannt?
 - [ ] intro: keine verbotenen Wörter/Formen („Lücke", „Hürde", „Problem", „leider", „schade", „noch nicht", „fehlt", „begrenzt", „veraltet", „ausbaufähig", „verschenkt Potenzial", Konjunktiv-Wunsch, Ratschlag, Selbstvorstellung/Pitch, Floskel wie „bin auf eure Webseite gestoßen")?
-- [ ] intro: Bewertungsanker ist eine konkrete Paraphrase (Anzahl/Sterne nie allein oder als erste Worte, Plural nur bei mindestens 2 tragenden Bewertungen); Stellenanzeige als Erkenntnis über den Betrieb, nicht als „ihr sucht“; zweiter Satz konkret und ohne Vorwegnahme des festen Texts; nichts, das einer anderen Person gehört, der angeschriebenen Person zugeschrieben?
-- [ ] intro: konkreter Bezug, der nicht auf 100 andere Firmen passt — oder wörtlich der Fallback-Satz aus dem Prompt?
+- [ ] intro: Anker nach Rangfolge (Lob aus Bewertungstexten als Paraphrase, Plural nur bei mindestens 2 tragenden Bewertungen > abhebendes Website-Detail > Anzahl und Schnitt nur ab 4,5, gerundet, mit Komma, bei Widerspruch der kleinere Wert > Fallback); Stellenanzeige als Erkenntnis über den Betrieb, nicht als „du suchst“; zweiter Satz konkret und ohne Vorwegnahme des festen Texts; nichts, das einer anderen Person gehört, der angeschriebenen Person zugeschrieben?
+- [ ] intro: kurzer positiver Schluss aus dem Detail vorhanden, ohne Floskel oder Superlativ und ohne Erfundenes (nicht beim Fallback-Satz)?
+- [ ] intro: besteht den Austauschtest (passt nicht auf zehn andere Betriebe derselben Branche in der Stadt) und nennt nichts von der Sperrliste der Kampagne außer als Bewertungslob, oder ist wörtlich der Fallback-Satz aus dem Prompt?
 - [ ] Keine Frage, kein Ausrufezeichen, kein Link, keine sichtbaren Platzhalter ([…], {{…}}) in hallo/intro?
 - [ ] Schließt der feste Folgesatz der Entry-Mail („Genau deshalb …" / „Deswegen war ich so frei …") flüssig an, und bleibt die Entry-Mail mit diesem intro unter 120 Wörtern?
 

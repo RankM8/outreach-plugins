@@ -87,10 +87,11 @@ LEAD: {lead.company} (ID: {lead.id})
    - "agent.additionalPrompt" = zusätzliche Anweisung des Research-Agents; ein "config.additionalPrompt" der Kampagne ergänzt sie, beide gelten.
 3. Recherchiere:
    - Website (lead.website) per WebFetch laden; relevante Unterseiten (Leistungen, Über uns, Team, Referenzen, Impressum, Kontakt) gezielt nachladen.
-   - WebSearch für öffentliche Signale (Bewertungen, Verzeichniseinträge), wenn die Website wenig hergibt.
+   - Bewertungen zuerst: WebSearch liefert nur Links, die Treffer von Bewertungsportalen und Verzeichnissen per WebFetch öffnen (Google Maps und Google-Seiten sind so nicht lesbar). Anzahl und Schnitt aus den Lead-Attributen des Imports gelten als Quelle.
+   - Die Sperrliste der Kampagne (Research-Vorgaben) beachten: gesperrte Standardleistungen nicht als Aufhänger vormerken, außer als Lob aus Bewertungstexten.
    - Qualifizierungs-Kontext (lead.qualification) als Ausgangspunkt nutzen.
 4. Extrahiere gemäß den Research-Zielen, typischerweise:
-   - Konkrete, verifizierbare Aufhänger (Spezialisierung, Bewertungen, Projekte, Besonderheiten) für die spätere Personalisierung.
+   - Konkrete, verifizierbare Aufhänger, die den Betrieb von anderen seiner Branche abheben (Lob aus Bewertungen, eigenes Konzept, eigenes Verfahren, seltene Spezialisierung, Auszeichnung); was auf zehn andere Betriebe derselben Branche in der Stadt passt, ist kein Aufhänger.
    - Entscheider (Name/Rolle, meist im Impressum/Über-uns) und die Adresse, über die die Entscheidungsperson am wahrscheinlichsten erreicht wird (Regel in Schritt 5).
 5. Schreibe das Ergebnis:
    write_lead_details(campaign_id={campaign.id}, lead_id={lead.id}, fields={

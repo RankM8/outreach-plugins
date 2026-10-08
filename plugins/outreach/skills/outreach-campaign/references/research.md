@@ -5,14 +5,30 @@
 
 ## Die Anker-Hierarchie (Server kennt sie — dein Fokus verstärkt sie fürs Angebot)
 
-1. **Kundenbewertungen** (bester Anker): Google Reviews, Trusted Shops, Shop-Bewertungen —
-   konkrete paraphrasierbare Aussagen (was genau gelobt wird, wie viele Bewertungen dieses Lob tragen);
-   Anzahl und Sterne nur als Beiwerk, nie als Anker.
-2. **Website-Beobachtung**: Spezialisierung, ungewöhnliches Feature, Sortiment, Referenzprojekte —
-   etwas, das man nur kennt, wenn man wirklich dort war.
-3. **Stellenanzeigen/Wachstum**: nur relevant, wenn das Offer dazu passt (Recruiting). Festhalten, was die
-   Anzeige über den Betrieb verrät (Wachstum, Spezialisierung, Projekt), nicht nur dass gesucht wird.
-4. **Branche/Region**: der ehrliche Fallback.
+Maßgeblich ist der Abschnitt „Abhebung und Austauschtest“ in `outreach-copy` →
+`references/copy-lehre.md`. Für die Recherche heißt das:
+
+1. **Lob aus Bewertungstexten** (bester Anker, immer zuerst recherchieren): Google-Bewertungen über
+   Bewertungsportale und Verzeichnisse, Trusted Shops, Shop-Bewertungen. Konkrete paraphrasierbare
+   Aussagen über DIESEN Betrieb (was genau gelobt wird, wie viele Bewertungen dieses Lob tragen).
+2. **Abhebendes Detail von der Website**: eigener Name oder eigenes Konzept, ungewöhnliche Zeit oder
+   Zahl, eigenes Verfahren, seltene Spezialisierung, Auszeichnung. Auch Stellenanzeigen/Wachstum:
+   festhalten, was die Anzeige über den Betrieb verrät (Wachstum, Spezialisierung, Projekt), nicht
+   nur dass gesucht wird.
+3. **Anzahl und Schnitt der Bewertungen** als eigener Anker, nur bei einem Schnitt ab 4,5. Werte aus
+   dem Import (Google-Profil in den Lead-Attributen) gelten als Quelle; widersprechen sich Quellen,
+   den kleineren Wert notieren.
+4. **Fallback der Kampagne** (Branche/Region): steht im `intro`-Prompt, nicht in der Recherche.
+
+**Austauschtest:** Ein Fund, der auf zehn andere Betriebe derselben Branche in der Stadt passt, ist
+kein Anker, auch nicht mit Nutzen („digital scannen, hilft bei Würgereiz“).
+
+**Sperrliste je Kampagne (Pflicht):** Leite aus Branche und Zielgruppe die branchenüblichen
+Leistungen ab, die keinen Opener tragen (meist 6 bis 10 Begriffe: was steht bei fast jedem Betrieb
+dieser Branche auf der Leistungsseite?). Sie steht gleichlautend im
+`researchAgentConfig.additionalPrompt` UND im `intro`-Prompt. Beispiel Dental: Angstpatienten,
+Lachgas, Sedierung/Narkose, Kinderbehandlung, Notdienst, Prophylaxe/Dentalhygiene, digitaler
+Scan/Abdruck, Implantate allgemein. Ein gesperrtes Thema zählt nur als Lob aus Bewertungstexten.
 
 Anker sind POSITIV verwendbar (der Opener ist ein Lob). Schmerzpunkte und Lücken sind trotzdem
 wertvoll — für die Qualifizierung, für `pain_point`-Variablen und die Kontakt-Empfehlung — aber
@@ -24,14 +40,19 @@ Konkret aufs Angebot gemünzt, 3–5 Punkte. Beispiel (Webdesign/SEO an Handwerk
 
 ```
 Pro Lead herausfinden:
-1. Google-Bewertungen (ein zitierfähiges Kundenlob und wie viele Bewertungen es tragen; Anzahl und
-   Schnitt nur als Beiwerk) - bester Opener-Anker.
-2. Womit der Betrieb sich sichtbar spezialisiert (Badsanierung? Wärmepumpen? Notdienst?).
+1. Zuerst die Bewertungen: ein zitierfähiges Kundenlob über DIESEN Betrieb und wie viele Bewertungen
+   es tragen (Treffer von Bewertungsportalen öffnen); dazu Anzahl und Schnitt mit Quelle,
+   Import-Werte aus den Lead-Attributen gelten. Bester Opener-Anker.
+2. Was den Betrieb von anderen seiner Branche abhebt (eigenes Verfahren wie ein 3D-Rundgang vor der
+   Badsanierung, ungewöhnliche Zeiten, seltene Spezialisierung, Auszeichnung). Austauschtest: passt
+   der Fund auf zehn andere Betriebe der Stadt, ist er kein Anker.
 3. Zustand des Web-Auftritts sachlich: Alter/Technik der Website, lokale Auffindbarkeit
    (für Qualifizierung und pain_point - NICHT für den Opener).
 4. Entscheider mit Vornamen und Rolle (Impressum/Team-Seite), inkl. Quelle; bei generischen Adressen
    wie info@ ist er die Person für die Anrede.
 5. Region/Einzugsgebiet, falls das Offer regional argumentiert.
+Sperrliste (nie als Opener-Anker vormerken, außer als Lob aus Bewertungstexten): Badsanierung,
+Heizungstausch, Wärmepumpe allgemein, Notdienst, barrierefreies Bad, Meisterbetrieb, Beratung vor Ort.
 ```
 
 ## Anti-Muster
@@ -40,4 +61,6 @@ Pro Lead herausfinden:
 - Nur Defizite suchen lassen — dann gibt es keinen Lob-Anker und der Opener wird generisch.
 - Fakten verlangen, die Websites fast nie zeigen (Umsatz, Marge) — erzeugt Halluzinationsdruck;
   der Server verbietet Erfundenes, also kommt dann schlicht nichts.
-- Mehr als 5 Punkte — Priorität schlägt Vollständigkeit.
+- Mehr als 5 Punkte — Priorität schlägt Vollständigkeit (die Sperrliste zählt nicht mit).
+- Standardleistungen als Anker verlangen („Spezialisierung: Angstpatienten, Implantate?“): Dann
+  beginnen alle Opener gleich. Was jeder anbietet, gehört auf die Sperrliste.

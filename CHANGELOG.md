@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-08 – outreach 0.3.22
+
+**outreach** (Copy-Beratung zu Opener und Angle-Bibliothek nach den Haiku-Läufen Dental: viele Opener nannten Standardleistungen wie Angstpatienten oder Lachgas, Anzahl und Schnitt der Bewertungen blieben ungenutzt)
+- `copy-lehre.md` → neuer Abschnitt „Abhebung und Austauschtest“ als zentrale Opener-Regel: Abhebungs-Typen, Austauschtest (passt der Satz auf zehn andere Betriebe derselben Branche in der Stadt, ist er kein Aufhänger; ein Nutzen rettet keine Standardleistung), Gegensatzpaare aus Dental und Handwerk, positiver Schluss mit Leitplanken, Rangfolge der Anker (Lob aus Bewertungstexten > abhebendes Website-Detail > Anzahl und Schnitt als eigener Anker ab 4,5 > Fallback), Einstiege nach der letzten Ziffer der Lead-ID und eine Sperrliste branchenüblicher Leistungen je Kampagne. „Anzahl und Sterne nie allein“ entfällt. Angle-Hierarchie, Prompt-Vorlage, Prüftabelle und Beispiele angeglichen; die Beispiele bestehen den Austauschtest und tragen bewusst verschiedene Schlüsse.
+- `outreach-copy` → Intro-Regeln und Pflichtinhalt des `intro`-Prompts auf Austauschtest, Sperrliste, positiven Schluss, Sterne-Regel und Einstiegswechsel umgestellt; „bewährte Einstiege dürfen gleich bleiben“ entfällt. Keine ausformulierten Schlüsse als Beispiel, weil schreibende Modelle sie kopieren.
+- `beispiel-blueprint.md` → Beispiel „Umgang mit Angstpatienten“ gestrichen, Sperrliste Dental in Research-Vorgaben und `intro`-Prompt, `intro`-Prompt nach der neuen Regel.
+- `outreach-campaign` → Pflicht, je Kampagne eine Sperrliste aus Branche und Zielgruppe zu erzeugen und in Research-Vorgaben und `intro`-Prompt einzutragen; `research.md` mit neuer Anker-Rangfolge und Austauschtest.
+- `lead-agent` → recherchiert Bewertungen zuerst über Bewertungsportale (Google Maps ist per WebFetch nicht lesbar, Import-Werte gelten als Quelle), beachtet die Sperrliste und prüft das Intro gegen Austauschtest, Sperrliste, Sterne-Regel, positiven Schluss und Einstieg; meldet `aufhänger=` als Thema des Ankers.
+- `verify-agent`, `outreach-verify`, `outreach-generate`, `outreach-research` → prüfen bzw. recherchieren nach denselben Regeln; Verstoß ist `ablehnen` mit `art=text`.
+- `outreach-abo-lauf` → Der Bericht meldet einen systematischen Befund, wenn mehr als ein Drittel der Leads dasselbe Anker-Thema trägt.
+
 ## 2026-10-07 – outreach 0.3.21
 
 **outreach** (Messung 07.10.: 30 Leads im Abo-Lauf, Einzel-Agents gegen Workflow)

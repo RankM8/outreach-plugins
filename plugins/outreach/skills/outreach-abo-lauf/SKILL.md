@@ -42,7 +42,11 @@ Konfiguration, kein aktiver Lauf, Lead-Auswahl und Stufen). Dieser Skill beginnt
      mit den Abschnitten „Anrede und Ansprache“ und „Intro-Regeln“ aus `outreach-copy` und dem Hinweis, bei
      `not_qualified` aufzuhören.
    - **Ohne Subagents:** die Leads nacheinander in der Sitzung mit denselben Schritten.
-3. **Bericht** wie in `outreach-pipeline` (gleiches Format für beide Laufarten). Danach alle angemeldeten
+3. **Bericht** wie in `outreach-pipeline` (gleiches Format für beide Laufarten). Dazu die
+   `aufhänger=`-Angaben der `bau`-Zeilen mit `mail=gespeichert` auszählen: Zeigt mehr als ein Drittel
+   dasselbe Anker-Thema (z. B. lauter Angstpatienten), im Bericht als systematischen Befund melden und
+   vorschlagen, Sperrliste und `intro`-Prompt über `outreach-campaign` nachzuschärfen (bei
+   `nur_pruefen` fehlt die Angabe, dann entfällt die Zählung). Danach alle angemeldeten
    Phasen mit `outreach_progress(action="end", campaign_id, phase=…)` schließen, auch wenn alles gezählt
    scheint: Leads ohne Schreibaufruf (Recherche vorhanden, aussortiert, Fehler) hält das Band sonst offen.
 4. **Rennschutz:** Meldet ein Agent `lead_run_active`, läuft parallel ein Server-Lauf über dieselben Leads.

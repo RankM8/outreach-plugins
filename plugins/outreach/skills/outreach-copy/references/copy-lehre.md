@@ -47,43 +47,137 @@ Aber der Opener ist kein Kompliment-Generator, sondern ein Beweis. Er beweist, d
 
 **Nachher (mit AI-Personalisierung):**
 
-„Hallo Max, ich hab mir deine Bewertungen angeschaut und ein Kunde schreibt, dass deine Lieferung schneller war als bei Amazon..."
+„Hallo Max, ich hab mir deine Bewertungen angeschaut, und ein Kunde schreibt, dass deine Lieferung schneller war als bei Amazon. Das ist ein Grund, direkt bei dir statt bei Amazon zu bestellen..."
 
-## Angle-Hierarchie (immer in dieser Reihenfolge versuchen)
+## Abhebung und Austauschtest
 
-### Angle 1: Kundenbewertungen (bester Angle)
+Das ist die zentrale Regel für den Opener. `SKILL.md`, `lead-agent`, `verify-agent`, die Research-Vorgaben und jeder `intro`-Prompt tragen sie in Kurzform; die Gründe, Gegensatzpaare und Beispiele stehen nur hier.
 
-**Wann:** Google Reviews, Trusted Shops, Shop-Bewertungen vorhanden.
-**Warum der beste:** Bewertungen sind spezifisch, emotional und beweisen, dass man wirklich recherchiert hat. Plus: Lob funktioniert immer.
-**Anker:** eine konkrete Paraphrase, was genau gelobt wird. Anzahl der Bewertungen und Sternedurchschnitt stehen nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt. Plural oder „immer wieder“ nur, wenn mindestens 2 Bewertungen dieses Lob tragen.
+### Abhebung statt Leistungsnennung
+
+Der Opener nennt, was diesen Betrieb von anderen seiner Branche abhebt. Die Abhebungs-Typen:
+
+| Typ | Beispiel für den Fund (nicht für den Satz) |
+|:----|:-------------------------------------------|
+| Eigenname oder eigenes Konzept | ein Behandlungs- oder Servicekonzept mit eigenem Namen |
+| Ungewöhnliche Zeit oder Zahl | Sprechstunde donnerstags bis 20 Uhr, Angebot 48 Stunden nach dem Aufmaß |
+| Eigenes Verfahren | jedes Bad vorab als begehbarer 3D-Rundgang |
+| Seltene Spezialisierung | nur Holzfenster im Denkmalschutz |
+| Auszeichnung | ein Branchenpreis, ein Siegel mit Jahr |
+| Lob aus Bewertungen | was Kunden über DIESEN Betrieb schreiben |
+| Auffällige Bewertungszahlen | über 200 Rezensionen mit einem Schnitt von 4,8 (eigener Anker, siehe Rangfolge) |
+
+Projekte, Referenzen, Firmengeschichte oder Gründungsjahr (mit seinem Ereignis), Lage und Ausstattung zählen ebenfalls, wenn sie den Austauschtest bestehen. Eine Aufzählung von Leistungen besteht ihn nie.
+
+### Der Austauschtest
+
+Passt der Satz auf zehn andere Betriebe derselben Branche in der Stadt, ist er kein Aufhänger. Dann den nächsten Anker nehmen, zuletzt den Fallback der Kampagne.
+
+- Ein Nutzen rettet keine Standardleistung: „du scannst digital, das hilft bei Würgereiz“ fällt durch, weil der digitale Scan in vielen Praxen Standard ist.
+- Dasselbe Thema besteht als Bewertungslob (was Kunden über DIESEN Betrieb schreiben), nicht als Zeile aus der Leistungsliste.
+
+Gegensatzpaare (die Spalte „besteht“ zeigt den Fund, nicht den fertigen Satz):
+
+| Branche | Fällt durch | Besteht | Warum |
+|:--------|:------------|:--------|:------|
+| Dental | Lachgas für Angstpatienten | „Krone To Go“: die Krone am selben Termin, unter eigenem Namen | Lachgas steht bei vielen Praxen auf der Leistungsseite, ein eigenes Kronen-Konzept am selben Tag nicht |
+| Dental | digitaler Scan statt Abdruck, „hilft bei Würgereiz“ | Sprechstunde donnerstags bis 20 Uhr, mit dem Nutzen für Berufstätige | Der Nutzen rettet die Standardleistung nicht; die ungewöhnliche Zeit ist selbst die Abhebung, der Nutzen wird zum positiven Schluss |
+| Dental | „du behandelst Angstpatienten“ von der Leistungsseite | mehrere Bewertungen schreiben, dass Patienten trotz Angst ruhig durch die Behandlung kamen | gleiches Thema, aber als Lob über diesen Betrieb |
+| Handwerk | du bietest Badsanierung an | jedes Bad vorab als begehbarer 3D-Rundgang | Badsanierung macht jeder Sanitärbetrieb, den Rundgang vor dem ersten Handgriff kaum einer |
+
+### Positiver Schluss
+
+Nach der Beobachtung folgt ein kurzer positiver Halbsatz, der sagt, was daran gut ist oder wem es nützt: eine Wirkung, eine Zielgruppe oder eine Schlussfolgerung aus dem Detail. Leitplanken:
+
+- nichts erfinden, nur was direkt aus dem Detail folgt (nie „deine Patienten lieben das“, nie „alle positiv“);
+- keine Floskel und kein Superlativ („finde ich stark“, „Hammer“, „das sieht man selten“, „das sieht man nicht immer“, „beeindruckend“, „das spricht für sich“);
+- keine feste Wendung: jeden Schluss aus dem konkreten Detail bilden, nie aus Beispielen übernehmen;
+- gilt auch bei Bewertungsankern; insgesamt weiter höchstens 2 Sätze, etwa 30 Wörter, ohne Gedankenstrich (Komma statt Strich);
+- der Fallback-Satz der Kampagne bleibt wörtlich, ohne angehängten Schluss.
+
+**Beispiele, nicht wörtlich übernehmen.** Sie zeigen, wie verschieden ein Schluss aus dem jeweiligen Detail entsteht. Wer einen davon in einen Prompt kopiert, macht alle Opener gleich.
+
+| Anker | Opener |
+|:------|:-------|
+| Eigenes Verfahren (Handwerk) | „ich war gerade auf deiner Website: Du zeigst jedes Bad vorab als begehbaren 3D-Rundgang. So steht der Kunde schon in seinem neuen Bad, bevor die erste Fliese fällt.“ |
+| Ungewöhnliche Zeit (Dental) | „mir ist aufgefallen, dass deine Praxis donnerstags bis 20 Uhr Termine hat, da kommt man auch nach einem vollen Arbeitstag noch dran.“ |
+| Eigenes Konzept (Dental) | „beim Stöbern auf deiner Website hab ich ‚Krone To Go‘ entdeckt, die Krone am selben Termin. Das erspart deinen Patienten den zweiten Termin und die Zeit mit Provisorium.“ |
+| Lob aus Bewertungen (Dental) | „ich hab mir deine Bewertungen angeschaut, und mehrere Patienten schreiben, dass du jeden Schritt vorher erklärst. So weiß man im Stuhl immer, was als Nächstes kommt.“ |
+
+### Bewertungen: Rangfolge der Anker
+
+1. Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder“ nur, wenn mindestens 2 Bewertungen es tragen).
+2. Abhebendes Detail von der Website, auch Wachstum oder eine Stellenanzeige als Erkenntnis über den Betrieb.
+3. Anzahl und Schnitt der Bewertungen als eigener Anker: ohne Mindestanzahl, aber nur bei gutem Schnitt (ab 4,5). Zahl gerundet („über 200“), Schnitt mit Komma („4,8“). Werte aus dem Import (Google-Profil in den Lead-Attributen) gelten als Quelle; widersprechen sich Quellen, gilt der kleinere Wert. Unter 4,5 nennt der Opener keine Bewertungszahlen.
+4. Fallback der Kampagne.
+
+Die Reihenfolge der Kampagne hat Vorrang, wo eine Kampagne etwas anderes festlegt. Jeder Anker muss den Austauschtest bestehen, sonst gilt der nächste. Bewertungen werden deshalb zuerst recherchiert, nicht erst, wenn die Website wenig hergibt.
+
+### Einstiege abwechseln
+
+Einstiegsrahmen sind erlaubt, keiner ist Standard: „ich hab mir … angeschaut“, „mir ist aufgefallen, dass …“, „beim Stöbern auf deiner Website …“, „ich war gerade auf deiner Website: …“ oder direkt mit dem Detail. Ein Bewertungsanker nennt im Einstieg die Quelle („ich hab mir deine Bewertungen angeschaut, und …“).
+
+Weil jeder Agent nur seinen Lead sieht, wählt er den Einstieg nach der letzten Ziffer der Lead-ID, außer der Anker verlangt einen bestimmten Einstieg (Bewertungen):
+
+| Letzte Ziffer | Einstieg |
+|:--------------|:---------|
+| 0-2 | „mir ist aufgefallen, dass …“ |
+| 3-5 | „ich hab mir … angeschaut“ |
+| 6-7 | „beim Stöbern auf deiner Website …“ |
+| 8-9 | direkt mit dem Detail |
+
+Prüfung: Beginnt mehr als ein Drittel einer Kampagne gleich, ist das ein systematischer Befund. Dasselbe gilt, wenn mehr als ein Drittel denselben Anker trägt (etwa lauter Angstpatienten): dann den `intro`-Prompt bzw. die Sperrliste nachschärfen, nicht einzeln nachbessern.
+
+### Sperrliste je Kampagne
+
+Jede Kampagne hat im Blueprint eine Sperrliste branchenüblicher Leistungen, die keinen Opener tragen, und zwar an zwei Stellen: in den Research-Vorgaben (`researchAgentConfig.additionalPrompt`) UND im `intro`-Prompt. `outreach-campaign` erzeugt sie beim Kampagnenbau aus Branche und Zielgruppe: Was steht bei fast jedem Betrieb dieser Branche auf der Leistungsseite? Diese Begriffe (meist 6 bis 10) kommen auf die Liste. Ein gesperrtes Thema darf nur als Lob aus Bewertungstexten in den Opener.
+
+Beispiel Dental: Angstpatienten, Lachgas, Sedierung/Narkose, Kinderbehandlung, Notdienst, Prophylaxe/Dentalhygiene, digitaler Scan/Abdruck, Implantate allgemein.
+
+Keine Mustersätze je Branche. Beispiele in Prompts stehen nur strukturell oder als Gegensatzpaar (fällt durch / besteht, ohne fertigen Satz), nie als Vorlage für den positiven Schluss.
+
+## Angle-Hierarchie (in dieser Reihenfolge versuchen)
+
+Die Rangfolge aus „Bewertungen: Rangfolge der Anker“ im Detail. Jeder Angle muss den Austauschtest bestehen, sonst gilt der nächste. Die Vorlagen zeigen den Aufbau, die Beispiele einen fertigen Opener mit positivem Schluss; beides nicht wörtlich übernehmen.
+
+### Angle 1: Lob aus Bewertungstexten (bester Angle)
+
+**Wann:** Google-Bewertungen, Bewertungsportale, Trusted Shops oder Shop-Bewertungen mit Text.
+**Warum der beste:** Bewertungen sind spezifisch, emotional und beweisen, dass man wirklich recherchiert hat. Und sie sagen, was Kunden an DIESEM Betrieb schätzen, nicht was auf jeder Leistungsseite steht.
+**Anker:** eine konkrete Paraphrase, was genau gelobt wird. Plural oder „immer wieder“ nur, wenn mindestens 2 Bewertungen dieses Lob tragen. Der Einstieg nennt die Quelle.
 
 | Vorlage | Echtes Beispiel |
 |:--------|:---------------|
-| „ich hab mir deine Bewertungen angeschaut und einer deiner Kunden schreibt [PARAPHRASE]. [Optional: ein konkreter zweiter Satz, was das über den Betrieb sagt]." | „ich hab mir deine Bewertungen angeschaut und einer deiner Kunden schreibt, dass deine Lieferung schneller war als bei Amazon." |
-| „in deinen Bewertungen schreiben mehrere Kunden, dass [konkretes Lob]. [Optional, nur als Beiwerk: Zahl oder Sterne]." (nur wenn mindestens 2 Bewertungen das Lob tragen) | „in deinen Bewertungen schreiben mehrere Kunden, dass deine Beratung ehrlich ist und auch mal zur günstigeren Lösung rät." |
+| „ich hab mir deine Bewertungen angeschaut, und ein Kunde schreibt, [PARAPHRASE]. [Kurzer positiver Schluss aus dem Lob]" | „ich hab mir deine Bewertungen angeschaut, und ein Kunde schreibt, dass deine Lieferung schneller war als bei Amazon. Das ist ein Grund, direkt bei dir statt bei Amazon zu bestellen." |
+| „in deinen Bewertungen schreiben mehrere Kunden, dass [konkretes Lob]. [Kurzer positiver Schluss]" (nur wenn mindestens 2 Bewertungen das Lob tragen) | „in deinen Bewertungen schreiben mehrere Kunden, dass du ehrlich berätst und auch mal von einer Reparatur abrätst, die sich nicht lohnt. Da weiß jeder vorher, woran er ist." |
 
-### Angle 2: Website-Beobachtung
+### Angle 2: Abhebendes Detail von der Website
 
-**Wann:** Keine Reviews vorhanden, aber die Website hat etwas Interessantes.
-
-| Vorlage | Echtes Beispiel |
-|:--------|:---------------|
-| „ich war gerade auf deiner Website und [konkrete Beobachtung]" | „ich war gerade auf deiner Website: Du reinigst nur Industrieanlagen und nennst dafür sogar die Zertifikate deines Teams." |
-| „mir ist aufgefallen, dass du [konkretes Feature]" | „mir ist aufgefallen, dass du neben dem klassischen Handwerk auch Smart-Home-Integration anbietest und das gleich bei der Elektroplanung mitdenkst." |
-
-### Angle 3: Stellenanzeige/Wachstum
-
-**Wann:** Bei Recruiting-Offers oder wenn man über eine Stellenanzeige oder Wachstum etwas über den Betrieb erfährt.
-
-**Anker:** die Erkenntnis, die die Anzeige über das Geschäft verrät (Wachstum, Spezialisierung, ein neues Projekt), nicht die Tatsache, dass gesucht wird. Nie „ich hab gesehen, dass du gerade [Position] suchst“.
+**Wann:** Die Bewertungen geben kein konkretes Lob her, aber die Website zeigt etwas, das den Betrieb abhebt (Abhebungs-Typen oben).
 
 | Vorlage | Echtes Beispiel |
 |:--------|:---------------|
-| „mir ist aufgefallen, dass du [Erkenntnis aus der Anzeige: Wachstum, Spezialisierung, Projekt]" | „mir ist aufgefallen, dass du deinen Einkauf gerade so ausbaust, dass du künftig deutlich mehr Eigenmarken ins Sortiment nehmt." |
+| „ich war gerade auf deiner Website: [abhebendes Detail]. [Kurzer positiver Schluss]" | „ich war gerade auf deiner Website: Bei dir bekommt jeder Kunde nach der Elektroinstallation eine Fotodokumentation aller Leitungen hinter dem Putz. Wer später ein Bild aufhängt, weiß dann, wo er bohren darf." |
+| „mir ist aufgefallen, dass [abhebendes Detail]. [Kurzer positiver Schluss]" | „mir ist aufgefallen, dass jedes Objekt bei dir ein festes Reinigungsteam hat, das man vorab mit Foto sieht. So weiß jeder Hausmeister, wer morgens kommt." |
 
-### Angle 4: Branchen-/Regional-Bezug (Fallback)
+**Auch Stellenanzeige oder Wachstum:** bei Recruiting-Offers oder wenn man über eine Anzeige etwas über den Betrieb erfährt. Anker ist die Erkenntnis, die die Anzeige über das Geschäft verrät (Wachstum, Spezialisierung, ein neues Projekt), nicht die Tatsache, dass gesucht wird. Nie „ich hab gesehen, dass du gerade [Position] suchst“.
 
-**Wann:** Website gibt wenig her, keine Reviews, keine Stellenanzeigen. Schwächster Angle, aber besser als nichts.
+| Vorlage | Echtes Beispiel |
+|:--------|:---------------|
+| „mir ist aufgefallen, dass du [Erkenntnis aus der Anzeige: Wachstum, Spezialisierung, Projekt]. [Kurzer positiver Schluss]" | „mir ist aufgefallen, dass du deinen Einkauf gerade so ausbaust, dass du künftig deutlich mehr Eigenmarken ins Sortiment nimmst. Damit bekommen deine Kunden Produkte, die es nur bei dir gibt." |
+
+### Angle 3: Anzahl und Schnitt der Bewertungen
+
+**Wann:** Kein Lob aus Bewertungstexten und kein abhebendes Website-Detail, aber ein Schnitt ab 4,5. Eine Mindestanzahl gibt es nicht; unter 4,5 keine Bewertungszahlen.
+**Anker:** Zahl gerundet, Schnitt mit Komma, Quelle im Einstieg. Werte aus dem Import (Google-Profil) gelten als Quelle; widersprechen sich Quellen, gilt der kleinere Wert.
+
+| Vorlage | Echtes Beispiel |
+|:--------|:---------------|
+| „ich hab mir deine Bewertungen angeschaut: [über N] Rezensionen mit einem Schnitt von [X,Y]. [Kurzer positiver Schluss]" | „ich hab mir deine Bewertungen angeschaut: über 200 Rezensionen mit einem Schnitt von 4,8. Wer neu einen Zahnarzt sucht, sieht daran, dass viele vor ihm gute Erfahrungen gemacht haben." |
+
+### Angle 4: Fallback der Kampagne (Branchen-/Regional-Bezug)
+
+**Wann:** Kein Anker besteht den Austauschtest. Schwächster Angle, aber besser als eine Floskel. Der Satz bleibt wörtlich, ohne angehängten Schluss, und behauptet nichts Unbelegtes über den Lead.
 
 | Vorlage |
 |:--------|
@@ -101,17 +195,19 @@ Aber der Opener ist kein Kompliment-Generator, sondern ein Beweis. Er beweist, d
 
 Das Intro ist Lob oder eine anerkennende Beobachtung: ein positiver Bezug auf den Lead, der beweist, dass jemand hingeschaut hat, getragen von einem konkreten Detail. Es ist KEINE Kritik und KEIN Verbesserungsvorschlag. Das Problem sind leere Lobadjektive ohne Inhalt, nicht das Lob selbst.
 
-Empfohlene Einstiege: „ich hab mir deine Bewertungen angeschaut ...", „mir ist aufgefallen, dass ...", „ich war gerade auf deiner Website: ...". Ein guter Einstieg darf über Leads hinweg gleich bleiben; das konkrete Detail ist es, das wechselt.
+Einstiege: keiner ist Standard. Die letzte Ziffer der Lead-ID entscheidet, ein Bewertungsanker nennt die Quelle (siehe „Einstiege abwechseln“).
 
 **MUSS:**
 
-- Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail. Austauschbare Bewertungsfloskeln („das spricht für sich", „das sieht man selten", „finde ich stark", „finde ich spannend", auch umgestellt wie „ich finde spannend, dass …") sind verboten (ListM8-Regel), und zwar auch als Beispielsatz: Modelle kopieren Beispiele
-- Bewertungsanker ist eine konkrete Paraphrase (was genau wird gelobt). Anzahl und Sternedurchschnitt nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt; Plural oder „immer wieder" nur, wenn mindestens 2 Bewertungen dieses Lob tragen
+- Abhebung statt Leistungsnennung: Der Opener besteht den Austauschtest und nennt kein Thema von der Sperrliste der Kampagne (außer als Lob aus Bewertungstexten). Ein Nutzen rettet keine Standardleistung
+- Nach der Beobachtung ein kurzer positiver Schluss, was daran gut ist oder wem es nützt, aus dem konkreten Detail gebildet (Leitplanken unter „Positiver Schluss“); der Fallback-Satz bleibt ohne Schluss
+- Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail. Austauschbare Bewertungsfloskeln und Superlative („das spricht für sich", „das sieht man selten", „das sieht man nicht immer", „finde ich stark", „finde ich spannend", „Hammer", „beeindruckend", auch umgestellt wie „ich finde spannend, dass …") sind verboten (ListM8-Regel), und zwar auch als Beispielsatz: Modelle kopieren Beispiele
+- Anker in der Rangfolge: Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder" nur, wenn mindestens 2 Bewertungen dieses Lob tragen), dann abhebendes Website-Detail, dann Anzahl und Schnitt als eigener Anker (nur ab 4,5, Zahl gerundet, Schnitt mit Komma, bei widersprüchlichen Quellen der kleinere Wert), dann der Fallback
 - Stellenanzeige: die Erkenntnis über den Betrieb nutzen (Wachstum, Spezialisierung, Projekt), ohne anzukündigen, dass der Betrieb sucht oder einstellt
 - Ein zweiter Satz ist konkret und wiederholt oder nimmt nicht vorweg, was der feste Text danach sagt. Beginnt der feste Text mit „Das hat mich neugierig gemacht.", darf kein Intro-Satz mit dieser Aussage davor stehen
 - Zuschreibung stimmt: Der angeschriebenen Person nie etwas zuschreiben, das einer anderen gehört (etwa den Podcast der Inhaberin in einer Mail an eine Mitarbeiterin). Die Person beim Namen nennen oder einen Anker wählen, der zur angeschriebenen Person gehört
 - Konkreter, verifizierbarer Bezug, den man nur kennt, wenn man wirklich auf Website/Shop/Bewertungen war
-- Maximal 2 Sätze
+- Maximal 2 Sätze, etwa 30 Wörter
 - Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,"); nur der erste Buchstabe ist klein, jeder weitere Satz beginnt groß. Substantive und Namen bleiben auch am Anfang groß („Kunden loben …“, nie „kunden loben …“)
 - Inhaltlich über den EMPFÄNGER schreiben, nie über den Absender; Einstiegsrahmen wie „ich hab mir … angeschaut“ oder „mir ist aufgefallen“ sind erlaubt und keine Selbstvorstellung
 - Locker und authentisch, Ton wie eine kurze Nachricht an einen Bekannten
@@ -142,43 +238,64 @@ festen Satz fortgesetzt, der mit "[FESTER FOLGESATZ, z. B. Deswegen war
 ich so frei ...]" beginnt.
 
 Aufgabe:
-Schreibe 1-2 Sätze die zeigen: "Ich habe mir dein Unternehmen angeschaut."
-Der Opener muss natürlich in das Marketing Offer überleiten.
+Schreibe 1-2 Sätze, insgesamt etwa 30 Wörter: eine Beobachtung, die diesen
+Betrieb von anderen seiner Branche abhebt, und danach einen kurzen
+positiven Halbsatz, was daran gut ist oder wem es nützt. Der Opener muss
+natürlich in das Marketing Offer überleiten.
 
-Angle-Hierarchie (in dieser Reihenfolge probieren):
+Was abhebt: ein Eigenname oder eigenes Konzept, eine ungewöhnliche Zeit
+oder Zahl, ein eigenes Verfahren, eine seltene Spezialisierung, eine
+Auszeichnung, ein Lob aus Bewertungen, auffällige Bewertungszahlen.
 
-Angle 1 - Kundenbewertungen (BESTER ANGLE):
-Wenn Bewertungen vorhanden (Google Reviews, Trusted Shops, Shop-Bewertungen),
-nutze eine konkrete Bewertung als Einstieg.
-Der Anker ist eine konkrete Paraphrase, was genau gelobt wird. Anzahl
-und Sterne nie allein und nie als erste Worte, höchstens als Beiwerk neben
-dem gelobten Inhalt. Plural oder "immer wieder" nur, wenn mindestens
-2 Bewertungen dieses Lob tragen.
-Beispiel: "ich hab mir deine Bewertungen angeschaut und einer deiner Kunden
-schreibt [PARAPHRASE]."
+AUSTAUSCHTEST: Passt dein Satz auf zehn andere Betriebe derselben Branche
+in der Stadt, ist er kein Aufhänger. Dann nimm den nächsten Anker,
+zuletzt den FALLBACK.
+- Ein Nutzen rettet keine Standardleistung.
+- Dasselbe Thema besteht als Lob aus Bewertungstexten (was Kunden über
+  DIESEN Betrieb schreiben), nicht als Zeile aus der Leistungsliste.
+- Fällt durch: [STANDARDLEISTUNG DER BRANCHE]. Besteht: [ABHEBENDER FUND
+  AUS DERSELBEN BRANCHE].
 
-Angle 2 - Website-Beobachtung:
-Wenn keine Reviews, nutze EIN auffälliges Detail (Feature, Spezialisierung)
-und wem es nützt. Eine bloße Feststellung ("du bietest X an", "du führst
-X auf", "seit 2002 für Y da") ist kein Aufhänger.
-Beispiel: "ich war gerade auf deiner Website: [ein konkretes Detail zu
-Spezialisierung oder Feature und wem es nützt]."
+SPERRLISTE (branchenübliche Leistungen, die keinen Opener tragen; erlaubt
+nur als Lob aus Bewertungstexten):
+[SPERRLISTE DER KAMPAGNE, meist 6-10 Begriffe aus Branche und Zielgruppe]
 
-Angle 3 - Stellenanzeige/Wachstum:
-Wenn eine Stellenanzeige oder Wachstum belegt ist, nutze die Erkenntnis,
-die sie über den Betrieb verrät (Wachstum, Spezialisierung, Projekt), und
-kündige nicht an, dass du suchst oder einstellst.
-Beispiel: "mir ist aufgefallen, dass du [ERKENNTNIS AUS DER ANZEIGE]."
+ANKER-REIHENFOLGE (nimm den ersten, der den Austauschtest besteht):
+1. Lob aus Bewertungstexten: eine konkrete Paraphrase, was genau gelobt
+   wird. Plural oder "immer wieder" nur, wenn mindestens 2 Bewertungen
+   dieses Lob tragen.
+2. Abhebendes Detail von der Website, auch Wachstum oder eine
+   Stellenanzeige als Erkenntnis über den Betrieb (Wachstum,
+   Spezialisierung, Projekt). Kündige nie an, dass der Betrieb sucht oder
+   einstellt.
+3. Anzahl und Schnitt der Bewertungen als eigener Anker, nur bei einem
+   Schnitt ab 4,5: Zahl gerundet ("über 200"), Schnitt mit Komma ("4,8").
+   Werte aus dem Import (Google-Profil) gelten als Quelle; widersprechen
+   sich Quellen, nimm den kleineren Wert. Unter 4,5 keine Bewertungszahlen.
+4. FALLBACK.
 
-Angle 4 - Branchen-/Regional-Bezug:
-Wenn Website wenig hergibt, nutze Branche oder Region.
-Beispiel: "ich sehe, dass du in [REGION] im Bereich [BRANCHE] unterwegs bist."
+POSITIVER SCHLUSS: Nach der Beobachtung folgt ein kurzer Halbsatz, was
+daran gut ist oder wem es nützt (Wirkung, Zielgruppe oder eine
+Schlussfolgerung aus dem Detail). Nichts erfinden, nur was direkt aus dem
+Detail folgt (nie "deine Kunden lieben das", nie "alle positiv"). Keine
+Floskel und kein Superlativ ("finde ich stark", "Hammer", "das sieht man
+selten", "das sieht man nicht immer", "beeindruckend", "das spricht für
+sich"). Keine feste Wendung: bilde jeden Schluss aus dem konkreten Detail.
+Gilt auch bei Bewertungsankern, nicht beim FALLBACK.
+
+EINSTIEG: Kein Einstieg ist Standard. Wähle ihn nach der letzten Ziffer
+der Lead-ID: 0-2 "mir ist aufgefallen, dass ...", 3-5 "ich hab mir ...
+angeschaut", 6-7 "beim Stöbern auf deiner Website ...", 8-9 direkt mit
+dem Detail. Ein Bewertungsanker nennt immer die Quelle im Einstieg ("ich
+hab mir deine Bewertungen angeschaut, und ..."). Steht keine Lead-ID im
+Kontext, wähle den Einstieg passend zum Anker und nicht immer denselben.
 
 REGELN:
 - Deutsch mit korrekten Umlauten (ä, ö, ü, ß)
 - KEINE M-Striche und keine Gedankenstriche als Trenner, auch kein
-  Bindestrich mit Leerzeichen; Bindestriche nur innerhalb von Wörtern
-- Max. 2 Sätze
+  Bindestrich mit Leerzeichen; Bindestriche nur innerhalb von Wörtern;
+  Komma statt Strich
+- Max. 2 Sätze, etwa 30 Wörter
 - Locker und authentisch, NICHT werblich
 - Beginne mit Kleinbuchstabe (wird nach "Hallo ...," eingefügt); nur der
   erste Buchstabe ist klein, jeder weitere Satz beginnt groß; Substantive
@@ -201,21 +318,22 @@ REGELN:
 - Schreibe der angesprochenen Person nichts zu, das einer anderen Person
   gehört (z. B. den Podcast des Inhabers in einer Mail an eine Mitarbeiterin);
   nenne die Person dann beim Namen
-- Ohne konkretes Kundenlob sind auch erlaubt: ein Projekt, eine Referenz
-  oder Spezialisierung mit EINEM konkreten Detail, Firmengeschichte oder
-  Gründungsjahr (mit seinem Ereignis), Auszeichnungen und Siegel (ohne
-  Altersgrenze), Lage und Ausstattung. Eine Aufzählung von Leistungen oder
-  eine bloße Feststellung ist kein Aufhänger.
-- Wenn du KEIN belastbares Detail findest: gib den Fallback-Satz zurück,
+- Auch ein Projekt, eine Referenz, Firmengeschichte oder Gründungsjahr
+  (mit seinem Ereignis), Auszeichnungen und Siegel (ohne Altersgrenze),
+  Lage und Ausstattung können tragen, jeweils mit EINEM konkreten Detail
+  und nur, wenn sie den Austauschtest bestehen. Eine Aufzählung von
+  Leistungen ist nie ein Aufhänger.
+- Wenn kein Anker den Austauschtest besteht: gib den Fallback-Satz zurück,
   erfinde nichts, schreibe keine Floskel und keine Leistungsliste
 
-FALLBACK (wenn keine konkrete Beobachtung möglich; er behauptet nichts
-Unbelegtes über den Lead, z. B. nicht "so gut bewertet"):
+FALLBACK (wenn kein Anker den Austauschtest besteht; wörtlich, ohne
+angehängten Schluss; er behauptet nichts Unbelegtes über den Lead, z. B.
+nicht "so gut bewertet"):
 "als [BRANCHE]-Unternehmen in [REGION] bist du genau die Art Firma,
 die wir suchen"
 ```
 
-Die Vorlage steht im Singular (du/dein); bei `sie` auf Sie/Ihnen/Ihre umschreiben. Ein vollständig ausformulierter `intro`-Prompt steht in `beispiel-blueprint.md`.
+Die Vorlage steht im Singular (du/dein); bei `sie` auf Sie/Ihnen/Ihre umschreiben. Sperrliste und Gegensatzpaar füllst du aus Branche und Zielgruppe (siehe „Sperrliste je Kampagne“); das Gegensatzpaar nennt nur Funde, nie einen fertigen Satz oder Schluss. Ein vollständig ausformulierter `intro`-Prompt steht in `beispiel-blueprint.md`.
 
 ## Ein schwacher Opener ist schlechter als der Fallback
 
@@ -229,11 +347,13 @@ Vor dem Export immer mindestens 10 Leads im Review (`outreach-verify`, `get_lead
 
 | Prüfung | Verwerfen wenn |
 |:--------|:---------------|
-| Länge | Mehr als 2 Sätze |
+| Länge | Mehr als 2 Sätze oder deutlich über 30 Wörter |
 | Groß-/Kleinschreibung | Beginnt mit Großbuchstaben (passt dann nicht hinter die Anrede) |
 | Tonalität | Enthält Kritik, Mangel, Konjunktiv-Wunsch oder einen Ratschlag |
-| Konkretheit | Würde genauso auf 100 andere Firmen passen, oder das Lob besteht nur aus einem Adjektiv ohne Inhalt |
-| Bewertungsanker | Beginnt mit Anzahl oder Sternen, oder die Zahl steht ohne das gelobte Detail; „mehrere“/„immer wieder“ ohne mindestens 2 Bewertungen |
+| Austauschtest | Würde genauso auf zehn andere Betriebe derselben Branche in der Stadt passen, nennt eine Standardleistung (auch mit Nutzen), oder das Lob besteht nur aus einem Adjektiv ohne Inhalt |
+| Sperrliste | Der Anker steht auf der Sperrliste der Kampagne und ist kein Lob aus Bewertungstexten |
+| Positiver Schluss | Fehlt, ist eine Floskel oder ein Superlativ, behauptet etwas, das nicht direkt aus dem Detail folgt, oder hängt am Fallback-Satz |
+| Bewertungsanker | Zahlen bei einem Schnitt unter 4,5, ungerundete Zahl, Schnitt mit Punkt, der größere von zwei widersprüchlichen Werten, nur Zahlen, obwohl ein Lob aus Bewertungstexten belegt ist; „mehrere“/„immer wieder“ ohne mindestens 2 Bewertungen; Einstieg ohne Quelle |
 | Zuschreibung | Schreibt der angesprochenen Person etwas zu, das einer anderen gehört |
 | Wahrheit | Enthält Zahl, Name oder Fakt, der nicht aus dem Research kommt |
 | Form | Enthält Fragezeichen, Ausrufezeichen, Link oder M-Strich |
@@ -241,7 +361,7 @@ Vor dem Export immer mindestens 10 Leads im Review (`outreach-verify`, `get_lead
 | Übergang | Der feste Folgesatz („Genau deshalb ...", „Deswegen war ich so frei ...") schließt sich nicht flüssig an |
 | Absender | Schreibt über uns statt über den Empfänger |
 
-Wenn mehr als 2 von 10 Openern durchfallen, ist der Prompt das Problem, nicht der Lead. Dann Prompt nachschärfen (`export_campaign_blueprint` → `edit_campaign`, mit Zustimmung des Nutzers, weil das die erzeugten Werte löscht) und neu generieren.
+Wenn mehr als 2 von 10 Openern durchfallen, ist der Prompt das Problem, nicht der Lead. Dasselbe gilt, wenn mehr als ein Drittel gleich beginnt oder denselben Anker trägt. Dann Prompt nachschärfen (`export_campaign_blueprint` → `edit_campaign`, mit Zustimmung des Nutzers, weil das die erzeugten Werte löscht) und neu generieren.
 
 ## Wo der Opener steht - und wo nicht
 
@@ -268,7 +388,7 @@ Bei Karte A und C kommt zwischen Offer und CTA der Feinheiten-Satz als eigener A
 | Baustein | Was er macht | Beispiel |
 |:---------|:-------------|:---------|
 | **Ansprache** | Tür aufmachen | „Hallo Max," |
-| **Individueller Bezug** | Zeigen: ich hab mich mit dir beschäftigt | „ich war gerade auf deinem Shop und habe mir die Bewertungen angeschaut. Einer deiner Kunden schreibt, deine Lieferung sei schneller als bei Amazon." |
+| **Individueller Bezug** | Zeigen: ich hab mich mit dir beschäftigt | „ich hab mir deine Bewertungen angeschaut, und ein Kunde schreibt, dass deine Lieferung schneller war als bei Amazon. Das ist ein Grund, direkt bei dir statt bei Amazon zu bestellen." |
 | **Überleitung + Offer** | Nahtloser Brücken-Satz zum Angebot. KEIN Pitch. | „Deswegen war ich so frei und habe ein kurzes Video mit drei konkreten Hebeln für dich aufgenommen." |
 | **CTA** | EINE Handlung. Nicht zwei | „Wäre es in Ordnung, wenn ich es dir zusende? Völlig unverbindlich natürlich." |
 
@@ -429,15 +549,16 @@ Folge uns auf LinkedIn | Twitter | Instagram
 
 ## Vollständige Beispiele
 
-**Karte A, kostenlose Teildienstleistung (65 Wörter):**
+**Karte A, kostenlose Teildienstleistung (79 Wörter):**
 
 ```
 Betreff: Meeting {{ai.firma}} & Julia
 
 Hallo Max,
 
-ich war gerade auf deiner Website: Du reinigst ausschließlich
-Industrieanlagen und nennst dafür sogar die Zertifikate deines Teams.
+mir ist aufgefallen, dass jedes Objekt bei dir ein festes
+Reinigungsteam hat, das man vorab mit Foto sieht. So weiß jeder
+Hausmeister, wer morgens kommt.
 
 Genau deshalb bereiten wir aktuell für zwei Unternehmen in der Region
 München ein kostenloses Google Ads Setup vor.
@@ -452,16 +573,16 @@ Julia Weinmann
 Co-Founder - Weinmann Media
 ```
 
-**Karte C, Reziprozität (71 Wörter):**
+**Karte C, Reziprozität (86 Wörter):**
 
 ```
 Betreff: kurze Frage
 
 Hallo Max,
 
-ich war gerade auf deinem Shop und habe mir die Bewertungen angeschaut.
-Einer deiner Kunden schreibt, dass deine Lieferung schneller war als bei
-Amazon.
+ich hab mir deine Bewertungen angeschaut, und ein Kunde schreibt, dass
+deine Lieferung schneller war als bei Amazon. Das ist ein Grund, direkt
+bei dir statt bei Amazon zu bestellen.
 
 Deswegen war ich so frei und habe ein kurzes Video mit drei konkreten
 Hebeln für deinen Shop aufgenommen.
@@ -476,15 +597,16 @@ Angela Selbert
 Geschäftsführerin - njoy online marketing GmbH
 ```
 
-**Karte E, Partner gesucht (57 Wörter):**
+**Karte E, Partner gesucht (64 Wörter):**
 
 ```
 Betreff: Partnerschaft {{ai.firma}}?
 
 Hallo Max,
 
-du baust nachhaltig in Holz und machst auch Sanierungen im Bestand,
-also genau die Aufträge, bei denen viele Betriebe abwinken.
+mir ist aufgefallen, dass du Holzfenster im Denkmalschutz nachbaust,
+Profil für Profil nach dem Original. Damit behält ein Altbau sein
+Gesicht, auch wenn die Fenster neu sind.
 
 Genau solche Handwerksbetriebe suchen wir als Partner. Wir haben
 regelmäßig Anfragen von Bauherren in der Region, die genau solche
@@ -496,7 +618,7 @@ Max Huber
 Geschäftsführer - Huber Architekten
 ```
 
-Alle drei liegen zwischen 57 und 71 Wörtern - mitten im Korridor, in dem die abgenommenen Kampagnen arbeiten (55 bis 86). Gezählt ist der Body ohne Betreff und Signatur, Anrede und Bezug eingerechnet.
+Alle drei liegen zwischen 64 und 86 Wörtern, also im Korridor, in dem die abgenommenen Kampagnen arbeiten (55 bis 86). Gezählt ist der Body ohne Betreff und Signatur, Anrede und Bezug eingerechnet.
 
 ---
 
@@ -648,7 +770,7 @@ WARUM SCHLECHT:
 
 **So geht's besser:**
 
-„ich war gerade auf deinem Shop und habe mir die Bewertungen angeschaut. Einer deiner Kunden schreibt, dass deine Lieferung schneller war als bei Amazon. Deswegen war ich so frei und habe ein kurzes Video mit drei konkreten Hebeln zu deinem Online-Auftritt aufgenommen. / Ich bin gerade noch an den letzten Feinheiten dran, vor allem an den Beispielen für deine Startseite, und werde morgen mit dem Video fertig. / Wäre es in Ordnung, wenn ich es dir zusende? Völlig unverbindlich natürlich." (/ = neuer Absatz)
+„ich hab mir deine Bewertungen angeschaut, und ein Kunde schreibt, dass deine Lieferung schneller war als bei Amazon. Das ist ein Grund, direkt bei dir statt bei Amazon zu bestellen. Deswegen war ich so frei und habe ein kurzes Video mit drei konkreten Hebeln zu deinem Online-Auftritt aufgenommen. / Ich bin gerade noch an den letzten Feinheiten dran, vor allem an den Beispielen für deine Startseite, und werde morgen mit dem Video fertig. / Wäre es in Ordnung, wenn ich es dir zusende? Völlig unverbindlich natürlich." (/ = neuer Absatz)
 
 Kein Pitch. Vom Bezug direkt zum Offer. Fertig.
 
@@ -778,7 +900,7 @@ Vor dem Anlegen bzw. vor dem Export jede Mail mit dieser Liste prüfen.
 **Inhalt:**
 
 - [ ] Schreibe ich über den EMPFÄNGER oder über uns?
-- [ ] Ist der individuelle Bezug wirklich individuell und trägt ein konkretes Detail (keine Zahl allein, kein Lobadjektiv ohne Inhalt)?
+- [ ] Besteht der individuelle Bezug den Austauschtest (passt nicht auf zehn andere Betriebe der Branche, nichts von der Sperrliste außer als Bewertungslob), mit kurzem positivem Schluss aus dem Detail und ohne Lobadjektiv ohne Inhalt? Bewertungszahlen nur ab einem Schnitt von 4,5?
 - [ ] Stimmt die Anrede (Du-Form: Vorname der Person, der die Adresse gehört, bei generischen Adressen der Entscheider; sonst „Hallo,“)?
 - [ ] Ist das Offer konkret genug? (Würde ICH antworten?)
 - [ ] Kommt Social Proof erst im FUP2 (Step 3, neuer Thread), NICHT in der Entry Mail?
@@ -816,7 +938,7 @@ Wenn du eine fertige Mail prüfst (oder eine gerade geschriebene selbst kontroll
 5. **Wörter zählen.** Über dem Limit? Kürzen, nicht umformulieren.
 6. **Zeichen-Scan.** Gedankenstriche (— oder Bindestrich mit Leerzeichen als Trenner), Emojis, Bold, Bullets, Links - Zeichen für Zeichen durchgehen, nicht überfliegen. Gedankenstriche sind das häufigste KI-Signal und rutschen am leichtesten durch.
 7. **Spam-Scan.** Betreff und Body gegen die Trigger-Liste prüfen, „kostenlos" und „100 %" gegen die Regeln oben.
-8. **Konkretheits-Check.** Würde diese Mail genauso an 100 andere Firmen passen? Dann ist der Opener zu schwach.
+8. **Austauschtest.** Würde der Opener genauso auf zehn andere Betriebe derselben Branche in der Stadt passen? Dann ist er zu schwach: nächster Anker, zuletzt der Fallback.
 
 Bei jedem Fehler: korrigieren und den Durchlauf **von vorne** starten. Korrekturen erzeugen neue Fehler - besonders beim Kürzen.
 

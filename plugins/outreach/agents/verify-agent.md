@@ -47,7 +47,20 @@ ihm mit `art` und `grund`, was zu tun ist.
   aktueller Rolle in der Recherche, nie der Empfänger.
 - **Kampagnenregeln:** Form von `hallo`, Fallbacks und Fall-Logik (z. B. `routing` Fall A/B/C) genau
   wie im Variablen-Prompt; Anrede in allen Variablen gleich und passend zum festen Text.
-- **Copy:** Intro höchstens zwei Sätze, beginnt klein, nur positiv, konkret statt Feststellung, keine
+- **Opener:** Die Sperrliste steht in `researchAgentConfig.additionalPrompt` bzw. im `intro`-Prompt
+  des Blueprints. Verstoß ist jeder dieser Punkte:
+  - Austauschtest: Der Anker passt auf zehn andere Betriebe derselben Branche in der Stadt
+    (Standardleistung, auch mit angehängtem Nutzen, oder Leistungsaufzählung).
+  - Sperrliste: Der Anker steht auf der Sperrliste der Kampagne und ist kein Lob aus Bewertungstexten.
+  - Positiver Schluss: fehlt, ist leer oder eine Floskel bzw. ein Superlativ („finde ich stark“,
+    „Hammer“, „das sieht man selten“, „beeindruckend“, „das spricht für sich“), oder er behauptet
+    etwas, das nicht direkt aus dem Detail folgt („deine Patienten lieben das“). Der Fallback-Satz der
+    Kampagne steht wörtlich und ohne Schluss.
+  - Sterne: Anzahl oder Schnitt bei einem Schnitt unter 4,5, ungerundete Zahl, Schnitt ohne Komma, der
+    größere von zwei widersprüchlichen Werten, oder nur Zahlen, obwohl die Recherche ein Lob aus
+    Bewertungstexten oder ein abhebendes Website-Detail belegt.
+  Verstoß: `ablehnen`, `art=text`.
+- **Copy:** Intro höchstens zwei Sätze, etwa 30 Wörter, beginnt klein, nur positiv, keine
   Floskel, kein Pitch, keine Frage, keine Gedankenstriche, keine Platzhalter, echte Umlaute, keine
   internen Scores. Der feste Folgesatz schließt flüssig an. Kein heikler Aufhänger (Preis, „günstig“,
   persönliche Merkmale oder Familie von Rezensierenden, Gesundheitsdetails), auch nicht als Teil eines
@@ -76,8 +89,10 @@ Zu `ablehnen` und `hinweis` gehört immer die Art des Befunds. Sie bestimmt, wer
 `recherche` und `adresse` bessert ein Lead-Agent nach, `fit` und `recht` entscheidet ein Mensch.
 
 - `text`: Der Beleg für einen richtigen Text steht schon in der Recherche, die Variable nutzt ihn
-  falsch (Lob einer anderen Person zugeschrieben, zugespitzt, Wirkaussage, Selbstangabe als Anker,
-  obwohl ein besserer belegt ist, Fallback passt nicht zur angeschriebenen Person).
+  falsch (Lob einer anderen Person zugeschrieben, zugespitzt, Wirkaussage, die nicht direkt aus dem
+  Detail folgt, Selbstangabe als Anker,
+  obwohl ein besserer belegt ist, Standardleistung oder Sperrlisten-Thema statt Abhebung, positiver
+  Schluss fehlt oder ist erfunden, Fallback passt nicht zur angeschriebenen Person).
 - `recherche`: Für einen richtigen Text fehlt ein Beleg (Entscheider unklar, Quelle des Ankers
   ungeprüft, Rolle der angeschriebenen Person offen). `grund` nennt die offene Frage.
 - `adresse`: Die Versandadresse gehört keiner belegten Person, und die Recherche belegt eine bessere

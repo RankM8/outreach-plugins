@@ -198,29 +198,47 @@ nur „Viele Grüße“. Schlank: keine Auszeichnungen, Links, Telefonnummern od
 Das Intro ist Lob oder eine anerkennende Beobachtung: ein positiver Bezug auf den Lead, der
 beweist, dass jemand hingeschaut hat, getragen von einem konkreten Detail. Es ist KEINE Kritik
 und KEIN Verbesserungsvorschlag. Das Problem sind leere Lobadjektive ohne Inhalt, nicht das Lob.
-Bewährte Einstiege (dürfen über Leads hinweg gleich bleiben, das Detail wechselt): „ich hab mir
-deine Bewertungen angeschaut …“, „mir ist aufgefallen, dass …“, „ich war gerade auf deiner
-Website: …“.
+Gründe, Gegensatzpaare und Beispiele: `references/copy-lehre.md`, Abschnitt „Abhebung und
+Austauschtest“.
 
 MUSS:
 
-- Ausschließlich positiv: echtes Lob oder anerkennende Beobachtung, getragen vom konkreten Detail
-  selbst. Verboten sind austauschbare Bewertungsfloskeln wie „das spricht für sich“, „das sieht man
-  selten“, „finde ich stark“, „finde ich spannend“ – sie machen alle Opener gleich (ListM8-Regel,
-  gilt zusätzlich zu den Akquise-Regeln). Auch in Beispielen und Prompts nie als Muster stehen
-  lassen: Modelle kopieren Beispiele.
-- Konkreter, verifizierbarer Bezug, den man nur kennt, wenn man wirklich auf
-  Website/Shop/Bewertungen war. Angle-Reihenfolge: 1) Kundenbewertungen 2) Website-Feature/
-  Spezialisierung 3) Stellenanzeige/Wachstum 4) Branche/Region (Fallback).
-- Ohne konkretes Kundenlob sind auch diese Aufhänger erlaubt, jeweils mit EINEM konkreten Detail:
-  ein Projekt, eine Referenz oder Spezialisierung, die Firmengeschichte oder das Gründungsjahr
-  (mit seinem Ereignis), Auszeichnungen und Siegel (ohne Altersgrenze), Lage und Ausstattung.
-  Eine Aufzählung von Leistungen („A, B und C“) ist kein Aufhänger, ebenso keine bloße
-  Feststellung („du bietest X an“, „du führst X auf“, „seit 2002 für Y da“). Gibt die Recherche
-  nichts Konkretes her, steht der Fallback-Satz der Kampagne, nicht eine Leistungsliste.
-- Bewertungsanker ist eine konkrete Paraphrase: was genau wird gelobt. Anzahl und Sternedurchschnitt
-  nie allein und nie als erste Worte, höchstens als Beiwerk neben dem gelobten Inhalt. Plural
-  oder „immer wieder“ nur, wenn mindestens 2 Bewertungen dieses Lob tragen.
+- Abhebung statt Leistungsnennung: Das Intro nennt, was diesen Betrieb von anderen seiner Branche
+  abhebt: einen Eigennamen oder ein eigenes Konzept, eine ungewöhnliche Zeit oder Zahl, ein eigenes
+  Verfahren, eine seltene Spezialisierung, eine Auszeichnung, ein Lob aus Bewertungen, auffällige
+  Bewertungszahlen.
+- Austauschtest: Passt der Satz auf zehn andere Betriebe derselben Branche in der Stadt, ist er kein
+  Aufhänger. Dann den nächsten Anker nehmen, zuletzt den Fallback der Kampagne. Ein Nutzen rettet
+  keine Standardleistung. Dasselbe Thema besteht als Lob aus Bewertungstexten (was Kunden über
+  DIESEN Betrieb schreiben), nicht als Zeile aus der Leistungsliste. Eine Aufzählung von Leistungen
+  („A, B und C“) ist nie ein Aufhänger. Gegensatzpaar: „du bietest Badsanierung an“ fällt durch,
+  „jedes Bad vorab als begehbarer 3D-Rundgang“ besteht.
+- Sperrliste der Kampagne: Was in den Research-Vorgaben oder im `intro`-Prompt als branchenübliche
+  Leistung gesperrt ist, trägt kein Intro, außer als Lob aus Bewertungstexten.
+- Positiver Schluss: Nach der Beobachtung folgt ein kurzer Halbsatz, was daran gut ist oder wem es
+  nützt (Wirkung, Zielgruppe oder eine Schlussfolgerung aus dem Detail). Nichts erfinden, nur was
+  direkt aus dem Detail folgt. Keine Floskel, kein Superlativ, keine feste Wendung: jeden Schluss
+  aus dem konkreten Detail bilden, nie aus Beispielen übernehmen. Gilt auch bei Bewertungsankern;
+  der Fallback-Satz bleibt ohne Schluss.
+- Ausschließlich positiv, getragen vom konkreten Detail selbst. Verboten sind austauschbare
+  Bewertungsfloskeln und Superlative wie „das spricht für sich“, „das sieht man selten“, „das sieht
+  man nicht immer“, „finde ich stark“, „finde ich spannend“, „Hammer“, „beeindruckend“. Sie machen
+  alle Opener gleich (ListM8-Regel, gilt zusätzlich zu den Akquise-Regeln). Auch in Beispielen und
+  Prompts nie als Muster stehen lassen: Modelle kopieren Beispiele.
+- Anker-Rangfolge: 1) Lob aus Bewertungstexten (Paraphrase; Plural oder „immer wieder“ nur, wenn
+  mindestens 2 Bewertungen es tragen) 2) abhebendes Detail von der Website, auch Wachstum oder
+  Stellenanzeige als Erkenntnis 3) Anzahl und Schnitt der Bewertungen als eigener Anker, ohne
+  Mindestanzahl, nur bei einem Schnitt ab 4,5; Zahl gerundet („über 200“), Schnitt mit Komma
+  („4,8“); Werte aus dem Import (Google-Profil) gelten als Quelle, bei widersprüchlichen Quellen
+  der kleinere Wert; unter 4,5 keine Bewertungszahlen 4) Fallback der Kampagne. Die Reihenfolge
+  der Kampagne hat Vorrang, wo sie etwas anderes festlegt.
+- Einstiege abwechseln, keiner ist Standard: nach der letzten Ziffer der Lead-ID 0-2 „mir ist
+  aufgefallen, dass …“, 3-5 „ich hab mir … angeschaut“, 6-7 „beim Stöbern auf deiner Website …“,
+  8-9 direkt mit dem Detail. Ausnahme: Ein Bewertungsanker nennt im Einstieg die Quelle (siehe
+  unten). Beginnt mehr als ein Drittel einer Kampagne gleich, ist das ein systematischer Befund.
+- Auch ein Projekt, eine Referenz, die Firmengeschichte oder das Gründungsjahr (mit seinem
+  Ereignis), Auszeichnungen und Siegel (ohne Altersgrenze), Lage und Ausstattung können tragen,
+  jeweils mit EINEM konkreten Detail und nur, wenn sie den Austauschtest bestehen.
 - Stellenanzeige: die Erkenntnis nutzen, die sie über den Betrieb verrät (Wachstum,
   Spezialisierung, Projekt), nicht „ich hab gesehen, dass du gerade … suchst“. Nie „du
   stellst ein“ ankündigen.
@@ -232,7 +250,7 @@ MUSS:
   Namen nennen oder einen Anker wählen, der zur angeschriebenen Person gehört. Meint eine
   Bewertung jemanden ohne Namen („die Zahnärztin“) und hat der Betrieb mehrere davon, das Lob
   dem Betrieb zuschreiben („in deiner Praxis nimmt man sich Zeit“), nie „bei dir“.
-- Maximal 2 Sätze.
+- Maximal 2 Sätze, etwa 30 Wörter, ohne Gedankenstrich (Komma statt Strich).
 - Beginnt mit Kleinbuchstaben (folgt direkt auf „Hallo …,“). Nur der erste Buchstabe ist klein,
   jeder weitere Satz beginnt groß. Substantive und Namen bleiben auch am Anfang groß („Kunden
   loben …“, nie „kunden loben …“).
@@ -298,9 +316,18 @@ Der `intro`-Prompt MUSS enthalten:
 
 - Kontext: Absender, Angebot und den festen Folgesatz, an den das Intro anschließt (z. B.
   „Deswegen war ich so frei …“);
-- die Angle-Reihenfolge (Bewertungen > Website-Feature > Stellenanzeige > Branche/Region) samt
-  den Regeln zu Bewertungsanker (Paraphrase statt Zahl) und Stellenanzeige (Erkenntnis statt
-  „du suchst“);
+- die Abhebungs-Typen und den Austauschtest (zehn andere Betriebe derselben Branche in der Stadt;
+  ein Nutzen rettet keine Standardleistung), höchstens ein Gegensatzpaar aus der Branche als
+  Fund, nie als fertiger Satz;
+- die Sperrliste der Kampagne (dieselbe wie in `researchAgentConfig.additionalPrompt`);
+- die Anker-Rangfolge (Lob aus Bewertungstexten > abhebendes Website-Detail, auch Stellenanzeige
+  als Erkenntnis statt „du suchst“ > Anzahl und Schnitt > Fallback) samt Sterne-Regel: Zahlen
+  nur bei einem Schnitt ab 4,5, gerundet, mit Komma, Import-Werte als Quelle, bei Widerspruch der
+  kleinere Wert;
+- den positiven Schluss mit seinen Leitplanken (nichts erfinden, keine Floskel, kein Superlativ,
+  keine feste Wendung), ohne ausformulierte Beispiel-Schlüsse;
+- den Einstiegswechsel nach der letzten Ziffer der Lead-ID, mit Quelle im Einstieg bei
+  Bewertungsankern;
 - die Verbotsliste aus den Intro-Regeln, einschließlich der Floskeln „finde ich spannend/stark“;
 - Form: max. 2 Sätze, erster Buchstabe klein, weitere Sätze groß, über den Empfänger,
   Pronomen gemäß `salutation`;
@@ -446,8 +473,9 @@ oder Werte speicherst. Nach jeder Korrektur von vorne beginnen: Kürzungen erzeu
 10. Betreff von Step 1 und Step 3: 2-5 Wörter, kein Spam-Wort, keine Großschreibung, keine
     Ankündigung, Firmenname nur über `{{ai.firma}}`, Step 3 nicht gleich Step 1? Step 2 und Step 4
     ohne Betreff?
-11. Enthält der `intro`-Prompt die Angle-Reihenfolge, die Verbote UND einen Fallback-Satz, der
-    keine unbelegte Tatsache behauptet?
+11. Enthält der `intro`-Prompt Austauschtest, Sperrliste der Kampagne, Anker-Rangfolge mit
+    Sterne-Regel, positiven Schluss, Einstiegswechsel, die Verbote UND einen Fallback-Satz, der
+    keine unbelegte Tatsache behauptet? Steht dieselbe Sperrliste in den Research-Vorgaben?
 12. Passen `salutation`, `hallo`-Prompt und die Pronomen des festen Texts zusammen (kein
     „Hallo Herr/Frau …“, „… Team,“ oder „Hallo zusammen,“ mit Du-Text, kein du/euch-Mix, auch
     nicht ohne Ansprechpartner: „Hallo,“ und „dein Team“)?
@@ -488,7 +516,8 @@ Hinweis, der begründet werden muss.
 
 ## Verwandt
 
-- `references/copy-lehre.md` — Goldene Formel, Angle-Hierarchie, Überleitungsbausteine,
+- `references/copy-lehre.md` — Abhebung und Austauschtest (zentrale Opener-Regel mit
+  Gegensatzpaaren, Sperrliste, Einstiegswechsel), Goldene Formel, Angle-Hierarchie, Überleitungsbausteine,
   Feinheiten-Satz, Beispiele A/C/E, Follow-ups mit Varianten, 12 Gebote, Anti-Patterns,
   Zustellregeln, Prüfdurchlauf.
 - `references/marketing-offer.md` — Karten A-E im Detail, Werttest, Offer-Killer,

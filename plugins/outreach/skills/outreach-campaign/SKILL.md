@@ -29,7 +29,7 @@ Mindestens klären (fehlendes nachfragen, AskUserQuestion):
 2. **USPs** (2-4 Punkte) und **Tonalität** (z.B. locker-direkt vs. formal).
 3. **CTA/Offer**: Was ist der konkrete nächste Schritt (z.B. "Website-Vorschau schicken")?
 4. **Qualifizierung**: Wer ist ideal, was disqualifiziert?
-5. **Research-Fokus**: Wonach soll die Recherche suchen (Aufhänger-Prioritäten — steuert die Recherche-Agenten der Kampagne)?
+5. **Research-Fokus**: Wonach soll die Recherche suchen (Aufhänger-Prioritäten — steuert die Recherche-Agenten der Kampagne)? Dazu die Sperrliste: welche Leistungen bietet in dieser Branche fast jeder an (Vorschlag aus Branche und Zielgruppe machen, Nutzer ergänzt)?
 6. **Sequenz**: Standard sind 4 Steps mit `delayDays` 0/3/5/7 (Entry, Erinnerung, neuer Winkel in neuem Thread, Abschied mit Routing-Hinweis; Rollen und Wortlimits: Skill `outreach-copy`). Eine Dringlichkeits-Mail gibt es nur als zusätzlichen Step, wenn der Nutzer einen echten Grund nennt.
 7. **Absender und Belege**: Name, Rolle und Firma für die Signatur; ein echter Beleg für Step 3 (Case, Zahl, Ergebnis); nur wenn der Nutzer eine Dringlichkeits-Mail will, zusätzlich ein echter Kapazitäts- oder Zeitgrund. Nichts davon erfinden.
 
@@ -47,7 +47,7 @@ aktualisieren (Skill `outreach-update`).
 | Skill `outreach-copy` (dazu `references/copy-lehre.md`, `references/marketing-offer.md`, `references/beispiel-blueprint.md`, `references/routing-baustein.md` dort) | Sequenz, Betreffzeilen, Signatur, `emailAgentConfig.salutation`, Prompts der AI-Variablen |
 | `references/copywriting.md` (hier) | nur Verweis auf `outreach-copy` |
 | `references/qualifizierung.md` | `qualificationSettings`: inklusiv formulieren, Disqualifier nur harte No-Gos — die Qualifizierung ist ein OFFENER Vorfilter |
-| `references/research.md` | `researchAgentConfig`: Anker-Hierarchie (Bewertungen zuerst), Anker positiv, Schmerzpunkte getrennt |
+| `references/research.md` | `researchAgentConfig`: Anker-Hierarchie (Bewertungen zuerst), Austauschtest, Sperrliste je Kampagne, Anker positiv, Schmerzpunkte getrennt |
 
 Dazu die Offer-Regel: Ohne konkretes Deliverable keine Copy — heißt das Angebot "Analyse",
 "Audit", "Erstgespräch" o.ä., erst das Offer mit dem Nutzer schärfen (Werttest: spart Zeit,
@@ -90,7 +90,7 @@ Struktur (Schema v1 — die vollständige Referenz liefert der MCP-Prompt `campa
   },
   "aiVariables": [
     {"name": "hallo", "prompt": "<Anrede-Anweisung, min 10 Zeichen>", "sortOrder": 1},
-    {"name": "intro", "prompt": "<Lob-Opener-Anweisung mit Research-Prioritäten>", "sortOrder": 2}
+    {"name": "intro", "prompt": "<Opener-Anweisung mit Austauschtest, Sperrliste, Anker-Rangfolge, positivem Schluss, Einstiegswechsel>", "sortOrder": 2}
   ],
   "sequence": { "steps": [ {"stepNumber": 1, "subject": "kurze Frage", "body": "{{ai.hallo}}\n\n{{ai.intro}}\n\n...", "delayDays": 0, "delayUnit": "days"} ] }
 }
@@ -105,6 +105,7 @@ Struktur (Schema v1 — die vollständige Referenz liefert der MCP-Prompt `campa
     - Bei langen Namen gilt der Markenkern, den ein Kollege sagt: „ALN Architekturbüro Leinhäupl + Neuber“ → „ALN“.
     - Wörter in Versalien normal schreiben („DREI ARCHITEKTEN“ → „Drei Architekten“); Abkürzungen bis 4 Buchstaben bleiben („ALN“, „HOFF“).
   - `intro`: Der Prompt sagt ausdrücklich, dass nur der ERSTE Buchstabe klein ist und jeder weitere Satz groß beginnt. Ohne den Satz schrieb das Modell „… selten sieht. das finde ich stark."
+- **Sperrliste je Kampagne (Pflicht):** Aus Branche und Zielgruppe die branchenüblichen Leistungen ableiten, die keinen Opener tragen (meist 6 bis 10 Begriffe: was steht bei fast jedem Betrieb dieser Branche auf der Leistungsseite?), und gleichlautend in `researchAgentConfig.additionalPrompt` UND in den `intro`-Prompt eintragen. Beispiel Dental: Angstpatienten, Lachgas, Sedierung/Narkose, Kinderbehandlung, Notdienst, Prophylaxe/Dentalhygiene, digitaler Scan/Abdruck, Implantate allgemein. Regel und Hintergrund: `outreach-copy` → `references/copy-lehre.md`, Abschnitt „Abhebung und Austauschtest“. Die Liste dem Nutzer mit dem Blueprint zeigen.
 - Ansprache in `emailAgentConfig.salutation` festlegen: Standard `"du"` (Singular), `"sie"` nur, wenn der Nutzer die Kampagne siezen will (sehr große Unternehmen), nie `"team"` (keine Ihr- und Team-Form, ohne Ansprechpartner „Hallo,“ und „dein Team“). Sie gilt für alle generierten Variablen einer Mail. Fehlt der Wert, leitet der Server sie aus Ton und Sprache ab; `salutation` setzen ist sicherer. Zusätzlich `emailLanguage` (z. B. „Deutsch (DACH)") und `emailTone` angeben.
 - Platzhalter in Betreff und Body: nur `{{ai.<variable>}}`, `{{lead.<feld>}}` (`email`, `company`, `website`, `phoneNumber`, `city`) und `{{custom.<schlüssel>}}`. Alles andere (`{{firstName}}`, `{{companyName}}`, If-Blöcke, Default-Syntax) wird nicht aufgelöst und bleibt als Text in der Mail stehen. Sequenz-Bodies nutzen `{{ai.hallo}}`, `{{ai.intro}}` und `{{ai.firma}}`; Step 1 hat `delayDays: 0`.
 - `subject` ist ein String: Step 1 und Step 3 mit eigenem kurzen Betreff (jeweils ein neuer Thread, Step 3 z. B. „kurzes Update“), Step 2 und Step 4 leer (sie antworten im Thread der vorigen Betreff-Mail, siehe `outreach-copy`). Der Betreff nennt einen Firmennamen nur über `{{ai.firma}}`. `delayUnit` ist `days` oder `hours`, `delayDays` eine ganze Zahl >= 0.
@@ -115,7 +116,7 @@ Struktur (Schema v1 — die vollständige Referenz liefert der MCP-Prompt `campa
 - `qualificationSettings` IMMER mit den kanonischen snake_case-Schlüsseln füllen: `target_customer_profile`, `offer_summary`, `fit_criteria`, `disqualifiers`, `additional_prompt` (optional `taxonomy_instructions`). Die camelCase-Aliasse (`idealCustomer`, `offerSummary`, `fitCriteria`, `additionalInstructions`, `taxonomyInstructions`) wertet die Laufzeit zwar aus, die Oberfläche zeigt die Felder dann aber als „Noch nicht ausgefüllt". Auch wenn der `campaign_blueprint_guide` die Aliasse nennt: kanonisch schreiben.
 - Recherche-Auftrag als `researchAgentConfig.additionalPrompt` setzen, nicht nur als `researchGoals`/`researchPriorities`: sonst zeigt die Oberfläche „Standard-Prompt aktiv". E-Mail-Ton, Sprache und Ansprache gehören in `emailAgentConfig` (`emailTone`, `emailLanguage`, `salutation`, ggf. `additionalPrompt`).
 
-Blueprint dem User zur Bestätigung zeigen (kompakt: Name, Variablen, Step-Betreffs, Kriterien), DANN erstellen.
+Blueprint dem User zur Bestätigung zeigen (kompakt: Name, Variablen, Step-Betreffs, Kriterien, Sperrliste), DANN erstellen.
 
 ## Phase 3: Erstellen / Bearbeiten
 
@@ -137,7 +138,7 @@ Keine Leads in die Kampagne (`add_leads_to_campaign`, `import_leads` mit Kampagn
 
 1. `export_campaign_blueprint(campaign_id)` lesen und prüfen:
    - `qualificationSettings` enthält die fünf Pflichtfelder unter den kanonischen Schlüsseln, jeweils nicht leer und auf diese Zielgruppe und dieses Angebot geschrieben. Stehen dort camelCase-Aliasse, per `edit_campaign` (Vollersatz, Ablauf aus Phase 3) auf die kanonischen Schlüssel umziehen.
-   - `researchAgentConfig.additionalPrompt` ist kampagneneigen (nicht leer, nicht nur `researchGoals`/`researchPriorities`).
+   - `researchAgentConfig.additionalPrompt` ist kampagneneigen (nicht leer, nicht nur `researchGoals`/`researchPriorities`) und enthält die Sperrliste; dieselbe Sperrliste steht im `intro`-Prompt.
    - `emailAgentConfig` legt Sprache, Ansprache (`salutation`) und Ton fest.
    - Variablen `hallo` und `intro` sind vorhanden (`firma` optional); Schritte nutzen nur erlaubte Platzhalter.
 2. Dem Nutzer das Ergebnis als kurze Tabelle nennen (Feld, gesetzt ja/nein, erste Worte). Fehlt etwas: ergänzen oder nachfragen, NICHT mit Leads weitermachen.

@@ -59,9 +59,20 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
   der Auftrag „Nachbessern“ mit `art=recherche` (unten): Er ergänzt, ohne zu kürzen.
 
 - `researchGeneration.config` bestimmt, WONACH du suchst; `agent.additionalPrompt` gilt zusätzlich.
-- Website und relevante Unterseiten (Leistungen, Über uns, Team, Referenzen, Impressum, Kontakt) per
-  WebFetch; WebSearch für öffentliche Signale (Bewertungen, Verzeichnisse), wenn die Website wenig
-  hergibt.
+- Bewertungen ZUERST, nicht erst wenn die Website wenig hergibt (so verlangen es die Kampagnen):
+  WebSearch nach dem Betrieb mit „Bewertungen“ liefert nur Links. Die Treffer von Bewertungsportalen
+  per WebFetch öffnen (z. B. medicosearch, doktor.ch, local.ch, search.ch, jameda, docfinder,
+  Trustpilot, Branchenportale) und festhalten, was Kunden konkret über DIESEN Betrieb loben und wie
+  viele Bewertungen dieses Lob tragen. Google Maps und Google-Seiten sind per WebFetch nicht lesbar:
+  nicht versuchen. Anzahl und Schnitt aus den Lead-Attributen des Imports (Google-Profil) gelten als
+  Quelle; widersprechen sich Quellen, gilt der kleinere Wert.
+- Danach Website und relevante Unterseiten (Leistungen, Über uns, Team, Referenzen, Impressum,
+  Kontakt) per WebFetch: Was hebt den Betrieb von anderen seiner Branche ab (eigener Name oder
+  eigenes Konzept, ungewöhnliche Zeit oder Zahl, eigenes Verfahren, seltene Spezialisierung,
+  Auszeichnung)?
+- Sperrliste der Kampagne (in den Research-Vorgaben oder im `intro`-Prompt) beachten: gesperrte
+  Standardleistungen nie als Aufhänger vormerken, außer als Lob aus Bewertungstexten. Ebenso nichts,
+  was auf zehn andere Betriebe derselben Branche in der Stadt passt (Austauschtest).
 - Ermitteln: konkrete, belegte Aufhänger; Entscheider (Name, Rolle); die Versandadresse, über die die
   Entscheidungsperson am wahrscheinlichsten erreicht wird (belegte persönliche Adresse vor
   Funktionsadresse vor info@/kontakt@, auch Freemail; nur mit Fundstelle, nie geraten, nie als Bounce bekannt).
@@ -88,10 +99,25 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
   Team-Anrede, gilt sie, auch wenn der Entscheider bekannt ist. Nur wenn der Prompt dazu nichts sagt:
   Du-Form „Hallo Vorname,“ (bei Sammeladressen der belegte Entscheider), ohne Person „Hallo,“. Intro max. 2 Sätze, beginnt klein, nur positiv, konkret belegt, keine Kritik,
   keine Floskel, kein Pitch, keine erfundene Zahl, keine Gedankenstriche; keine internen Scores.
-- Intro-Gegenprobe: Eine bloße Feststellung („du bietest X an“, „du machst Y mit dem Mikroskop“) ist
-  kein Aufhänger; sie braucht, was daran besonders ist oder wem es nützt, sonst gilt der Fallback der
-  Kampagne. Erfolgsaussagen der Praxis über sich selbst („konnte die Kariesrate senken“) nicht als
-  Ergebnis wiedergeben, nur das Tun benennen. Höchstens etwa 30 Wörter.
+- Intro-Gegenprobe vor dem Speichern, Punkt für Punkt:
+  - Rangfolge: Lob aus Bewertungstexten, dann abhebendes Detail von der Website (auch Wachstum oder
+    Stellenanzeige als Erkenntnis), dann Anzahl und Schnitt der Bewertungen, dann der Fallback der
+    Kampagne. Legt die Kampagne eine andere Reihenfolge fest, gilt ihre.
+  - Austauschtest: Passt der Satz auf zehn andere Betriebe derselben Branche in der Stadt, ist er kein
+    Aufhänger: nächster Anker, zuletzt der Fallback. Ein Nutzen rettet keine Standardleistung.
+  - Sperrliste: Steht der Anker auf der Sperrliste der Kampagne, trägt er nur als Lob aus
+    Bewertungstexten, sonst nächster Anker.
+  - Sterne: Anzahl und Schnitt nur bei einem Schnitt ab 4,5, Zahl gerundet („über 200“), Schnitt mit
+    Komma („4,8“), bei widersprüchlichen Quellen der kleinere Wert. Unter 4,5 keine Bewertungszahlen.
+  - Positiver Schluss: Nach der Beobachtung ein kurzer Halbsatz, was daran gut ist oder wem es nützt,
+    aus diesem Detail gebildet. Nichts erfinden, keine Floskel, kein Superlativ, keine Wendung aus
+    Beispielen. Gilt auch bei Bewertungsankern; der Fallback-Satz bleibt wörtlich und ohne Schluss.
+  - Einstieg nach der letzten Ziffer deiner Lead-ID: 0-2 „mir ist aufgefallen, dass …“, 3-5 „ich hab
+    mir … angeschaut“, 6-7 „beim Stöbern auf deiner Website …“, 8-9 direkt mit dem Detail. Ein
+    Bewertungsanker nennt immer die Quelle im Einstieg („ich hab mir deine Bewertungen angeschaut,
+    und …“).
+  - Erfolgsaussagen der Praxis über sich selbst („konnte die Kariesrate senken“) nicht als Ergebnis
+    wiedergeben, nur das Tun benennen. Höchstens 2 Sätze, etwa 30 Wörter, Komma statt Strich.
 - Speichern: `save_lead_variables(campaign_id, lead_id, variables="<JSON-String mit allen Variablen
   aus emailGeneration.expectedOutput>")`.
 
@@ -114,19 +140,20 @@ vorhandene Werte, die der Befund nicht betrifft, bleiben unverändert.
      `write_lead_details(campaign_id, lead_id, fields={research: "<gesamter Text>"})`. Nie etwas aus dem
      vorhandenen Bericht streichen. Danach weiter wie bei `text`. Bleibt die Frage offen, nichts schreiben.
    - `text`: Nur die Variablen neu schreiben, die der Befund nennt, nach ihrem Prompt und den Regeln aus
-     Schritt 4. Einen anderen Anker nur nehmen, wenn er in der Recherche belegt ist. Meldet die
-     Recherche „kein starker Anker“ oder trägt keiner, nicht den schwächsten Fund zum Lob machen, sondern
-     erst wie bei `recherche` die Bewertungsquellen selbst lesen: ein konkretes Lob, das mindestens zwei
-     Bewertungen tragen oder eine einzelne aus den letzten 18 Monaten, möglichst über die angeschriebene
-     Person (Herzlichkeit, Erklären, Zeit nehmen). Erst wenn auch dort nichts trägt, gilt der Fallback der
-     Kampagne.
+     Schritt 4. Einen anderen Anker nur nehmen, wenn er in der Recherche belegt ist, den Austauschtest
+     besteht und nicht auf der Sperrliste steht. Meldet die Recherche „kein starker Anker“ oder trägt
+     keiner, nicht den schwächsten Fund zum Lob machen, sondern erst wie bei `recherche` die
+     Bewertungsportale selbst lesen: ein konkretes Lob, das mindestens zwei Bewertungen tragen oder eine
+     einzelne aus den letzten 18 Monaten, möglichst über die angeschriebene Person. Trägt dort kein Lob,
+     gilt ein abhebendes Website-Detail, dann Anzahl und Schnitt (nur ab 4,5), erst danach der Fallback
+     der Kampagne.
 3. `save_lead_variables` mit ALLEN Variablen (unveränderte mit ihrem bisherigen Wert). Nie freigeben,
    nie ablehnen: Die Gegenprüfung macht ein anderer Agent.
 
 ## Antwort
 
 Am Ende NUR eine Zeile:
-`OK lead=<id> fit=<fitLevel> recherche=<neu|vorhanden|übersprungen> mail=<gespeichert|übersprungen> aufhänger=<kurz>`
+`OK lead=<id> fit=<fitLevel> recherche=<neu|vorhanden|übersprungen> mail=<gespeichert|übersprungen> aufhänger=<Thema des Ankers in 2–4 Wörtern, z. B. Bewertungslob Erklären, Fallback>`
 bzw. nach „Nachbessern“
 `NACHGEBESSERT lead=<id> art=<…> geändert=<z. B. intro, hallo, adresse, recherche> neu=<kurz: neuer Anker bzw. Adresse>`
 oder `UNVERÄNDERT lead=<id> art=<…>: <warum nicht behebbar>`
