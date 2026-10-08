@@ -36,6 +36,14 @@ eine als Datei abgelegte Antwort von einem anderen Agenten überschrieben sein. 
 (Kriterien), `researchGeneration` (Recherche-Vorgaben), `emailGeneration` (System-Prompt, Ansprache,
 Variablen) sowie die vorhandene Qualifizierung und Recherche.
 
+**Quelle der Regeln:** Der Server ist maßgeblich. Liefert `get_lead_data` die Felder
+`researchGeneration.anchorRules` (Anker-Regeln der Recherche), `researchGeneration.campaignFrame`
+(Sperrliste und Anker-Reihenfolge der Kampagne) und in `emailGeneration.systemPrompt` die Opener-Regeln
+samt Block `EINSTIEG DES OPENERS`, gelten diese; die Regeltexte in Schritt 3 und 4 unten sind dann nur
+Gedächtnisstütze und treten bei Widerspruch zurück. Fehlen die Felder (älterer Server), gelten die
+Regeln unten. Die Werkzeug-Hinweise (Suche liefert nur Links, Portale öffnen, Google nicht lesbar)
+gelten immer.
+
 ### 2. Qualifizieren (wenn in dieser Kampagne noch kein Urteil `completed` vorliegt)
 
 - `qualificationGeneration.settings` sind maßgeblich (Zielkunde, Fit-Kriterien, Disqualifier),
@@ -58,7 +66,8 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
   eine vorhandene Recherche wird nie überschrieben, auch nicht mit einer besseren. Einzige Ausnahme ist
   der Auftrag „Nachbessern“ mit `art=recherche` (unten): Er ergänzt, ohne zu kürzen.
 
-- `researchGeneration.config` bestimmt, WONACH du suchst; `agent.additionalPrompt` gilt zusätzlich.
+- `researchGeneration.config` bestimmt, WONACH du suchst; `agent.additionalPrompt` gilt zusätzlich,
+  `anchorRules` und `campaignFrame` (falls vorhanden) bestimmen, was als Aufhänger zählt.
 - Bewertungen ZUERST, nicht erst wenn die Website wenig hergibt (so verlangen es die Kampagnen):
   WebSearch nach dem Betrieb mit „Bewertungen“ liefert nur Links. Die Treffer von Bewertungsportalen
   per WebFetch öffnen (z. B. medicosearch, doktor.ch, local.ch, search.ch, jameda, docfinder,
@@ -88,9 +97,9 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
 
 ### 4. Mail-Variablen schreiben
 
-- Vorher den Skill `outreach:outreach-copy` laden (Abschnitte „Anrede und Ansprache“ und
-  „Intro-Regeln“); steht dir kein Skill-Werkzeug zur Verfügung, gelten die Regeln aus
-  `emailGeneration.systemPrompt`.
+- Maßgeblich ist `emailGeneration.systemPrompt` (Server-Regeln für Anrede, Opener, Einstieg). Nur wenn
+  er keine Opener-Regeln enthält (älterer Server), den Skill `outreach:outreach-copy` laden (Abschnitte
+  „Anrede und Ansprache“ und „Intro-Regeln“).
 - `emailGeneration.systemPrompt`, `salutation`/`salutationRule` und `campaignContext` lesen; für jede
   Variable in `emailGeneration.variables` den Text nach ihrem Prompt schreiben, mit dem, was du in
   Schritt 2 und 3 über den Lead gelernt hast.
@@ -112,7 +121,7 @@ Variablen) sowie die vorhandene Qualifizierung und Recherche.
   - Positiver Schluss: Nach der Beobachtung ein kurzer Halbsatz, was daran gut ist oder wem es nützt,
     aus diesem Detail gebildet. Nichts erfinden, keine Floskel, kein Superlativ, keine Wendung aus
     Beispielen. Gilt auch bei Bewertungsankern; der Fallback-Satz bleibt wörtlich und ohne Schluss.
-  - Einstieg nach der letzten Ziffer deiner Lead-ID: 0-2 „mir ist aufgefallen, dass …“, 3-5 „ich hab
+  - Einstieg: wie im Block `EINSTIEG DES OPENERS` des System-Prompts; fehlt er, nach der letzten Ziffer deiner Lead-ID: 0-2 „mir ist aufgefallen, dass …“, 3-5 „ich hab
     mir … angeschaut“, 6-7 „beim Stöbern auf deiner Website …“, 8-9 direkt mit dem Detail. Ein
     Bewertungsanker nennt immer die Quelle im Einstieg („ich hab mir deine Bewertungen angeschaut,
     und …“).

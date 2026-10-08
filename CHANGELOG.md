@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-08 – outreach 0.3.23
+
+**outreach** (Server ist die eine Quelle der Opener-Regeln)
+- `lead-agent` nimmt die Regeln aus `get_lead_data` als maßgeblich: `researchGeneration.anchorRules` und `campaignFrame` für die Recherche, `emailGeneration.systemPrompt` mit dem Block `EINSTIEG DES OPENERS` für die Mail. Die Regeltexte im Plugin gelten nur noch, wenn ein älterer Server diese Felder nicht liefert.
+
 ## 2026-10-08 – outreach 0.3.22
 
 **outreach** (Copy-Beratung zu Opener und Angle-Bibliothek nach den Haiku-Läufen Dental: viele Opener nannten Standardleistungen wie Angstpatienten oder Lachgas, Anzahl und Schnitt der Bewertungen blieben ungenutzt)
