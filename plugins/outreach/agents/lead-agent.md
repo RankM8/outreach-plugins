@@ -108,6 +108,7 @@ gelten immer.
   Team-Anrede, gilt sie, auch wenn der Entscheider bekannt ist. Nur wenn der Prompt dazu nichts sagt:
   Du-Form „Hallo Vorname,“ (bei Sammeladressen der belegte Entscheider), ohne Person „Hallo,“. Intro max. 2 Sätze, beginnt klein, nur positiv, konkret belegt, keine Kritik,
   keine Floskel, kein Pitch, keine erfundene Zahl, keine Gedankenstriche; keine internen Scores.
+  Anführungszeichen nur als „…“, geschlossen mit “, nie mit dem geraden Zeichen (").
 - Intro-Gegenprobe vor dem Speichern, Punkt für Punkt:
   - Rangfolge: Lob aus Bewertungstexten, dann abhebendes Detail von der Website (auch Wachstum oder
     Stellenanzeige als Erkenntnis), dann Anzahl und Schnitt der Bewertungen, dann der Fallback der
@@ -137,7 +138,9 @@ gelten immer.
   - Erfolgsaussagen der Praxis über sich selbst („konnte die Kariesrate senken“) nicht als Ergebnis
     wiedergeben, nur das Tun benennen. Höchstens 2 Sätze, etwa 30 Wörter, Komma statt Strich.
 - Speichern: `save_lead_variables(campaign_id, lead_id, variables="<JSON-String mit allen Variablen
-  aus emailGeneration.expectedOutput>")`.
+  aus emailGeneration.expectedOutput>")`. Meldet das Tool `validation_failed: Unclosed quotation mark`,
+  ist der genannte Wert an einem geraden " abgeschnitten: Zitat mit “ schließen und den vollständigen
+  Text neu speichern.
 
 ## Auftrag „Nachbessern“
 

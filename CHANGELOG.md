@@ -1,37 +1,63 @@
 # Changelog
 
-## 2026-10-08 – outreach 0.3.27
+## 2026-10-10 – outreach 0.3.28
+
+**outreach** (Zusammenführung zweier paralleler Stände)
+- Enthält die veröffentlichten Stände 0.3.21–0.3.23 (Startdialog-Auswahl im Abo-Lauf, Grenzen des Zurücksetzens, Anführungszeichen) und die bisher unveröffentlichten Arbeitsstände 0.3.21–0.3.27 vom 07. und 08.10. (Abo-Lauf als Workflow, Opener-Regeln vom Server, Anrede, Sterne-Anker, positiver Schluss). Beide sind unten einzeln beschrieben.
+- `outreach-pipeline`: Startdialog-Auswahl und Abo-Lauf als Workflow (`outreach-abo-lauf`) zusammengeführt.
+- `lead-agent`: Anführungszeichen-Regel und `validation_failed`-Behandlung neben der Intro-Gegenprobe nach den Server-Regeln.
+
+## 2026-10-10 – outreach 0.3.23
+
+**outreach** (Prod: Intro an einem geraden Anführungszeichen abgeschnitten)
+- `outreach-copy` → Anführungszeichen nur als deutsches Paar „…“, geschlossen immer mit “, nie mit dem geraden Zeichen ("); neue harte Zeile in der Prüftabelle. Ein gerades Zeichen hinter „ beendet im JSON den String, das Objekt bleibt gültig und der Wert kommt abgeschnitten an.
+- `lead-agent` → dieselbe Regel beim Schreiben; meldet `save_lead_variables` `validation_failed: Unclosed quotation mark`, das Zitat schließen und den vollständigen Text neu speichern. Der Server lehnt solche Werte seit ListM8 vom 10.10.2026 ab.
+
+## 2026-10-08 – outreach 0.3.22
+
+**outreach** (Abo-Prompt aus dem Startdialog der App, MCP 2.1.0)
+- `outreach-pipeline` → Abo-Lauf übernimmt eine vorgegebene Auswahl: Enthält der Auftrag einen `list_leads`-Aufruf (Listen-Modus mit `run_stages`, so kopiert ihn der Startdialog „KI-Verarbeitung starten“) oder Lead-IDs, gilt genau diese Auswahl mit den genannten Stufen. Der Aufruf läuft einmal unverändert, die Leads kommen aus `lead_ids` und werden vor dem ersten Agenten festgehalten (kein Blättern mit `offset`: bearbeitete Leads fallen aus der Auswahl). Fehlt `applied_filters`, sind Server oder Verbindung zu alt: abbrechen statt mit der Standardauswahl weiterzumachen. Keine Rückfrage nach Laufart oder Anzahl mehr, wenn die Auswahl feststeht; Fortschritt nur für die Stufen des Laufs; der Agent bekommt die Stufen im Auftrag.
+- `outreach-pipeline` → Server-Lauf: `select_by_filter` kennt nur die Basisfilter, eine Auswahl mit den Listenfiltern geht über `list_leads` und `lead_ids`.
+- `outreach-qualify`, `outreach-research`, `outreach-generate` → eine vorgegebene Auswahl gilt statt der Warteschlange der Phase; `outreach-generate` erwähnt den Listen-Modus bei den Parametern von `list_leads`.
+
+## 2026-10-07 – outreach 0.3.21, datenbeschaffung 0.1.3
+
+**outreach**, **datenbeschaffung** (ListM8: versendete Leads ohne Reaktion können erneut durch die Pipeline)
+- `datenbeschaffung-referenzen` → `listm8-mcp.md`: `mark_leads_contacted` setzt mit `status="not_contacted"` nur noch kontaktierte Leads ohne Reaktion und mit beendeter Instantly-Sequenz zurück. Die übrigen bleiben unverändert und stehen je Grund in `reset_blocked`. Ein zurückgesetzter Lead bekommt beim nächsten Lauf neue Recherche und neue E-Mail und geht nur in eine andere Instantly-Kampagne.
+- `outreach-launch` → Phase 6: Weg für die neue Ansprache versendeter Leads (Pop-up im KI-Lauf, per MCP Reset plus `start_lead_run`) und die Grenzen des Resets.
+
+## 2026-10-08 – outreach Arbeitsstand 0.3.27 (unveröffentlicht, ausgeliefert mit 0.3.28)
 
 **outreach** (Messrunde: die Reaktion im positiven Schluss wurde wörtlich aus den zwei Mustern kopiert, 7 von 17 Schlüssen „das hat mir gut gefallen“ / „das fand ich eine schöne Idee“)
 - Die Reaktion kommt jetzt wörtlich aus dem Block `SCHLUSS DES OPENERS` im System-Prompt; der Server wählt je Lead eine von acht Formen über die Lead-ID (wie den Einstieg im Block `EINSTIEG DES OPENERS`). Bietet sich ein Nutzen an, bleibt der Nutzen vorn.
 - Fehlt der Block (älterer Server), variiert der Agent die Reaktion selbst und übernimmt die zwei bekannten Muster nicht wörtlich.
 - Angeglichen in `lead-agent` und `outreach-copy`.
 
-## 2026-10-08 – outreach 0.3.26
+## 2026-10-08 – outreach Arbeitsstand 0.3.26 (unveröffentlicht, ausgeliefert mit 0.3.28)
 
 **outreach** (Messrunde 30 Leads Dental: ein Drittel der neuen Schlüsse urteilte über die Qualität der Arbeit und klang wie die Begutachtung durch einen Fremden)
 - Positiver Schluss mit Rangfolge: 1) Nutzen oder Wirkung, wenn sie sich aus dem Detail anbietet; 2) sonst eine kurze persönliche Reaktion, die am Detail hängt und es benennt, in der Vergangenheit erzählt („das fand ich eine schöne Idee“, „hat mir gut gefallen“), nie allein und nie als feste Wendung; 3) nie ein Prüfer-Urteil über die Qualität der Arbeit („das wirkt vertrauenswürdig“, „so einen Schnitt hält man nur, wenn die Arbeit stimmt“, „da machst du vieles richtig“ u. a.).
 - Inhaltsleere Formeln bleiben verboten, ergänzt um „hat man nicht alle Tage“. Abgrenzung: „finde ich stark“ ist eine Formel, die Reaktion am benannten Detail ist erlaubt.
 - Angeglichen in `copy-lehre.md` (Abschnitt „Positiver Schluss“, Beispiel mit Reaktion, Prompt-Vorlage, Prüftabelle, Checkliste), `outreach-copy`, `lead-agent`, `verify-agent`, `outreach-verify`, `outreach-generate` und `beispiel-blueprint.md`. `verify-agent` nennt eine Reaktion wörtlich in `grund`, damit der Bericht dieselbe Reaktion bei mehreren Leads als systematischen Befund meldet. Gleichstand mit den Server-Regeln.
 
-## 2026-10-08 – outreach 0.3.25
+## 2026-10-08 – outreach Arbeitsstand 0.3.25 (unveröffentlicht, ausgeliefert mit 0.3.28)
 
 **outreach** (Messrunde 30 Leads Dental: Sterne-Anker mit 9 bis 40 Bewertungen trugen nicht, sie bekamen nur Note 2 bis 3)
 - Anzahl und Schnitt der Bewertungen sind als eigener Anker erst ab mindestens 30 Bewertungen UND einem Schnitt ab 4,5 erlaubt (vorher ohne Mindestanzahl, ab 4,5). Darunter gilt der nächste Anker bzw. der Fallback der Kampagne.
 - Angeglichen in `copy-lehre.md` (Rangfolge, Angle 3, Prompt-Vorlage, Prüftabelle, Checkliste), `outreach-copy`, `lead-agent` (Intro-Gegenprobe und Nachbesserung), `verify-agent` (Prüfblock Opener), `outreach-verify`, `outreach-generate`, `research.md` und `beispiel-blueprint.md`. Gleichstand mit den Server-Regeln.
 
-## 2026-10-08 – outreach 0.3.24
+## 2026-10-08 – outreach Arbeitsstand 0.3.24 (unveröffentlicht, ausgeliefert mit 0.3.28)
 
 **outreach** (Gleichstand mit den Server-Regeln zu Anrede und Zuschreibung)
 - `outreach-copy`, `copy-lehre`, `outreach-verify`, `verify-agent`: Die Person wird nie mit ihr/euch angesprochen, Tatsachen über einen Betrieb mit mehreren Personen dürfen aber mit ihr/euer stehen („dass ihr nach ISO 9001 zertifiziert seid“). Firmenleistungen gehören dem Betrieb, „du hast …“ nur bei eigener Leistung, Ein-Personen-Betrieb oder Personenmarke; kein du/ihr-Wechsel im selben Satz. Verify wertet „dass ihr … habt“ nicht mehr als Fehler.
 - `outreach-copy`: Anrede bei Adressen nur mit Nachnamen (instagram.leitner@) und bei weiteren allgemeinen Adressen (hello@, partnership@, business@, kooperation@ u. a.); Personenmarken und Ein-Personen-Betriebe immer mit Vornamen, auch hinter einer allgemeinen Adresse.
 
-## 2026-10-08 – outreach 0.3.23
+## 2026-10-08 – outreach Arbeitsstand 0.3.23 (unveröffentlicht, ausgeliefert mit 0.3.28)
 
 **outreach** (Server ist die eine Quelle der Opener-Regeln)
 - `lead-agent` nimmt die Regeln aus `get_lead_data` als maßgeblich: `researchGeneration.anchorRules` und `campaignFrame` für die Recherche, `emailGeneration.systemPrompt` mit dem Block `EINSTIEG DES OPENERS` für die Mail. Die Regeltexte im Plugin gelten nur noch, wenn ein älterer Server diese Felder nicht liefert.
 
-## 2026-10-08 – outreach 0.3.22
+## 2026-10-08 – outreach Arbeitsstand 0.3.22 (unveröffentlicht, ausgeliefert mit 0.3.28)
 
 **outreach** (Copy-Beratung zu Opener und Angle-Bibliothek nach den Haiku-Läufen Dental: viele Opener nannten Standardleistungen wie Angstpatienten oder Lachgas, Anzahl und Schnitt der Bewertungen blieben ungenutzt)
 - `copy-lehre.md` → neuer Abschnitt „Abhebung und Austauschtest“ als zentrale Opener-Regel: Abhebungs-Typen, Austauschtest (passt der Satz auf zehn andere Betriebe derselben Branche in der Stadt, ist er kein Aufhänger; ein Nutzen rettet keine Standardleistung), Gegensatzpaare aus Dental und Handwerk, positiver Schluss mit Leitplanken, Rangfolge der Anker (Lob aus Bewertungstexten > abhebendes Website-Detail > Anzahl und Schnitt als eigener Anker ab 4,5 > Fallback), Einstiege nach der letzten Ziffer der Lead-ID und eine Sperrliste branchenüblicher Leistungen je Kampagne. „Anzahl und Sterne nie allein“ entfällt. Angle-Hierarchie, Prompt-Vorlage, Prüftabelle und Beispiele angeglichen; die Beispiele bestehen den Austauschtest und tragen bewusst verschiedene Schlüsse.
@@ -42,7 +68,7 @@
 - `verify-agent`, `outreach-verify`, `outreach-generate`, `outreach-research` → prüfen bzw. recherchieren nach denselben Regeln; Verstoß ist `ablehnen` mit `art=text`.
 - `outreach-abo-lauf` → Der Bericht meldet einen systematischen Befund, wenn mehr als ein Drittel der Leads dasselbe Anker-Thema trägt.
 
-## 2026-10-07 – outreach 0.3.21
+## 2026-10-07 – outreach Arbeitsstand 0.3.21 (unveröffentlicht, ausgeliefert mit 0.3.28)
 
 **outreach** (Messung 07.10.: 30 Leads im Abo-Lauf, Einzel-Agents gegen Workflow)
 - Neuer Skill `outreach-abo-lauf`: Der Abo-Lauf läuft in Claude Code als ein Workflow. Je Lead baut der `lead-agent` (Haiku), eine Stichprobe prüft der `verify-agent` (Sonnet), Befunde zu Text, Recherche und Adresse werden in derselben Kette nachgebessert und gegengeprüft. Die Sitzung liest nur noch das Ergebnis statt jeder Agent-Meldung; die Steuerung kostete dadurch rund 90 % weniger. Dazu Fortsetzen nach Abbruch, `nur_pruefen` für bereits generierte Leads und Ausweichwege ohne Workflow bzw. ohne Subagents.

@@ -55,6 +55,8 @@ Vor dem Workflow `ping` und `list_campaigns` mit dem Auftrag abgleichen. Allgeme
 
 ## Phase 1: Leads laden
 
+Gibt der Auftrag einen `list_leads`-Aufruf (Listen-Modus mit `run_stages`, etwa aus dem Startdialog der App) oder Lead-IDs vor, gilt genau diese Auswahl statt der Abfrage unten: den Aufruf einmal unverändert ausführen und die Leads aus `lead_ids` nehmen; fehlt in der Antwort `applied_filters`, ist der Server älter als MCP 2.1.0 oder die Verbindung veraltet, dann abbrechen und das melden. Nicht mit `offset` blättern.
+
 ```
 list_leads(
   campaign_id = <ID>,
