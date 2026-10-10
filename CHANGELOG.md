@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-10 – outreach 0.3.23
+
+**outreach** (Prod: Intro an einem geraden Anführungszeichen abgeschnitten)
+- `outreach-copy` → Anführungszeichen nur als deutsches Paar „…“, geschlossen immer mit “, nie mit dem geraden Zeichen ("); neue harte Zeile in der Prüftabelle. Ein gerades Zeichen hinter „ beendet im JSON den String, das Objekt bleibt gültig und der Wert kommt abgeschnitten an.
+- `lead-agent` → dieselbe Regel beim Schreiben; meldet `save_lead_variables` `validation_failed: Unclosed quotation mark`, das Zitat schließen und den vollständigen Text neu speichern. Der Server lehnt solche Werte seit ListM8 vom 10.10.2026 ab.
+
 ## 2026-10-08 – outreach 0.3.22
 
 **outreach** (Abo-Prompt aus dem Startdialog der App, MCP 2.1.0)

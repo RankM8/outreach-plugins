@@ -41,6 +41,9 @@ Ziel ist eine Antwort, kein Klick und kein Termin in Mail 1.
 - Keine M-Striche (—) und keine Gedankenstriche als Trenner, auch kein Bindestrich mit
   Leerzeichen („ - “). Bindestriche nur innerhalb von Wörtern (E-Mail, Smart-Home); Ausnahme ist
   die Signaturzeile „<Rolle> - <Firma>“.
+- Anführungszeichen nur als deutsches Paar „…“, geschlossen immer mit “, nie mit dem geraden
+  Zeichen ("). In einer Variable beendet ein gerades Zeichen den JSON-String, der Rest des Satzes
+  geht verloren; `save_lead_variables` lehnt einen Wert mit offenem „ ab.
 - Korrekte deutsche Rechtschreibung mit echten Umlauten und ß: „für“, „Grüße“, „über“, nie
   „fuer“, „Gruesse“, „ueber“. Das gilt für JEDES Feld: Sequenz, Variablen-Prompts,
   Kampagnenkonfiguration, Beispielwerte.
@@ -468,6 +471,7 @@ Hinweis, der begründet werden muss.
 | Wortlimit | Step 1-4 max. 120/50/80/60 Wörter, ein zusätzlicher Dringlichkeits-Step max. 60 (Platzhalter zählen nicht mit, den Intro-Umfang einrechnen) | hart |
 | Zielkorridor | Entry-Mail unter 50 Wörtern: trägt der Bezug? | weich |
 | Kein Gedankenstrich | kein „—“ und kein „–“ im Text | hart |
+| Anführungszeichen geschlossen | jedes „ schließt mit “, nie mit " | hart |
 | Kein Pitch | kein „wir helfen“, „wir sind ein/eine/der/die/seit“, „wir bieten“, „seit (über) N Jahren“, „als zertifizierter/offizieller/Google/Meta … Partner“, „mein Name ist“, „unser Unternehmen“ | hart |
 | Kein Platzhalter | kein sichtbares `[Feld]` | hart |
 | Bekannte Variablen | nur `{{ai.*}}`, `{{lead.company}}`, `{{lead.website}}`, `{{lead.city}}`, `{{custom.*}}` | hart |
