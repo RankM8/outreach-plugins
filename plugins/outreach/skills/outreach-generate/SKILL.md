@@ -81,6 +81,8 @@ Dann weiter zu Phase 2.
 
 ### Phase 2: Leads laden (Batch)
 
+Gibt der Auftrag einen `list_leads`-Aufruf (Listen-Modus mit `run_stages`, etwa aus dem Startdialog der App) oder Lead-IDs vor, gilt genau diese Auswahl statt der Abfrage unten: den Aufruf einmal unverändert ausführen und die Leads aus `lead_ids` nehmen; fehlt in der Antwort `applied_filters`, ist der Server älter als MCP 2.1.0 oder die Verbindung veraltet, dann abbrechen und das melden. Nicht mit `offset` blättern.
+
 Rufe auf:
 ```
 list_leads(
@@ -219,6 +221,8 @@ Response-Felder:
 Gibt nur Basisdaten zurück: id, email, company, website, city, phoneNumber, score, contactStatus (mit contactedAt, contactSource), qualification (fitLevel, category, summary).
 
 **WICHTIG:** Der Default `campaign_status="processing"` ist korrekt für den Generierungs-Workflow (= Leads mit Status "Ausstehend").
+
+Ab MCP 2.1.0 hat `list_leads` zusätzlich einen Listen-Modus: Mit `run_stages` oder den Filtern der Lead-Liste (`search_text`, `score_min`, `cities`, `sort_by`, `take` …) liefert es genau die Auswahl der App samt `lead_ids` und `applied_filters`. Die Parameter beschreibt die Tool-Beschreibung des Servers; ein solcher Aufruf kommt meist fertig aus dem Startdialog der App.
 
 ### get_lead_data
 

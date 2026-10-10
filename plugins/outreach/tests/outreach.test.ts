@@ -59,6 +59,21 @@ describe('lead preview', () => {
     }
   })
 
+  test('a list-mode answer (MCP 2.1.0) draws like the queue', async $ => {
+    const listMode = {
+      ...LIST_LEADS,
+      mode: 'list',
+      matched_total: 40,
+      lead_ids: [7, 8, 9],
+      lead_ids_truncated: false,
+      applied_filters: { run_stages: ['qualification', 'research', 'email'], sort_by: 'email', sort_direction: 'asc', take: 3 },
+    }
+    const ui = await $.ui.mount({ ...toolRow('mcp__akquise__list_leads', listMode), surface: 'terminal' })
+    expect(await ui.find({ text: /Dr\. Huber Zahnmedizin/ })).toBeDefined()
+    expect(await ui.find({ text: /3 Leads/ })).toBeDefined()
+    await ui.unmount()
+  })
+
   test('every fit level the server sends gets a German label', async $ => {
     const leads = ['highly_qualified', 'mid_qualified', 'not_qualified', null].map((fitLevel, i) => ({
       id: i + 1, company: `Firma ${i + 1}`, city: 'Freiburg', score: null, contactStatus: 'not_contacted', qualification: { fitLevel },
